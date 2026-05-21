@@ -13,7 +13,7 @@ const inriaSans = Inria_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Yūgen — AI-Powered Anime Discovery",
+  title: "Anima — AI-Powered Anime Discovery",
   description:
     "Discover anime through narrative intelligence. AI-powered emotional mapping, philosophical depth analysis, and spoiler-safe recommendations.",
 };
