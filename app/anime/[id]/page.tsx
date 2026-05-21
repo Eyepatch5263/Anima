@@ -335,6 +335,8 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     isAdult: false,
   })
 
+  console.log("overview data:",overviewData)
+
   const staffData = GetStaffQuery({
     id,
     page: staffPage,
@@ -894,6 +896,25 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                           </a>
                         )
                       })}
+                    </div>
+                  </div>
+                )}
+
+                {anime.trailer?.id && (
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
+                      Trailer
+                    </h3>
+                    <div className="flex flex-wrap gap-3">
+                      <iframe
+                        width="800"                                                                                               
+                        height="450"
+                        src={`https://www.youtube.com/embed/${anime.trailer.id}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
                     </div>
                   </div>
                 )}

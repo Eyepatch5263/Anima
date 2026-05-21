@@ -6,7 +6,7 @@ import { MenuIcon, XIcon } from './icons'
 
 const navLinks = [
   { label: 'Discover', href: '/explore' },
-  { label: 'AI Features', href: '#ai-discovery' },
+  { label: 'AI Features', href: '/ai-discovery' },
   { label: 'Trending', href: '/explore/trending' },
   { label: 'Community', href: '#community' },
 ]
@@ -64,7 +64,7 @@ export default function Navbar() {
             {/* CTA + Mobile */}
             <div className="flex items-center gap-3">
               <a
-                href="#ai-discovery"
+                href="/ai-discovery"
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white rounded bg-[#e50914] hover:bg-[#f6121d] shadow-lg shadow-red-900/30 transition-all duration-300 hover:scale-[1.02]"
               >
                 Try AI Discovery
@@ -104,7 +104,7 @@ export default function Navbar() {
               ))}
               <div className="pt-2 border-t border-white/5">
                 <a
-                  href="#ai-discovery"
+                  href="/ai-discovery"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white rounded-xl bg-[#e50914]"
                 >

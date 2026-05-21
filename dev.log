@@ -1,0 +1,119 @@
+
+> anima@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.76.63.113:3000
+✓ Ready in 473ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /home/eyepatch/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /home/eyepatch/Documents/anime-recs/anima/package-lock.json
+
+
+ GET /ai-discovery/semantic-search 200 in 1624ms (next.js: 1188ms, application-code: 436ms)
+ GET /ai-discovery/semantic-search 200 in 72ms (next.js: 5ms, application-code: 67ms)
+ POST /api/semantic-search 200 in 179ms (next.js: 93ms, application-code: 86ms)
+⨯ upstream image https://myanimelist.net/images/anime/1209/142900l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/4/50511l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/2/76993l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/12/75807l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1587/134660l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/13/44844l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1393/118374l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1494/93701l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1793/112240l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1763/95397l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1951/95080l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/6/46549l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+ POST /api/semantic-search 200 in 47ms (next.js: 2ms, application-code: 44ms)
+⨯ upstream image https://myanimelist.net/images/anime/10/62939l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1094/138734l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/2/22922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/10/78745l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/20596l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1097/133583l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1440/115872l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/2/18209l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1237/135138l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/12/78945l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1145/115565l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1230/118855l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+ POST /api/semantic-search 200 in 32ms (next.js: 2ms, application-code: 30ms)
+⨯ upstream image https://myanimelist.net/images/anime/10/62939l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1094/138734l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/10/78745l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/2/22922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/20596l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1097/133583l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1440/115872l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/2/18209l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1237/135138l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/12/78945l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1145/115565l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1230/118855l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+ POST /api/semantic-search 200 in 51ms (next.js: 3ms, application-code: 48ms)
+⨯ upstream image https://myanimelist.net/images/anime/1764/142001l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1646/141411l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/9/39303l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1999/154569l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/42217l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1848/140019l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1908/93416l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/5/33671l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/29922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1088/116195l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/4/37023l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/12/85115l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+ POST /api/semantic-search 200 in 44ms (next.js: 3ms, application-code: 41ms)
+⨯ upstream image https://myanimelist.net/images/anime/1545/133887l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/29922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1733/134118l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1050/149537l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1646/141411l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1627/146055l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/42217l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/50559l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/4/43643l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1021/95670l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/13/44844l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1924/106583l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1545/133887l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/29922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1733/134118l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1050/149537l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1646/141411l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1627/146055l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/42217l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/50559l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/4/43643l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1021/95670l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/13/44844l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1924/106583l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/29922l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1545/133887l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1733/134118l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1050/149537l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1646/141411l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1627/146055l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/42217l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/8/50559l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/4/43643l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1021/95670l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/13/44844l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+⨯ upstream image https://myanimelist.net/images/anime/1924/106583l.jpg resolved to private ip ["64:ff9b::312c:b1db"]
+✓ Compiled in 0ms
+ GET /ai-discovery/semantic-search 200 in 348ms (next.js: 157ms, application-code: 191ms)
+ GET /ai-discovery/semantic-search 200 in 165ms (next.js: 5ms, application-code: 160ms)
+ GET /ai-discovery/semantic-search 200 in 128ms (next.js: 5ms, application-code: 123ms)
+ GET /ai-discovery/semantic-search 200 in 86ms (next.js: 6ms, application-code: 80ms)
+ GET /ai-discovery/semantic-search 200 in 42ms (next.js: 4ms, application-code: 37ms)
+ POST /api/semantic-search 200 in 105ms (next.js: 45ms, application-code: 60ms)
+ POST /api/semantic-search 200 in 40ms (next.js: 1627µs, application-code: 39ms)
+ POST /api/semantic-search 200 in 36ms (next.js: 2ms, application-code: 34ms)
+ GET /anime/20057 200 in 546ms (next.js: 511ms, application-code: 35ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ POST /api/semantic-search 200 in 40ms (next.js: 2ms, application-code: 37ms)

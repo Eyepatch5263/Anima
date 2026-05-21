@@ -139,7 +139,7 @@ export default function HeroSection({ trending, isLoading }: HeroSectionProps) {
             <ChevronRightIcon size={16} className="group-hover:translate-x-0.5 transition-transform" />
           </a>
           <a
-            href="#ai-discovery"
+            href="/ai-discovery"
             className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 transition-all duration-300"
           >
             Try AI Discovery
