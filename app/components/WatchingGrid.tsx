@@ -102,7 +102,7 @@ export default function WatchingGrid({ popular, seasonal, isLoading }: WatchingG
         transition={{ duration: 0.5 }}
         className="flex items-center justify-between mb-6"
       >
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+        <h3 className="text-4xl font-bold text-white uppercase tracking-wider">
           What Everyone&apos;s Watching
         </h3>
       </motion.div>
