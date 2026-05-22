@@ -12,7 +12,7 @@ docker run -d \
   -v postgres_data:/var/lib/postgresql/data \
   --entrypoint "" \
   postgres:15 \
-  bash -c "if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then initdb -D /var/lib/postgresql/data -U postgres; echo 'host all all all trust' >> /var/lib/postgresql/data/pg_hba.conf; pg_ctl -D /var/lib/postgresql/data -o '-p 5432' -w start; createdb -U postgres anime_db; pg_ctl -D /var/lib/postgresql/data -m fast -w stop; fi; postgres -D /var/lib/postgresql/data"
+  bash -c "if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then chown -R postgres:postgres /var/lib/postgresql/data; gosu postgres initdb -D /var/lib/postgresql/data -U postgres; echo 'host all all all trust' >> /var/lib/postgresql/data/pg_hba.conf; gosu postgres pg_ctl -D /var/lib/postgresql/data -o '-p 5432' -w start; gosu postgres createdb -U postgres anime_db; gosu postgres pg_ctl -D /var/lib/postgresql/data -m fast -w stop; fi; gosu postgres postgres -D /var/lib/postgresql/data"
 
 # Start Qdrant
 docker run -d \
