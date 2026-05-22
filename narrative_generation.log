@@ -648,3 +648,489 @@ Batch indexing completed successfully.
     [16/50] -> Successfully generated: Tennis no Ouji-sama: Atobe Kara no Okurimono - Kimi ni Sasageru Tenipuri Matsuri
     [17/50] -> Successfully generated: Tennis no Ouji-sama: Futari no Samurai - The First Game
     [18/50] -> Successfully generated: Amazing Nurse Nanako
+    [19/50] -> Successfully generated: Tactical Roar
+    [20/50] -> Successfully generated: Sakura Diaries
+    [21/50] -> Successfully generated: Boku wa Imouto ni Koi wo Suru
+    [22/50] -> Successfully generated: Legend of the Galactic Heroes
+    [23/50] -> Successfully generated: Initial D BATTLE STAGE
+    [24/50] -> Successfully generated: Initial D Extra Stage
+    [25/50] -> Successfully generated: Shoya: Virgin Night
+    [26/50] -> Successfully generated: Guardian Hearts
+    [27/50] -> Successfully generated: King of Fighters: Another Day
+    [28/50] -> Successfully generated: Milk Money
+    [29/50] -> Successfully generated: Love Lessons
+    [30/50] -> Successfully generated: Sexfriend
+    [31/50] -> Successfully generated: A Little Snow Fairy Sugar
+    [32/50] -> Successfully generated: Ginsoukikou Ordian
+    [33/50] -> Successfully generated: Gravion
+    [34/50] -> Successfully generated: BLEACH: The Sealed Sword Frenzy
+    [35/50] -> Successfully generated: Sister Princess RePure
+    [36/50] -> Successfully generated: Sister Princess
+    [37/50] -> Successfully generated: Today in Class 5-2
+    [38/50] -> Successfully generated: Shadow Star Narutaru
+    [39/50] -> Successfully generated: Samurai Spirits 2
+    [40/50] -> Successfully generated: The World of Narue
+    [41/50] -> Successfully generated: Colorful
+    [42/50] -> Successfully generated: Ushio and Tora
+    [43/50] -> Successfully generated: Zatch Bell! 101st Devil
+    [44/50] -> Successfully generated: KIBA
+    [45/50] -> Successfully generated: School Rumble 2nd Term
+    [46/50] -> Successfully generated: Jinki:Extend - And Then...
+    [47/50] -> Successfully generated: The Melancholy of Haruhi Suzumiya
+    [48/50] -> Successfully generated: Heaven Academy
+    [49/50] -> Successfully generated: Kyou kara Ore wa!!
+    [50/50] -> Successfully generated: Gokinjo Monogatari
+  Parallel generation done in 115.22 seconds.
+  Saved 50 records to PostgreSQL in 0.57 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [601 to 650 / 14153] ---
+    [1/50] -> Successfully generated: Ouran High School Host Club
+    [2/50] -> Successfully generated: Soul Link
+    [3/50] -> Successfully generated: Utawarerumono
+    [4/50] -> Successfully generated: Strawberry Panic
+    [5/50] -> Successfully generated: Air Gear
+    [6/50] -> Successfully generated: Gunparade Orchestra
+    [7/50] -> Successfully generated: Digimon Data Squad
+    [8/50] -> Successfully generated: Netherworld Battle Chronicle: Disgaea
+    [9/50] -> Successfully generated: xxxHOLiC
+    [10/50] -> Successfully generated: Girl's High
+    [11/50] -> Successfully generated: Mobile Suit Gundam Seed MSV Astray
+    [12/50] -> Successfully generated: Metal Armor Dragonar
+    [13/50] -> Successfully generated: Slayers Premium
+    [14/50] -> Successfully generated: Slayers Gorgeous
+    [15/50] -> Successfully generated: Slayers Great
+    [16/50] -> Successfully generated: Slayers RETURN
+    [17/50] -> Successfully generated: Dragon Half
+    [18/50] -> Successfully generated: Tweeny Witches
+    [19/50] -> Successfully generated: .hack//Roots
+    [20/50] -> Successfully generated: Digimon Tamers
+    [21/50] -> Successfully generated: Mind Game
+    [22/50] -> Successfully generated: Street Fighter II V
+    [23/50] -> Successfully generated: NANA
+    [24/50] -> Successfully generated: Zegapain
+    [25/50] -> Successfully generated: Simoun
+    [26/50] -> Successfully generated: Oh! My Goddess: Flights of Fancy
+    [27/50] -> Successfully generated: Green Green OVA
+    [28/50] -> Successfully generated: Yu Yu Hakusho: The Movie
+    [29/50] -> Successfully generated: Yu Yu Hakusho: The Movie - Poltergeist Report
+    [30/50] -> Successfully generated: Blade of the Phantom Master
+    [31/50] -> Successfully generated: Angel's Egg
+    [32/50] -> Successfully generated: Ah My Buddha Katsu
+    [33/50] -> Successfully generated: Megami Kouhosei Special Curriculum
+    [34/50] -> Successfully generated: Pilot Candidate
+    [35/50] -> Successfully generated: Black Lagoon
+    [36/50] -> Successfully generated: The King of Braves: GaoGaiGar
+    [37/50] -> Successfully generated: Dragon Ball: Sleeping Princess in Devil's Castle
+    [38/50] -> Successfully generated: Dragon Ball: Mystical Adventure
+    [39/50] -> Successfully generated: Dragon Ball: The Path to Power
+    [40/50] -> Successfully generated: Dragon Ball Z: Dead Zone
+    [41/50] -> Successfully generated: Dragon Ball Z: The World's Strongest
+    [42/50] -> Successfully generated: Dragon Ball Z: The Tree of Might
+    [43/50] -> Successfully generated: Dragon Ball Z: Lord Slug
+    [44/50] -> Successfully generated: Dragon Ball Z: Cooler's Revenge
+    [45/50] -> Successfully generated: Dragon Ball Z: The Return of Cooler
+    [46/50] -> Successfully generated: Dragon Ball Z: Super Android 13!
+    [47/50] -> Successfully generated: Dragon Ball Z: Broly - The Legendary Super Saiyan
+    [48/50] -> Successfully generated: Dragon Ball Z: Bojack Unbound
+    [49/50] -> Successfully generated: Dragon Ball Z: Broly - Second Coming
+    [50/50] -> Successfully generated: Dragon Ball Z: Bio-Broly
+  Parallel generation done in 128.20 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [651 to 700 / 14153] ---
+    [1/50] -> Successfully generated: Fullmetal Alchemist: Premium OVA Collection
+    [2/50] -> Successfully generated: Dragon Ball Z: Wrath of the Dragon
+    [3/50] -> Successfully generated: Princess Princess
+    [4/50] -> Successfully generated: Dragon Ball Z: Fusion Reborn
+    [5/50] -> Successfully generated: Gene Shaft
+    [6/50] -> Successfully generated: Himawari!
+    [7/50] -> Successfully generated: Zatch Bell! Attack of Mechavulcan
+    [8/50] -> Successfully generated: NINKU
+    [9/50] -> Successfully generated: Fighting Beauty Wulong
+    [10/50] -> Successfully generated: The Ping-Pong Club
+    [11/50] -> Successfully generated: Ginga Densetsu Weed
+    [12/50] -> Successfully generated: Tokko
+    [13/50] -> Successfully generated: Riding Bean
+    [14/50] -> Successfully generated: Gintama
+    [15/50] -> Successfully generated: Ray
+    [16/50] -> Successfully generated: Nurse Witch Komugi Special Ep: Hunch of another Festival
+    [17/50] -> Successfully generated: Nurse Witch Komugi-chan Magikarte Z
+    [18/50] -> Successfully generated: Transformers Super-God Masterforce
+    [19/50] -> Successfully generated: Transformers The Headmasters
+    [20/50] -> Successfully generated: Transformers Victory
+    [21/50] -> Successfully generated: Transformers: Energon
+    [22/50] -> Successfully generated: Transformers: Cybertron
+    [23/50] -> Successfully generated: Aura Battler Dunbine
+    [24/50] -> Successfully generated: Space Runaway Ideon
+    [25/50] -> Successfully generated: Ichigeki Sacchuu!! Hoihoi-san
+    [26/50] -> Successfully generated: Magical Witch Punie-Chan
+    [27/50] -> Successfully generated: When They Cry
+    [28/50] -> Successfully generated: Witchblade
+    [29/50] -> Successfully generated: Naruto the Movie: Legend of the Stone of Gelel
+    [30/50] -> Successfully generated: Appleseed
+    [31/50] -> Successfully generated: Shin Getter Robo vs. Neo Getter Robo
+    [32/50] -> Successfully generated: Inukami!
+    [33/50] -> Successfully generated: Renkin San-kyuu Magical? Pokaan
+    [34/50] -> Successfully generated: The Good Witch Of The West
+    [35/50] -> Successfully generated: Yume Tsukai
+    [36/50] -> Successfully generated: The Third: The Girl with the Blue Eye
+    [37/50] -> Successfully generated: Gunbuster
+    [38/50] -> Successfully generated: Street Fighter Alpha: Generations
+    [39/50] -> Successfully generated: Chibi Maruko-chan
+    [40/50] -> Successfully generated: Magical Meow Meow Taruto
+    [41/50] -> Successfully generated: Jyu-Oh-Sei: Planet of the Beast King
+    [42/50] -> Successfully generated: Dino Mech Gaiking
+    [43/50] -> Successfully generated: The Story of Saiunkoku
+    [44/50] -> Successfully generated: Heat Guy J
+    [45/50] -> Successfully generated: Legend of Condor Hero
+    [46/50] -> Successfully generated: Legend of the Condor Hero II
+    [47/50] -> Successfully generated: Virtua Fighter
+    [48/50] -> Successfully generated: ARIA The NATURAL
+    [49/50] -> Successfully generated: Love Hina: Motoko's Choice, Love or the Sword: Don't Cry
+    [50/50] -> Successfully generated: Smash Hit
+  Parallel generation done in 116.70 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [701 to 750 / 14153] ---
+    [1/50] -> Successfully generated: Shin Chan
+    [2/50] -> Successfully generated: Fist of the North Star
+    [3/50] -> Successfully generated: Fighting Beauty Wulong Rebirth
+    [4/50] -> Successfully generated: Gargoyle of Yoshinaga House
+    [5/50] -> Successfully generated: Tsubasa RESERVoir CHRoNiCLE 2nd Season
+    [6/50] -> Successfully generated: Yokoyama Mitsuteru Sangokushi
+    [7/50] -> Successfully generated: Astro Boy (2003)
+    [8/50] -> Successfully generated: Bible Black Origins
+    [9/50] -> Successfully generated: Dead Leaves
+    [10/50] -> Successfully generated: Yokohama Shopping Log
+    [11/50] -> Successfully generated: Yokohama Kaidashi Kikou: Quiet Country Cafe
+    [12/50] -> Successfully generated: The Legend of the Blue Wolves
+    [13/50] -> Successfully generated: Getter Robo: Armageddon
+    [14/50] -> Successfully generated: Street Fighter Alpha
+    [15/50] -> Successfully generated: Ground Defense Force Mao-chan
+    [16/50] -> Successfully generated: Ichigo 100% Original DVD Animation
+    [17/50] -> Successfully generated: Cosplay Complex
+    [18/50] -> Successfully generated: Cosplay COMPLEX: Extra Identification
+    [19/50] -> Successfully generated: Dragon Ball Z: Plan to Eradicate the Saiyans
+    [20/50] -> Successfully generated: Dragon Ball Z: The History of Trunks
+    [21/50] -> Successfully generated: Dragon Ball Z: Bardock – The Father of Goku
+    [22/50] -> Successfully generated: Dragon Ball GT: A Hero's Legacy
+    [23/50] -> Successfully generated: Shinshaku Sengoku Eiyuu Densetsu: Sanada Juu Yuushi The Animation
+    [24/50] -> Successfully generated: Shinshaku Sengoku Eiyuu Densetsu: Sanada Juu Yuushi
+    [25/50] -> Successfully generated: God Family
+    [26/50] -> Successfully generated: Little Bunny Cue!!
+    [27/50] -> Successfully generated: Dual! Parallel Trouble Adventure
+    [28/50] -> Successfully generated: Dual! Parallel Trouble Adventure Special
+    [29/50] -> Successfully generated: sin in the rain
+    [30/50] -> Successfully generated: Tennis no Ouji-sama: Zenkoku Taikai-hen
+    [31/50] -> Successfully generated: Sailor Moon Sailor Stars
+    [32/50] -> Successfully generated: Sailor Moon S Movie: Hearts in Ice
+    [33/50] -> Successfully generated: Blue Seed
+    [34/50] -> Successfully generated: Blue Seed Beyond
+    [35/50] -> Successfully generated: Captain Harlock Space Pirate
+    [36/50] -> Successfully generated: Tide-Line Blue: Kyoudai
+    [37/50] -> Successfully generated: Gunbuster 2: Diebuster
+    [38/50] -> Successfully generated: Oh! My Goddess Specials
+    [39/50] -> Successfully generated: Star Ocean EX
+    [40/50] -> Successfully generated: Tenchi Muyo! In Love
+    [41/50] -> Successfully generated: Ranma ½ (OVA)
+    [42/50] -> Successfully generated: Ranma 1/2 Special
+    [43/50] -> Successfully generated: Art of Fighting
+    [44/50] -> Successfully generated: Ranma ½: One Flew Over the Kuno's Nest
+    [45/50] -> Successfully generated: Ranma 1/2 SUPER
+    [46/50] -> Successfully generated: A Little Snow Fairy Sugar OVA
+    [47/50] -> Successfully generated: Full Metal Panic! The Second Raid: A Relatively Leisurely Day in the Life of a Fleet Captain
+    [48/50] -> Successfully generated: Battle Angel Alita
+    [49/50] -> Successfully generated: Orphen
+    [50/50] -> Successfully generated: Orphen 2: Revenge
+  Parallel generation done in 123.32 seconds.
+  Saved 50 records to PostgreSQL in 0.57 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [751 to 800 / 14153] ---
+    [1/50] -> Successfully generated: Mirage of Blaze: Rebels of the River Edge
+    [2/50] -> Successfully generated: Mirage of Blaze
+    [3/50] -> Successfully generated: Generator Gawl
+    [4/50] -> Successfully generated: Kaikan Phrase
+    [5/50] -> Successfully generated: Wolf's Rain OVA
+    [6/50] -> Successfully generated: Knight Hunters OVA
+    [7/50] -> Successfully generated: The Legend of Black Heaven
+    [8/50] -> Successfully generated: Eight Clouds Rising
+    [9/50] -> Successfully generated: Psychic Force
+    [10/50] -> Successfully generated: Princess Arete
+    [11/50] -> Successfully generated: Only Yesterday
+    [12/50] -> Successfully generated: Pom Poko
+    [13/50] -> Successfully generated: Yonna in the Solitary Fortress
+    [14/50] -> Successfully generated: Like the Clouds, Like the Wind
+    [15/50] -> Successfully generated: Millennium Actress
+    [16/50] -> Successfully generated: Royal Space Force: The Wings of Honnêamise
+    [17/50] -> Successfully generated: Patalliro Saiyuki!
+    [18/50] -> Successfully generated: Kashou no Tsuki: Aki Kyougen
+    [19/50] -> Successfully generated: Saint Beast: Seijuu Kourin-hen
+    [20/50] -> Successfully generated: Mizuiro
+    [21/50] -> Successfully generated: Mizuiro (2003)
+    [22/50] -> Successfully generated: Mizuiro Jidai
+    [23/50] -> Successfully generated: Zetsuai 1989
+    [24/50] -> Successfully generated: BRONZE: ZETSUAI since 1989
+    [25/50] -> Successfully generated: Tokyo BABYLON
+    [26/50] -> Successfully generated: The Little Norse Prince
+    [27/50] -> Successfully generated: Those Who Hunt Elves
+    [28/50] -> Successfully generated: Those Who Hunt Elves II
+    [29/50] -> Successfully generated: The SoulTaker
+    [30/50] -> Successfully generated: Gauche the Cellist
+    [31/50] -> Successfully generated: Bobobo-bo Bo-bobo
+    [32/50] -> Successfully generated: Blue Submarine No. 6
+    [33/50] -> Successfully generated: Ten Tokyo Warriors
+    [34/50] -> Successfully generated: Tokyo Daigaku Monogatari
+    [35/50] -> Successfully generated: BLAME! Ver.0.11
+    [36/50] -> Successfully generated: Good Morning Call
+    [37/50] -> Successfully generated: Ippatsu Kiki Musume
+    [38/50] -> Successfully generated: Kidou Shinsengumi Moeyo Ken
+    [39/50] -> Successfully generated: Mutant Turtles: Choujin Densetsu-hen
+    [40/50] -> Successfully generated: Oruchuban Ebichu
+    [41/50] -> Successfully generated: Nekojiru Gekijou Jirujiru ORIGINAL
+    [42/50] -> Successfully generated: Mazinkaiser
+    [43/50] -> Successfully generated: Touch
+    [44/50] -> Successfully generated: Shakugan no Shana Specials
+    [45/50] -> Successfully generated: Demonbane
+    [46/50] -> Successfully generated: Combattler V
+    [47/50] -> Successfully generated: VOLTES V
+    [48/50] -> Successfully generated: Love Get CHU: Miracle Seiyuu Hakusho
+    [49/50] -> Successfully generated: Memories Off 5: Togireta Film THE ANIMATION
+    [50/50] -> Successfully generated: Sweat Punch
+  Parallel generation done in 111.48 seconds.
+  Saved 50 records to PostgreSQL in 0.55 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [801 to 850 / 14153] ---
+    [1/50] -> Successfully generated: NARUTO: Narutimate Hero 3: Tsui ni Gekitotsu! Jounin VS Genin!! Musabetsu Dairansen Taikai Kaisai!!
+    [2/50] -> Successfully generated: Cardcaptor Sakura: Leave it to Kero!
+    [3/50] -> Successfully generated: Netrun-mon THE MOVIE
+    [4/50] -> Successfully generated: Wizardry
+    [5/50] -> Successfully generated: Armitage III
+    [6/50] -> Successfully generated: Yukikaze
+    [7/50] -> Successfully generated: SPACE PIRATE CAPTAIN HERLOCK: OUTSIDE LEGEND - The Endless Odyssey
+    [8/50] -> Successfully generated: Daphne in the Brilliant Blue
+    [9/50] -> Successfully generated: Human Crossing
+    [10/50] -> Successfully generated: I''s
+    [11/50] -> Successfully generated: INTERLUDE
+    [12/50] -> Successfully generated: Mars Daybreak
+    [13/50] -> Successfully generated: Kimagure Orange☆Road
+    [14/50] -> Successfully generated: Macross
+    [15/50] -> Successfully generated: Macross: Do You Remember Love?
+    [16/50] -> Successfully generated: Mobile Suit Gundam I
+    [17/50] -> Successfully generated: Mobile Suit Gundam II: Soldiers of Sorrow
+    [18/50] -> Successfully generated: Mobile Suit Gundam III: Encounters in Space
+    [19/50] -> Successfully generated: Oishinbo
+    [20/50] -> Successfully generated: One Piece: Umi no Heso no Daibouken-hen
+    [21/50] -> Successfully generated: Patlabor: The Movie
+    [22/50] -> Successfully generated: Mobile Police Patlabor 2: The Movie
+    [23/50] -> Successfully generated: Lime-iro Senkitan
+    [24/50] -> Successfully generated: Samurai Girl Real Bout High School
+    [25/50] -> Successfully generated: SHADOW SKILL: Kurudaryuu Kousatsuhou no Himitsu
+    [26/50] -> Successfully generated: Starship Girl Yamamoto Yohko
+    [27/50] -> Successfully generated: Tenchi the Movie 2: The Daughter of Darkness
+    [28/50] -> Successfully generated: Urda
+    [29/50] -> Successfully generated: Marriage of God & Soul Godannar!!
+    [30/50] -> Successfully generated: Marriage of God & Soul Godannar!! (2004)
+    [31/50] -> Successfully generated: Digital Juice
+    [32/50] -> Successfully generated: Eternal Family
+    [33/50] -> Successfully generated: Wicked City
+    [34/50] -> Successfully generated: Soul Hunter
+    [35/50] -> Successfully generated: Mermaid Melody: Pichi Pichi Pitch Pure
+    [36/50] -> Successfully generated: Vandread Gekitou-hen
+    [37/50] -> Successfully generated: Vandread Taidouhen
+    [38/50] -> Successfully generated: ONE: Kagayaku Kisetsu e - True Stories
+    [39/50] -> Successfully generated: Handsome na Kanojo
+    [40/50] -> Successfully generated: Junkers Come Here
+    [41/50] -> Successfully generated: Pokémon the Movie 2000
+    [42/50] -> Successfully generated: Pokémon 3: The Movie
+    [43/50] -> Successfully generated: Pokémon 4Ever
+    [44/50] -> Successfully generated: Pokémon Heroes
+    [45/50] -> Successfully generated: Pokémon: Jirachi Wish Maker
+    [46/50] -> Successfully generated: Pokémon: Destiny Deoxys
+    [47/50] -> Successfully generated: Beet the Vandel Buster Excellion
+    [48/50] -> Successfully generated: Passage of the Stars: Birth
+    [49/50] -> Successfully generated: Figure 17: Tsubasa & Hikaru
+    [50/50] -> Successfully generated: UFO Ultramaiden Valkyrie
+  Parallel generation done in 119.46 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [851 to 900 / 14153] ---
+    [1/50] -> Successfully generated: UFO Ultramaiden Valkyrie 2: December Nocturne
+    [2/50] -> Successfully generated: Digimon Frontier
+    [3/50] -> Successfully generated: Once Upon A Time
+    [4/50] -> Successfully generated: UFO Princess Valkyrie Special: Bridal Training
+    [5/50] -> Successfully generated: Tenchi Muyo! GXP
+    [6/50] -> Successfully generated: Munto 2: Beyond the Walls of Time
+    [7/50] -> Successfully generated: Betterman
+    [8/50] -> Successfully generated: Shinzo
+    [9/50] -> Successfully generated: Medabots
+    [10/50] -> Successfully generated: Monkey Magic
+    [11/50] -> Successfully generated: Origin: Spirits of the Past
+    [12/50] -> Successfully generated: A Tree of Palme
+    [13/50] -> Successfully generated: Honey and Clover II
+    [14/50] -> Successfully generated: Tenchi Forever
+    [15/50] -> Successfully generated: Kaze no Yojimbo
+    [16/50] -> Successfully generated: Tenchi Muyo! Ryo-Ohki: The Night Before The Carnival!
+    [17/50] -> Successfully generated: Tenchi Muyo! Ryo-Ohki: Final Confrontations
+    [18/50] -> Successfully generated: Doomed Megalopolis
+    [19/50] -> Successfully generated: Gravion Zwei
+    [20/50] -> Successfully generated: Legend of Crystania
+    [21/50] -> Successfully generated: Dominion Tank Police
+    [22/50] -> Successfully generated: New Dominion Tank Police
+    [23/50] -> Successfully generated: Crying Freeman
+    [24/50] -> Successfully generated: E.Y.E.S. of Mars
+    [25/50] -> Successfully generated: Meltylancer: The Animation
+    [26/50] -> Successfully generated: Zaion: I Wish You Were Here
+    [27/50] -> Successfully generated: Final Fantasy: Unlimited
+    [28/50] -> Successfully generated: GEOBREEDERS
+    [29/50] -> Successfully generated: GEOBREEDERS: BREAKTHROUGH
+    [30/50] -> Successfully generated: Gundress
+    [31/50] -> Successfully generated: MAZE (TV)
+    [32/50] -> Successfully generated: MAZE
+    [33/50] -> Successfully generated: Neo Ranga
+    [34/50] -> Successfully generated: Rune Soldier
+    [35/50] -> Successfully generated: Sakura Wars: The Gorgeous Blooming Cherry Blossoms 
+    [36/50] -> Successfully generated: Sakura Wars: The Radiant Gorgeous Blooming Cherry Blossoms
+    [37/50] -> Successfully generated: Samurai Gun
+    [38/50] -> Successfully generated: Irresponsible Captain Tylor OVA
+    [39/50] -> Successfully generated: Green Legend Ran
+    [40/50] -> Successfully generated: Slayers: The Book of Spells
+    [41/50] -> Successfully generated: Slayers Excellent
+    [42/50] -> Successfully generated: The Slayers Try
+    [43/50] -> Successfully generated: Munto
+    [44/50] -> Successfully generated: Metal Fighter MIKU
+    [45/50] -> Successfully generated: Mask of Zeguy
+    [46/50] -> Successfully generated: Alien Nine
+    [47/50] -> Successfully generated: Detonator Orgun
+    [48/50] -> Successfully generated: Shingu: Secret of the Stellar Wars
+    [49/50] -> Successfully generated: Hyper Police
+    [50/50] -> Successfully generated: Ruin Explorers Fam & Ihrie
+  Parallel generation done in 121.74 seconds.
+  Saved 50 records to PostgreSQL in 0.55 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [901 to 950 / 14153] ---
+    [1/50] -> Successfully generated: Shamanic Princess
+    [2/50] -> Successfully generated: Variable Geo
+    [3/50] -> Successfully generated: Lost Universe
+    [4/50] -> Successfully generated: Battle Athletes
+    [5/50] -> Successfully generated: Battle Athletes Victory
+    [6/50] -> Successfully generated: DNA² OVA
+    [7/50] -> Successfully generated: Momoiro Sisters
+    [8/50] -> Successfully generated: Eden's Bowy
+    [9/50] -> Successfully generated: Saber Marionette J Again
+    [10/50] -> Successfully generated: Kakurenbo: Hide and Seek
+    [11/50] -> Successfully generated: Happy Seven: The TV Manga
+    [12/50] -> Successfully generated: Coyote Ragtime Show
+    [13/50] -> Successfully generated: The Familiar of Zero
+    [14/50] -> Successfully generated: Gag Manga Biyori
+    [15/50] -> Successfully generated: Tsuyokiss
+    [16/50] -> Successfully generated: Nintama Rantarou
+    [17/50] -> Successfully generated: MUSASHI: GUN-dou
+    [18/50] -> Successfully generated: Ar Tonelico: Sekai no Owari de Utai Tsuzukeru Shoujo
+    [19/50] -> Successfully generated: NITABOH: Tsugaru Shamisen Shiso Gaibun
+    [20/50] -> Successfully generated: Glassy Ocean
+    [21/50] -> Successfully generated: Aru Tabibito no Nikki
+    [22/50] -> Successfully generated: Spring and Chaos
+    [23/50] -> Successfully generated: The Star of Cottonland
+    [24/50] -> Successfully generated: Taro the Dragon's Son
+    [25/50] -> Successfully generated: Nasu: Summer in Andalusia
+    [26/50] -> Successfully generated: Welcome to the N-H-K
+    [27/50] -> Successfully generated: Macross Plus Movie Edition
+    [28/50] -> Successfully generated: Oban Star-Racers
+    [29/50] -> Successfully generated: Binbou Shimai Monogatari
+    [30/50] -> Successfully generated: Mobile Suit Gundam Seed C.E.73: Stargazer
+    [31/50] -> Successfully generated: I shall never return
+    [32/50] -> Successfully generated: Seikimatsu★Darling
+    [33/50] -> Successfully generated: Tonagura!
+    [34/50] -> Successfully generated: Chocotto Sister
+    [35/50] -> Successfully generated: Hoshizora Kiseki
+    [36/50] -> Successfully generated: Powerpuff Girls Z
+    [37/50] -> Successfully generated: We Were There
+    [38/50] -> Successfully generated: Ame to Shoujo to Watashi no Tegami
+    [39/50] -> Successfully generated: Aquarian Age: Sign for Evolution
+    [40/50] -> Successfully generated: 3x3 Eyes: Legend of the Divine Demon
+    [41/50] -> Successfully generated: Angel Links
+    [42/50] -> Successfully generated: Shuten Doji - The Star Hand Kid
+    [43/50] -> Successfully generated: Sorcerer on the Rocks
+    [44/50] -> Successfully generated: Innocent Venus
+    [45/50] -> Successfully generated: Saber Marionette J to X
+    [46/50] -> Successfully generated: Saber Marionette R
+    [47/50] -> Successfully generated: 801 T.T.S. Airbats
+    [48/50] -> Successfully generated: Hand Maid Mai
+    [49/50] -> Successfully generated: I''s Pure Bonus
+    [50/50] -> Successfully generated: Spaceketeers
+  Parallel generation done in 116.20 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [951 to 1000 / 14153] ---
+    [1/50] -> Successfully generated: Sailor Moon SuperS the Movie: Black Dream Hole
+    [2/50] -> Successfully generated: One Piece Special: Open Upon the Great Sea! A Father's Huge, HUGE Dream!
+    [3/50] -> Successfully generated: Sailor Moon SuperS
+    [4/50] -> Successfully generated: One Piece Special: Protect! The Last Great Performance
+    [5/50] -> Successfully generated: Mobile Suit Gundam Seed Destiny Final Plus: The Chosen Future
+    [6/50] -> Successfully generated: NIGHT HEAD GENESIS
+    [7/50] -> Successfully generated: Takegami: Guardian of Darkness
+    [8/50] -> Successfully generated: Twilight of the Dark Master
+    [9/50] -> Successfully generated: Yugo the Negotiator
+    [10/50] -> Successfully generated: Project Blue Earth SOS
+    [11/50] -> Successfully generated: Z.O.E 2167 Idolo
+    [12/50] -> Successfully generated: Z.O.E Dolores, i
+    [13/50] -> Successfully generated: Elemental Gelade
+    [14/50] -> Successfully generated: Nadia: The Secret of Blue Water
+    [15/50] -> Successfully generated: Nadia: The Secret of Blue Water - The Motion Picture
+    [16/50] -> Successfully generated: Saint Seiya: The Hades Chapter - Inferno
+    [17/50] -> Successfully generated: Saint Seiya: Knights of the Zodiac
+    [18/50] -> Successfully generated: Saint Seiya: Legend of Crimson Youth
+    [19/50] -> Successfully generated: Saint Seiya: Evil Goddess Eris
+    [20/50] -> Successfully generated: Saint Seiya: The Hades Chapter - Sanctuary
+    [21/50] -> Successfully generated: Saint Seiya: The Heated Battle of the Gods
+    [22/50] -> Successfully generated: Saint Seiya: The Heaven Chapter - Overture
+    [23/50] -> Successfully generated: Saint Seiya: Warriors of the Final Holy Battle
+    [24/50] -> Successfully generated: Samurai Pizza Cats
+    [25/50] -> Successfully generated: The Super Dimension Fortress Macross II: Lovers Again
+    [26/50] -> Successfully generated: Wet Summer Days
+    [27/50] -> Successfully generated: Ronin Warriors
+    [28/50] -> Successfully generated: Ronin Warriors Gaiden
+    [29/50] -> Successfully generated: Ronin Warriors: Legend of the Inferno Armor
+    [30/50] -> Successfully generated: Ronin Warriors: Message
+    [31/50] -> Successfully generated: Aquarian Age the Movie
+    [32/50] -> Successfully generated: Bio Hunter
+    [33/50] -> Successfully generated: Black Magic M-66
+    [34/50] -> Successfully generated: Very Private Lesson
+    [35/50] -> Successfully generated: La Blue Girl
+    [36/50] -> Successfully generated: La Blue Girl Returns
+    [37/50] -> Successfully generated: Lady Blue
+    [38/50] -> Successfully generated: Can Can Bunny
+    [39/50] -> Successfully generated: Ys
+    [40/50] -> Successfully generated: Sailor Moon SuperS Plus: Ami's First Love
+    [41/50] -> Successfully generated: The Mysterious Cities of Gold
+    [42/50] -> Successfully generated: Devil Hunter Yohko
+    [43/50] -> Successfully generated: Ghost Stories
+    [44/50] -> Successfully generated: Choujuu Densetsu Gestalt
+    [45/50] -> Successfully generated: Jewel BEM Hunter Lime
+    [46/50] -> Successfully generated: MD Geist - The Most Dangerous Ever
+    [47/50] -> Successfully generated: M.D. Geist 2 - Death Force
+    [48/50] -> Successfully generated: Odin: Photon Space Sailer Starlight
