@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import BackgroundParticles from '../components/BackgroundParticles'
 import { FeatureVisualizer } from '../constants/AIDiscoveryVisuals'
-import { aiFeatures as features } from '../constants/AIDiscoveryFeat'
+import {aiFeatures as features} from '../constants/AIDiscoveryFeat'
 
 export default function AIDiscoverySuite() {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -36,7 +36,7 @@ export default function AIDiscoverySuite() {
   return (
     <div className="relative w-screen h-screen bg-[#060606] text-white overflow-hidden select-none">
       <BackgroundParticles />
-
+      
       {/* Navbar overlay */}
       <div className="absolute top-0 left-0 right-0 z-30">
         <Navbar />
@@ -70,7 +70,7 @@ export default function AIDiscoverySuite() {
       <div className="absolute inset-0 z-10 flex items-center justify-left px-6 sm:px-12 md:px-16 lg:px-24">
         {/* Unified Glass Console Box wrapping both content and visualizer */}
         <div className="max-w-6xl w-full bg-black/35 border border-white/10 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 lg:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16 lg:gap-24">
-
+          
           {/* Subtle inside gradient glow */}
           <div className="absolute -inset-px bg-gradient-to-tr from-red-500/10 via-transparent to-transparent pointer-events-none rounded-[2.5rem]" />
 
@@ -135,11 +135,11 @@ export default function AIDiscoverySuite() {
                     hidden: { opacity: 0, scale: 0.95 },
                     visible: { opacity: 1, scale: 1 }
                   }}
-                  className="pt-2"
+                  className="pt-2 w-full md:w-auto"
                 >
                   <Link
                     href={currentFeature.href}
-                    className="group inline-flex items-center gap-2.5 bg-[#e50914] hover:bg-[#f6121d] text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl transition-all duration-300 transform active:scale-95 shadow-[0_0_25px_rgba(229,9,20,0.45)] hover:shadow-[0_0_40px_rgba(229,9,20,0.65)] hover:-translate-y-0.5 text-xs sm:text-sm tracking-wider uppercase"
+                    className="group flex md:inline-flex items-center justify-center gap-2.5 bg-[#e50914] hover:bg-[#f6121d] text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl transition-all duration-300 transform active:scale-95 shadow-[0_0_25px_rgba(229,9,20,0.45)] hover:shadow-[0_0_40px_rgba(229,9,20,0.65)] hover:-translate-y-0.5 text-xs sm:text-sm tracking-wider uppercase w-full md:w-auto"
                   >
                     Try It Out
                     <svg
@@ -208,10 +208,11 @@ export default function AIDiscoverySuite() {
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
+            className={`h-2 rounded-full transition-all duration-300 ${
+              index === activeIndex
                 ? 'w-8 bg-[#e50914] shadow-[0_0_10px_rgba(229,9,20,0.8)]'
                 : 'w-2 bg-white/40 hover:bg-white/70'
-              }`}
+            }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
