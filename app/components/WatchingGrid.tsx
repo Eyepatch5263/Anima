@@ -75,8 +75,6 @@ function MagazineCard({ anime, index, featured = false }: MagazineCardProps) {
   )
 }
 
-<GridSkeleton/>
-
 export default function WatchingGrid({ popular, seasonal, isLoading }: WatchingGridProps) {
   const combined = [...popular, ...seasonal]
   const seen = new Set<number>()
