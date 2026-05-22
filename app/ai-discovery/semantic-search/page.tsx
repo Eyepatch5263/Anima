@@ -32,6 +32,7 @@ const sampleSuggestions = [
 
 export default function SemanticSearchPage() {
   const [query, setQuery] = useState('')
+  const [filterAdult, setFilterAdult] = useState(true)
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState<AnimeResult[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -48,7 +49,7 @@ export default function SemanticSearchPage() {
       const response = await fetch('/api/semantic-search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: searchQuery }),
+        body: JSON.stringify({ query: searchQuery, filterAdult }),
       })
 
       if (!response.ok) {
@@ -124,6 +125,24 @@ export default function SemanticSearchPage() {
             </button>
           </form>
 
+          {/* Safe Search Switch */}
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <span className="text-xs text-gray-400">Safe Search (Filter Adult Content)</span>
+            <button
+              type="button"
+              onClick={() => setFilterAdult(!filterAdult)}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                filterAdult ? 'bg-red-600' : 'bg-gray-700'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                  filterAdult ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
           {/* Suggestions */}
           <div className="mt-4 flex flex-wrap gap-2 justify-center">
             {sampleSuggestions.map((suggestion) => (
@@ -196,7 +215,7 @@ export default function SemanticSearchPage() {
                       )}
                       {/* Similarity Badge */}
                       <div className="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-black/80 border border-red-500/30 text-red-500 font-bold text-[10px] sm:text-xs shadow-lg">
-                        {Math.round(anime.score * 1000) / 10}% Match
+                        {Math.round(anime.score * 10) / 10}% Match
                       </div>
                     </div>
 

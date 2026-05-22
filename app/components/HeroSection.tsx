@@ -1,53 +1,15 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
-import { SearchIcon, SparklesIcon, ChevronRightIcon } from './icons'
+import { ChevronRightIcon } from './icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
-
-const aiPrompts = [
-  'emotionally devastating anime with philosophical depth',
-  'slow-burn psychological thriller with morally grey characters',
-  'coming-of-age story with breathtaking animation',
-  'sci-fi anime exploring consciousness and identity',
-  'dark fantasy with complex political intrigue',
-]
 
 interface HeroSectionProps {
   trending: UnwrappedMedia[]
-  isLoading: boolean
 }
 
-export default function HeroSection({ trending, isLoading }: HeroSectionProps) {
-  const [currentPrompt, setCurrentPrompt] = useState(0)
-  const [displayText, setDisplayText] = useState('')
-  const [isTyping, setIsTyping] = useState(true)
-
-  useEffect(() => {
-    const prompt = aiPrompts[currentPrompt]
-    if (isTyping) {
-      if (displayText.length < prompt.length) {
-        const timeout = setTimeout(() => {
-          setDisplayText(prompt.slice(0, displayText.length + 1))
-        }, 40 + Math.random() * 30)
-        return () => clearTimeout(timeout)
-      } else {
-        const timeout = setTimeout(() => setIsTyping(false), 2500)
-        return () => clearTimeout(timeout)
-      }
-    } else {
-      if (displayText.length > 0) {
-        const timeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1))
-        }, 20)
-        return () => clearTimeout(timeout)
-      } else {
-        setCurrentPrompt((prev) => (prev + 1) % aiPrompts.length)
-        setIsTyping(true)
-      }
-    }
-  }, [displayText, isTyping, currentPrompt])
-
+export default function HeroSection({ trending }: HeroSectionProps) {
   const heroBanner = trending?.[0]?.bannerImage || trending?.[0]?.coverImage?.extraLarge
 
   return (
@@ -144,34 +106,6 @@ export default function HeroSection({ trending, isLoading }: HeroSectionProps) {
           >
             Try AI Discovery
           </a>
-        </motion.div>
-
-        {/* AI Search Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="max-w-2xl mx-auto"
-        >
-          <div className="glass-input rounded-lg px-5 py-4 flex items-center gap-4 group">
-            <SearchIcon size={20} className="text-[#808080] shrink-0" />
-            <div className="flex-1 text-left">
-              <span className="text-[#808080] text-sm sm:text-base">
-                {displayText}
-                <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="inline-block w-px h-4 bg-[#e50914] ml-0.5 align-middle"
-                />
-              </span>
-            </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#e50914]/10 text-[#e50914] text-xs font-semibold">
-              AI
-            </div>
-          </div>
-          <p className="mt-3 text-xs text-[#555] tracking-wide">
-            Ask anything — emotions, themes, character types, narrative structures
-          </p>
         </motion.div>
       </div>
 

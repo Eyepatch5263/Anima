@@ -24,7 +24,7 @@ export default function LandingPage() {
     <main className="relative">
       <BackgroundParticles />
       <Navbar />
-      <HeroSection trending={trending} isLoading={isLoading} />
+      <HeroSection trending={trending}/>
       <WatchingGrid popular={popular} seasonal={seasonal} isLoading={isLoading} />
       <AIDiscovery />
       <NarrativeIntel />
