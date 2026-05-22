@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MenuIcon, XIcon } from '../constants/icons'
 
 const navLinks = [
-  { label: 'Discover', href: '/explore' },
+  { label: 'Anime', href: '/explore' },
+  { label: 'Manga', href: '/manga' },
   { label: 'AI Features', href: '/ai-discovery' },
-  { label: 'Trending', href: '/explore/trending' },
   { label: 'Community', href: '#community' },
 ]
 
