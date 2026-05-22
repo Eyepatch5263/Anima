@@ -9,11 +9,10 @@ docker rm -f cloud_postgres cloud_qdrant cloud_ollama 2>/dev/null || true
 docker run -d \
   --name cloud_postgres \
   -p 5432:5432 \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=root \
-  -e POSTGRES_DB=anime_db \
   -v postgres_data:/var/lib/postgresql/data \
-  postgres:15-alpine
+  --entrypoint "" \
+  postgres:15 \
+  bash -c "if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then initdb -D /var/lib/postgresql/data -U postgres; echo 'host all all all trust' >> /var/lib/postgresql/data/pg_hba.conf; pg_ctl -D /var/lib/postgresql/data -o '-p 5432' -w start; createdb -U postgres anime_db; pg_ctl -D /var/lib/postgresql/data -m fast -w stop; fi; postgres -D /var/lib/postgresql/data"
 
 # Start Qdrant
 docker run -d \
@@ -26,21 +25,32 @@ docker run -d \
 # Start GPU-enabled Ollama
 docker run -d \
   --name cloud_ollama \
-  --gpus all \
+  --device nvidia.com/gpu=all \
   -p 11434:11434 \
   -v ollama_data:/root/.ollama \
   ollama/ollama:latest
 
 echo "=== WAITING FOR SERVICES TO BE READY ==="
-until curl -s http://localhost:11434/ > /dev/null; do
+until curl -s -f http://localhost:11434/ > /dev/null; do
   echo "Waiting for Ollama to startup..."
   sleep 3
 done
 
-until curl -s http://localhost:6333/readyz | grep "ok" > /dev/null; do
+until curl -s -f http://localhost:6333/readyz > /dev/null; do
   echo "Waiting for Qdrant ready status..."
   sleep 3
 done
+
+python3 -c "
+import socket, time
+while True:
+    try:
+        with socket.create_connection(('localhost', 5432), timeout=1):
+            break
+    except OSError:
+        print('Waiting for PostgreSQL database to accept connections...')
+        time.sleep(3)
+"
 
 echo "=== PULLING MODELS IN OLLAMA ==="
 echo "Pulling qwen2.5:7b (Inference)..."
