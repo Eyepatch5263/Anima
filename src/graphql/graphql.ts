@@ -265,6 +265,84 @@ export type PaginatedAnimeQueryVariables = Exact<{
 
 export type PaginatedAnimeQuery = { Page: { pageInfo: { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, media: Array<{ ' $fragmentRefs'?: { 'MediaFragment': MediaFragment } } | null> | null } | null };
 
+export type PaginatedMangaQueryVariables = Exact<{
+  page?: number | null | undefined;
+  search?: string | null | undefined;
+  genres?: Array<string | null | undefined> | string | null | undefined;
+  format?: Array<MediaFormat | null | undefined> | MediaFormat | null | undefined;
+  status?: MediaStatus | null | undefined;
+  seasonYear?: number | null | undefined;
+  sort?: Array<MediaSort | null | undefined> | MediaSort | null | undefined;
+}>;
+
+
+export type PaginatedMangaQuery = { Page: { pageInfo: { total: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, media: Array<{ id: number, bannerImage: string | null, season: MediaSeason | null, seasonYear: number | null, description: string | null, type: MediaType | null, format: MediaFormat | null, status: MediaStatus | null, episodes: number | null, duration: number | null, chapters: number | null, volumes: number | null, genres: Array<string | null> | null, isAdult: boolean | null, averageScore: number | null, popularity: number | null, title: { userPreferred: string | null } | null, coverImage: { extraLarge: string | null, large: string | null, color: string | null } | null, startDate: { year: number | null, month: number | null, day: number | null } | null, endDate: { year: number | null, month: number | null, day: number | null } | null, nextAiringEpisode: { airingAt: number, timeUntilAiring: number, episode: number } | null, mediaListEntry: { id: number, status: MediaListStatus | null } | null, studios: { edges: Array<{ isMain: boolean, node: { id: number, name: string } | null } | null> | null } | null } | null> | null } | null };
+
+export type GetGenresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetGenresQuery = { genres: Array<string | null> | null, tags: Array<{ name: string, description: string | null, category: string | null, isAdult: boolean | null } | null> | null };
+
+export type GetMangaByGenresAndTagsQueryVariables = Exact<{
+  page?: number | null | undefined;
+  id?: number | null | undefined;
+  type?: MediaType | null | undefined;
+  isAdult?: boolean | null | undefined;
+  search?: string | null | undefined;
+  format?: Array<MediaFormat | null | undefined> | MediaFormat | null | undefined;
+  status?: MediaStatus | null | undefined;
+  countryOfOrigin?: unknown;
+  source?: MediaSource | null | undefined;
+  season?: MediaSeason | null | undefined;
+  seasonYear?: number | null | undefined;
+  year?: string | null | undefined;
+  onList?: boolean | null | undefined;
+  yearLesser?: unknown;
+  yearGreater?: unknown;
+  episodeLesser?: number | null | undefined;
+  episodeGreater?: number | null | undefined;
+  durationLesser?: number | null | undefined;
+  durationGreater?: number | null | undefined;
+  chapterLesser?: number | null | undefined;
+  chapterGreater?: number | null | undefined;
+  volumeLesser?: number | null | undefined;
+  volumeGreater?: number | null | undefined;
+  licensedBy?: Array<number | null | undefined> | number | null | undefined;
+  isLicensed?: boolean | null | undefined;
+  genres?: Array<string | null | undefined> | string | null | undefined;
+  excludedGenres?: Array<string | null | undefined> | string | null | undefined;
+  tags?: Array<string | null | undefined> | string | null | undefined;
+  excludedTags?: Array<string | null | undefined> | string | null | undefined;
+  minimumTagRank?: number | null | undefined;
+  sort?: Array<MediaSort | null | undefined> | MediaSort | null | undefined;
+}>;
+
+
+export type GetMangaByGenresAndTagsQuery = { Page: { pageInfo: { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, media: Array<{ id: number, bannerImage: string | null, season: MediaSeason | null, seasonYear: number | null, description: string | null, type: MediaType | null, format: MediaFormat | null, status: MediaStatus | null, episodes: number | null, duration: number | null, chapters: number | null, volumes: number | null, genres: Array<string | null> | null, isAdult: boolean | null, averageScore: number | null, popularity: number | null, title: { userPreferred: string | null } | null, coverImage: { extraLarge: string | null, large: string | null, color: string | null } | null, startDate: { year: number | null, month: number | null, day: number | null } | null, endDate: { year: number | null, month: number | null, day: number | null } | null, nextAiringEpisode: { airingAt: number, timeUntilAiring: number, episode: number } | null, mediaListEntry: { id: number, status: MediaListStatus | null } | null, studios: { edges: Array<{ isMain: boolean, node: { id: number, name: string } | null } | null> | null } | null } | null> | null } | null };
+
+export type GetMangaCharactersQueryVariables = Exact<{
+  id?: number | null | undefined;
+  page?: number | null | undefined;
+}>;
+
+
+export type GetMangaCharactersQuery = { Media: { id: number, characters: { pageInfo: { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, edges: Array<{ id: number | null, role: CharacterRole | null, name: string | null, voiceActorRoles: Array<{ roleNotes: string | null, dubGroup: string | null, voiceActor: { id: number, language: string | null, name: { userPreferred: string | null } | null, image: { large: string | null } | null } | null } | null> | null, node: { id: number, name: { userPreferred: string | null } | null, image: { large: string | null } | null } | null } | null> | null } | null } | null };
+
+export type GetMangaStaffQueryVariables = Exact<{
+  id?: number | null | undefined;
+  page?: number | null | undefined;
+}>;
+
+
+export type GetMangaStaffQuery = { Media: { id: number, staff: { pageInfo: { total: number | null, perPage: number | null, currentPage: number | null, lastPage: number | null, hasNextPage: boolean | null } | null, edges: Array<{ id: number | null, role: string | null, node: { id: number, name: { userPreferred: string | null } | null, image: { large: string | null } | null } | null } | null> | null } | null } | null };
+
+export type GetMangaStatisticsQueryVariables = Exact<{
+  id?: number | null | undefined;
+}>;
+
+
+export type GetMangaStatisticsQuery = { Media: { id: number, rankings: Array<{ id: number, rank: number, type: MediaRankType, format: MediaFormat, year: number | null, season: MediaSeason | null, allTime: boolean | null, context: string } | null> | null, trends: { nodes: Array<{ averageScore: number | null, date: number, trending: number, popularity: number | null } | null> | null } | null, airingTrends: { nodes: Array<{ averageScore: number | null, inProgress: number | null, episode: number | null } | null> | null } | null, distribution: { status: Array<{ status: MediaListStatus | null, amount: number | null } | null> | null, score: Array<{ score: number | null, amount: number | null } | null> | null } | null } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -870,3 +948,302 @@ export const PaginatedAnimeDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<PaginatedAnimeQuery, PaginatedAnimeQueryVariables>;
+export const PaginatedMangaDocument = new TypedDocumentString(`
+    query PaginatedManga($page: Int, $search: String, $genres: [String], $format: [MediaFormat], $status: MediaStatus, $seasonYear: Int, $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
+  Page(page: $page, perPage: 18) {
+    pageInfo {
+      total
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(
+      search: $search
+      genre_in: $genres
+      format_in: $format
+      status: $status
+      seasonYear: $seasonYear
+      sort: $sort
+      type: MANGA
+      isAdult: false
+    ) {
+      id
+      title {
+        userPreferred
+      }
+      coverImage {
+        extraLarge
+        large
+        color
+      }
+      startDate {
+        year
+        month
+        day
+      }
+      endDate {
+        year
+        month
+        day
+      }
+      bannerImage
+      season
+      seasonYear
+      description
+      type
+      format
+      status(version: 2)
+      episodes
+      duration
+      chapters
+      volumes
+      genres
+      isAdult
+      averageScore
+      popularity
+      nextAiringEpisode {
+        airingAt
+        timeUntilAiring
+        episode
+      }
+      mediaListEntry {
+        id
+        status
+      }
+      studios(isMain: true) {
+        edges {
+          isMain
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<PaginatedMangaQuery, PaginatedMangaQueryVariables>;
+export const GetGenresDocument = new TypedDocumentString(`
+    query GetGenres {
+  genres: GenreCollection
+  tags: MediaTagCollection {
+    name
+    description
+    category
+    isAdult
+  }
+}
+    `) as unknown as TypedDocumentString<GetGenresQuery, GetGenresQueryVariables>;
+export const GetMangaByGenresAndTagsDocument = new TypedDocumentString(`
+    query GetMangaByGenresAndTags($page: Int = 1, $id: Int, $type: MediaType, $isAdult: Boolean = false, $search: String, $format: [MediaFormat], $status: MediaStatus, $countryOfOrigin: CountryCode, $source: MediaSource, $season: MediaSeason, $seasonYear: Int, $year: String, $onList: Boolean, $yearLesser: FuzzyDateInt, $yearGreater: FuzzyDateInt, $episodeLesser: Int, $episodeGreater: Int, $durationLesser: Int, $durationGreater: Int, $chapterLesser: Int, $chapterGreater: Int, $volumeLesser: Int, $volumeGreater: Int, $licensedBy: [Int], $isLicensed: Boolean, $genres: [String], $excludedGenres: [String], $tags: [String], $excludedTags: [String], $minimumTagRank: Int, $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
+  Page(page: $page, perPage: 20) {
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(
+      id: $id
+      type: $type
+      season: $season
+      format_in: $format
+      status: $status
+      countryOfOrigin: $countryOfOrigin
+      source: $source
+      search: $search
+      onList: $onList
+      seasonYear: $seasonYear
+      startDate_like: $year
+      startDate_lesser: $yearLesser
+      startDate_greater: $yearGreater
+      episodes_lesser: $episodeLesser
+      episodes_greater: $episodeGreater
+      duration_lesser: $durationLesser
+      duration_greater: $durationGreater
+      chapters_lesser: $chapterLesser
+      chapters_greater: $chapterGreater
+      volumes_lesser: $volumeLesser
+      volumes_greater: $volumeGreater
+      licensedById_in: $licensedBy
+      isLicensed: $isLicensed
+      genre_in: $genres
+      genre_not_in: $excludedGenres
+      tag_in: $tags
+      tag_not_in: $excludedTags
+      minimumTagRank: $minimumTagRank
+      sort: $sort
+      isAdult: $isAdult
+    ) {
+      id
+      title {
+        userPreferred
+      }
+      coverImage {
+        extraLarge
+        large
+        color
+      }
+      startDate {
+        year
+        month
+        day
+      }
+      endDate {
+        year
+        month
+        day
+      }
+      bannerImage
+      season
+      seasonYear
+      description
+      type
+      format
+      status(version: 2)
+      episodes
+      duration
+      chapters
+      volumes
+      genres
+      isAdult
+      averageScore
+      popularity
+      nextAiringEpisode {
+        airingAt
+        timeUntilAiring
+        episode
+      }
+      mediaListEntry {
+        id
+        status
+      }
+      studios(isMain: true) {
+        edges {
+          isMain
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetMangaByGenresAndTagsQuery, GetMangaByGenresAndTagsQueryVariables>;
+export const GetMangaCharactersDocument = new TypedDocumentString(`
+    query GetMangaCharacters($id: Int, $page: Int) {
+  Media(id: $id) {
+    id
+    characters(page: $page, sort: [ROLE, RELEVANCE, ID]) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
+      edges {
+        id
+        role
+        name
+        voiceActorRoles(sort: [RELEVANCE, ID]) {
+          roleNotes
+          dubGroup
+          voiceActor {
+            id
+            name {
+              userPreferred
+            }
+            language: languageV2
+            image {
+              large
+            }
+          }
+        }
+        node {
+          id
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetMangaCharactersQuery, GetMangaCharactersQueryVariables>;
+export const GetMangaStaffDocument = new TypedDocumentString(`
+    query GetMangaStaff($id: Int, $page: Int) {
+  Media(id: $id) {
+    id
+    staff(page: $page, sort: [RELEVANCE, ID]) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
+      edges {
+        id
+        role
+        node {
+          id
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetMangaStaffQuery, GetMangaStaffQueryVariables>;
+export const GetMangaStatisticsDocument = new TypedDocumentString(`
+    query GetMangaStatistics($id: Int) {
+  Media(id: $id) {
+    id
+    rankings {
+      id
+      rank
+      type
+      format
+      year
+      season
+      allTime
+      context
+    }
+    trends(sort: ID_DESC) {
+      nodes {
+        averageScore
+        date
+        trending
+        popularity
+      }
+    }
+    airingTrends: trends(releasing: true, sort: EPISODE_DESC) {
+      nodes {
+        averageScore
+        inProgress
+        episode
+      }
+    }
+    distribution: stats {
+      status: statusDistribution {
+        status
+        amount
+      }
+      score: scoreDistribution {
+        score
+        amount
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetMangaStatisticsQuery, GetMangaStatisticsQueryVariables>;

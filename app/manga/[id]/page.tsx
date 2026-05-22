@@ -1,16 +1,21 @@
 'use client'
 
-import React, { use, useState } from 'react'
+import React, { use, useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { GetAnimeByIdQuery, GetCharactersAndVAsQuery, GetStaffQuery, GetTrendsAndRankingsQuery } from '@/src/anime/GenereQuery'
+import {
+  GetMangaById,
+  GetMangaCharacters,
+  GetMangaStaff,
+  GetMangaStatistics,
+} from '@/src/manga/Query'
 import { Chart as ReactChart, AxisOptions } from 'react-charts'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
 import { StarIcon, HeartIcon, ChevronRightIcon } from '../../constants/icons'
 
-// React 19 compatibility wrapper for react-charts which ignores defaultProps on function components.
+// React 19 compatibility wrapper for react-charts
 function Chart(props: any) {
   const defaults = {
     getDatums: (d: any) => (Array.isArray(d) ? d : d.datums || d.data),
@@ -24,7 +29,7 @@ function Chart(props: any) {
     }),
     getDatumStyle: () => ({}),
     getSeriesOrder: (d: any) => d,
-    onHover: () => { },
+    onHover: () => {},
     grouping: 'primary',
     focus: 'auto',
     showVoronoi: false,
@@ -48,20 +53,6 @@ function formatDate(date: { year?: number | null; month?: number | null; day?: n
   return `${m} ${d}${date.year}`
 }
 
-// Airing countdown helper
-function formatAiringCountdown(timeUntilAiring: number): string {
-  const days = Math.floor(timeUntilAiring / (3600 * 24))
-  const hours = Math.floor((timeUntilAiring % (3600 * 24)) / 3600)
-  const minutes = Math.floor((timeUntilAiring % 3600) / 60)
-
-  const parts = []
-  if (days > 0) parts.push(`${days}d`)
-  if (hours > 0) parts.push(`${hours}h`)
-  if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`)
-
-  return parts.join(' ')
-}
-
 interface StatusDatum {
   status: string
   amount: number
@@ -71,14 +62,14 @@ function StatusChart({ data }: { data: StatusDatum[] }) {
   const chartData = React.useMemo(() => [
     {
       label: 'Users',
-      data: data
-    }
+      data: data,
+    },
   ], [data])
 
   const axes = React.useMemo<AxisOptions<StatusDatum>[]>(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }
+      { type: 'linear', position: 'left' },
     ],
     []
   )
@@ -90,18 +81,9 @@ function StatusChart({ data }: { data: StatusDatum[] }) {
 
   return (
     <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col">
-      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">
-        Status Distribution
-      </h4>
+      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">Status Distribution</h4>
       <div className="flex-1 min-h-0 relative">
-        <Chart
-          data={chartData}
-          axes={axes}
-          series={series}
-          getPrimary={getPrimary}
-          getSecondary={getSecondary}
-          dark
-        />
+        <Chart data={chartData} axes={axes} series={series} getPrimary={getPrimary} getSecondary={getSecondary} dark />
       </div>
     </div>
   )
@@ -116,14 +98,14 @@ function ScoreChart({ data }: { data: ScoreDatum[] }) {
   const chartData = React.useMemo(() => [
     {
       label: 'Votes',
-      data: data
-    }
+      data: data,
+    },
   ], [data])
 
   const axes = React.useMemo<AxisOptions<ScoreDatum>[]>(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }
+      { type: 'linear', position: 'left' },
     ],
     []
   )
@@ -135,30 +117,25 @@ function ScoreChart({ data }: { data: ScoreDatum[] }) {
 
   return (
     <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col">
-      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">
-        Score Distribution
-      </h4>
+      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">Score Distribution</h4>
       <div className="flex-1 min-h-0 relative">
-        <Chart
-          data={chartData}
-          axes={axes}
-          series={series}
-          getPrimary={getPrimary}
-          getSecondary={getSecondary}
-          dark
-        />
+        <Chart data={chartData} axes={axes} series={series} getPrimary={getPrimary} getSecondary={getSecondary} dark />
       </div>
     </div>
   )
 }
 
 function formatDaySuffix(day: number): string {
-  if (day > 3 && day < 21) return day + 'th';
+  if (day > 3 && day < 21) return day + 'th'
   switch (day % 10) {
-    case 1: return day + "st";
-    case 2: return day + "nd";
-    case 3: return day + "rd";
-    default: return day + "th";
+    case 1:
+      return day + 'st'
+    case 2:
+      return day + 'nd'
+    case 3:
+      return day + 'rd'
+    default:
+      return day + 'th'
   }
 }
 
@@ -178,14 +155,14 @@ function RecentActivityChart({ data }: { data: ActivityDatum[] }) {
   const chartData = React.useMemo(() => [
     {
       label: 'Activity',
-      data: data
-    }
+      data: data,
+    },
   ], [data])
 
   const axes = React.useMemo<AxisOptions<ActivityDatum>[]>(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }
+      { type: 'linear', position: 'left' },
     ],
     []
   )
@@ -197,161 +174,63 @@ function RecentActivityChart({ data }: { data: ActivityDatum[] }) {
 
   return (
     <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col">
-      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">
-        Recent Activity Per Day
-      </h4>
+      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">Recent Activity Per Day</h4>
       <div className="flex-1 min-h-0 relative">
-        <Chart
-          data={chartData}
-          axes={axes}
-          series={series}
-          getPrimary={getPrimary}
-          getSecondary={getSecondary}
-          dark
-        />
+        <Chart data={chartData} axes={axes} series={series} getPrimary={getPrimary} getSecondary={getSecondary} dark />
       </div>
     </div>
   )
 }
 
-interface AiringScoreDatum {
-  episode: string
-  score: number
-}
-
-function AiringScoreChart({ data }: { data: AiringScoreDatum[] }) {
-  const chartData = React.useMemo(() => [
-    {
-      label: 'Average Score',
-      data: data
-    }
-  ], [data])
-
-  const axes = React.useMemo<AxisOptions<AiringScoreDatum>[]>(
-    () => [
-      { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
-
-  const series = React.useMemo(() => ({ type: 'line' as const }), [])
-
-  const getPrimary = React.useCallback((datum: AiringScoreDatum) => datum.episode, [])
-  const getSecondary = React.useCallback((datum: AiringScoreDatum) => datum.score, [])
-
-  return (
-    <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col">
-      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">
-        Airing Score Progression
-      </h4>
-      <div className="flex-1 min-h-0 relative">
-        <Chart
-          data={chartData}
-          axes={axes}
-          series={series}
-          getPrimary={getPrimary}
-          getSecondary={getSecondary}
-          dark
-        />
-      </div>
-    </div>
-  )
-}
-
-interface AiringWatchersDatum {
-  episode: string
-  watchers: number
-}
-
-function AiringWatchersChart({ data }: { data: AiringWatchersDatum[] }) {
-  const chartData = React.useMemo(() => [
-    {
-      label: 'Watchers',
-      data: data
-    }
-  ], [data])
-
-  const axes = React.useMemo<AxisOptions<AiringWatchersDatum>[]>(
-    () => [
-      { primary: true, type: 'ordinal', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
-
-  const series = React.useMemo(() => ({ type: 'line' as const }), [])
-
-  const getPrimary = React.useCallback((datum: AiringWatchersDatum) => datum.episode, [])
-  const getSecondary = React.useCallback((datum: AiringWatchersDatum) => datum.watchers, [])
-
-  return (
-    <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col">
-      <h4 className="text-xs font-bold text-[#b3b3b3] mb-4 uppercase tracking-wider">
-        Airing Watchers Progression
-      </h4>
-      <div className="flex-1 min-h-0 relative">
-        <Chart
-          data={chartData}
-          axes={axes}
-          series={series}
-          getPrimary={getPrimary}
-          getSecondary={getSecondary}
-          dark
-        />
-      </div>
-    </div>
-  )
-}
-
-
-export default function AnimeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function MangaDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const id = parseInt(resolvedParams.id, 10)
   const [activeTab, setActiveTab] = useState<'overview' | 'staff' | 'stats' | 'characters'>('overview')
-  const [hasMounted, setHasMounted] = React.useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
+
+  // Character list state and pagination
   const [charPage, setCharPage] = useState(1)
   const [allCharacters, setAllCharacters] = useState<any[]>([])
-  const loaderRef = React.useRef<HTMLDivElement | null>(null)
+  const loaderRef = useRef<HTMLDivElement | null>(null)
+
+  // Staff list state and pagination
   const [staffPage, setStaffPage] = useState(1)
   const [allStaff, setAllStaff] = useState<any[]>([])
-  const staffLoaderRef = React.useRef<HTMLDivElement | null>(null)
+  const staffLoaderRef = useRef<HTMLDivElement | null>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setHasMounted(true)
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCharPage(1)
     setAllCharacters([])
     setStaffPage(1)
     setAllStaff([])
   }, [id])
 
-  // Fetch using the pre-existing graphql hook
-  const overviewData = GetAnimeByIdQuery({
+  // Fetch using the manga graphql query wrappers
+  const overviewData = GetMangaById({
     id,
-    type: 'ANIME',
+    type: 'MANGA' as any,
     isAdult: false,
   })
 
-  console.log("overview data:", overviewData)
-
-  const staffData = GetStaffQuery({
+  const staffData = GetMangaStaff({
     id,
     page: staffPage,
   })
 
-  const statsData = GetTrendsAndRankingsQuery({
-    id
+  const statsData = GetMangaStatistics({
+    id,
   })
 
-  const charactersData = GetCharactersAndVAsQuery({
+  const charactersData = GetMangaCharacters({
     id,
     page: charPage,
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (charactersData?.Media?.characters?.edges) {
       setAllCharacters(prev => {
         const existingIds = new Set(prev.map(e => e?.id))
@@ -361,7 +240,7 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     }
   }, [charactersData])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (staffData?.Media?.staff?.edges) {
       setAllStaff(prev => {
         const existingIds = new Set(prev.map(e => e?.id))
@@ -374,11 +253,11 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
   const hasNextPage = charactersData?.Media?.characters?.pageInfo?.hasNextPage
   const hasNextStaffPage = staffData?.Media?.staff?.pageInfo?.hasNextPage
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!hasNextPage || activeTab !== 'characters') return
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      entries => {
         if (entries[0].isIntersecting) {
           setCharPage(prev => prev + 1)
         }
@@ -393,11 +272,11 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     return () => observer.disconnect()
   }, [hasNextPage, activeTab])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!hasNextStaffPage || activeTab !== 'staff') return
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      entries => {
         if (entries[0].isIntersecting) {
           setStaffPage(prev => prev + 1)
         }
@@ -412,8 +291,9 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     return () => observer.disconnect()
   }, [hasNextStaffPage, activeTab])
 
-  const anime = overviewData?.Media
+  const manga = overviewData?.Media
   const isLoading = !overviewData
+  console.log("overviewData",overviewData)
 
   if (isLoading) {
     return (
@@ -442,14 +322,14 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     )
   }
 
-  if (!anime) {
+  if (!manga) {
     return (
       <div className="relative min-h-screen bg-[#141414] text-white flex flex-col">
         <BackgroundParticles />
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center pt-32">
-          <p className="text-[#808080] text-lg mb-4">Anime not found</p>
-          <Link href="/explore" className="px-5 py-2.5 rounded bg-[#e50914] text-white font-bold hover:bg-[#f6121d] transition-colors">
+          <p className="text-[#808080] text-lg mb-4">Manga not found</p>
+          <Link href="/manga" className="px-5 py-2.5 rounded bg-[#e50914] text-white font-bold hover:bg-[#f6121d] transition-colors">
             Go Back
           </Link>
         </div>
@@ -458,29 +338,20 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     )
   }
 
-  const title = anime.title?.userPreferred || anime.title?.english || anime.title?.romaji || 'Unknown Title'
-  const genres = (anime.genres || []).filter(Boolean) as string[]
-  const tags = anime?.tags
-  const description = anime.description?.replace(/<[^>]*>/g, '') || 'No description available.'
+  const title = manga.title?.userPreferred || manga.title?.english || manga.title?.romaji || 'Unknown Title'
+  const genres = (manga.genres || []).filter(Boolean) as string[]
+  const description = manga.description?.replace(/<[^>]*>/g, '') || 'No description available.'
 
   return (
     <div className="relative min-h-screen bg-[#141414] text-[#e5e5e5] overflow-x-hidden">
-      {/* Background Constellation Particles */}
       <BackgroundParticles />
 
       <Navbar />
 
       {/* Cinematic Banner */}
       <div className="relative w-full h-[35vh] sm:h-[55vh] overflow-hidden z-0 border-b border-white/5">
-        {anime.bannerImage ? (
-          <Image
-            src={anime.bannerImage}
-            alt={title}
-            fill
-            sizes="100vw"
-            priority
-            className="object-cover opacity-65 blur-[1px]"
-          />
+        {manga.bannerImage ? (
+          <Image src={manga.bannerImage} alt={title} fill sizes="100vw" priority className="object-cover opacity-65 blur-[1px]" />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-[#141414]" />
         )}
@@ -491,14 +362,13 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
       {/* Detail Content Section */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 -mt-24 sm:-mt-48 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-
           {/* Left Column: Poster & Meta Cards */}
           <div className="flex flex-col gap-6">
             {/* Poster Card */}
             <div className="relative aspect-[2/3] w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a1a1a]">
-              {anime.coverImage?.extraLarge || anime.coverImage?.large ? (
+              {manga.coverImage?.extraLarge || manga.coverImage?.large ? (
                 <Image
-                  src={anime.coverImage.extraLarge || anime.coverImage.large || ''}
+                  src={manga.coverImage.extraLarge || manga.coverImage.large || ''}
                   alt={title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 25vw"
@@ -512,37 +382,28 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
 
             {/* Score & Popularity Panel */}
             <div className="rounded-2xl bg-white/[0.02] border border-white/5 p-5 space-y-4">
-              {anime.averageScore && (
+              {manga.averageScore && (
                 <div>
                   <span className="text-[10px] uppercase font-mono tracking-widest text-[#808080] block mb-1">Average Score</span>
                   <div className="flex items-center gap-2">
                     <div className="px-2.5 py-1 rounded bg-[#46d369]/10 text-[#46d369] border border-[#46d369]/20 font-bold text-sm">
-                      {anime.averageScore}%
+                      {manga.averageScore}%
                     </div>
                     <span className="text-xs text-[#b3b3b3]">by community vote</span>
                   </div>
                 </div>
               )}
 
-              {anime.popularity && (
+              {manga.popularity && (
                 <div>
                   <span className="text-[10px] uppercase font-mono tracking-widest text-[#808080] block mb-1">Popularity</span>
                   <div className="flex items-center gap-1.5 text-white font-bold text-sm">
                     <StarIcon size={14} className="text-[#e87c03]" />
-                    {anime.popularity.toLocaleString()}
+                    {manga.popularity.toLocaleString()}
                   </div>
                 </div>
               )}
 
-              {anime.favourites && (
-                <div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#808080] block mb-1">Favorites</span>
-                  <div className="flex items-center gap-1.5 text-white font-bold text-sm">
-                    <HeartIcon size={14} className="text-[#e50914]" />
-                    {anime.favourites.toLocaleString()}
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Sidebar quick info */}
@@ -550,81 +411,60 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
               <h4 className="font-bold text-white uppercase font-mono tracking-widest border-b border-white/5 pb-2 text-[10px]">
                 Information
               </h4>
-              <div className="flex justify-end gap-2">
-                <span className="text-[#808080]">Original Title: </span>
-                <span className="font-semibold text-white text-xs">{anime.title?.romaji || '—'}</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#808080]">Original Title:</span>
+                <span className="font-semibold text-white text-xs truncate max-w-[150px] text-right">{manga.title?.romaji || '—'}</span>
               </div>
-              <div className="flex justify-end gap-2">
-                <span className="text-[#808080]">English Title: </span>
-                <span className="font-semibold text-white text-xs">{anime.title?.english || '—'}</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#808080]">English Title:</span>
+                <span className="font-semibold text-white text-xs truncate max-w-[150px] text-right">{manga.title?.english || '—'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#808080]">Format:</span>
-                <span className="font-semibold text-white">{anime.format || '—'}</span>
+                <span className="font-semibold text-white capitalize">{manga.format || '—'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#808080]">Episodes:</span>
-                <span className="font-semibold text-white">
-                  {anime.episodes ? `${anime.episodes} (${anime.duration || '—'}m)` : '—'}
-                </span>
+                <span className="text-[#808080]">Chapters:</span>
+                <span className="font-semibold text-white">{manga.chapters || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#808080]">Volumes:</span>
+                <span className="font-semibold text-white">{manga.volumes || '—'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#808080]">Status:</span>
-                <span className="font-semibold text-white capitalize">{formatStatus(anime.status)}</span>
+                <span className="font-semibold text-white capitalize">{formatStatus(manga.status)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#808080]">Season:</span>
-                <span className="font-semibold text-white capitalize">
-                  {anime.season ? `${anime.season.toLowerCase()} ${anime.seasonYear || ''}` : '—'}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#808080]">Studio:</span>
-                <span className="font-semibold text-white truncate max-w-[150px]">
-                  {anime.studios?.edges?.find(e => e?.isMain)?.node?.name || '—'}
+                <span className="text-[#808080]">Publisher/Studio:</span>
+                <span className="font-semibold text-white truncate max-w-[140px] text-right">
+                  {manga.studios?.edges?.find(e => e?.isMain)?.node?.name || '—'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#808080]">Source:</span>
-                <span className="font-semibold text-white truncate max-w-[150px]">
-                  {anime.source?.split('_').map(s => s.toLowerCase()).join(' ')}
+                <span className="font-semibold text-white capitalize">
+                  {manga.source?.split('_').map(s => s.toLowerCase()).join(' ') || '—'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#808080]">Start Date:</span>
-                <span className="font-semibold text-white truncate max-w-[150px]">
-                  {formatDate(anime.startDate)}
-                </span>
+                <span className="font-semibold text-white truncate max-w-[150px]">{formatDate(manga.startDate)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#808080]">End Date:</span>
-                <span className="font-semibold text-white truncate max-w-[150px]">
-                  {formatDate(anime.endDate)}
-                </span>
+                <span className="font-semibold text-white truncate max-w-[150px]">{formatDate(manga.endDate)}</span>
               </div>
-              {anime.nextAiringEpisode && (
-                <div className="flex flex-col gap-1.5 border-t border-white/5 pt-3.5 mt-1">
-                  <span className="text-[#808080] text-[10px] uppercase font-mono tracking-wider">Next Episode</span>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-[#e50914] bg-[#e50914]/10 border border-[#e50914]/20 px-1.5 py-0.5 rounded">
-                      Episode {anime.nextAiringEpisode.episode}
-                    </span>
-                    <span className="font-semibold text-white">
-                      in {formatAiringCountdown(anime.nextAiringEpisode.timeUntilAiring)}
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* External & Streaming Links */}
-            {((anime.externalLinks && anime.externalLinks.length > 0) || (anime.streamingEpisodes && anime.streamingEpisodes.length > 0)) && (
+            {((manga.externalLinks && manga.externalLinks.length > 0) || (manga.streamingEpisodes && manga.streamingEpisodes.length > 0)) && (
               <div className="rounded-2xl bg-white/[0.02] border border-white/5 p-5 space-y-3 text-xs">
                 <h4 className="font-bold text-white uppercase font-mono tracking-widest border-b border-white/5 pb-2 text-[10px]">
-                  Streaming Links
+                  External Manga Links
                 </h4>
                 <div className="flex flex-col gap-2">
-                  {anime.externalLinks && anime.externalLinks.filter(Boolean).map(link => {
+                  {manga.externalLinks && manga.externalLinks.filter(Boolean).map(link => {
                     if (!link || !link.url) return null
                     return (
                       <a
@@ -639,7 +479,7 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                       </a>
                     )
                   })}
-                  {anime.streamingEpisodes && anime.streamingEpisodes.filter(Boolean).map((ep, idx) => {
+                  {manga.streamingEpisodes && manga.streamingEpisodes.filter(Boolean).map((ep, idx) => {
                     if (!ep || !ep.url) return null
                     return (
                       <a
@@ -659,22 +499,18 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
             )}
           </div>
 
-          {/* Right Column: Title, Synopsis, Cast, etc. */}
+          {/* Right Column: Title, Synopsis, Tabs, Cast, etc. */}
           <div className="lg:col-span-3 space-y-8 text-left">
             {/* Title & Aliases */}
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
                 {title}
               </h1>
-              {anime.title?.english && anime.title.english !== title && (
-                <h2 className="text-lg font-medium text-[#b3b3b3] mt-2">
-                  {anime.title.english}
-                </h2>
+              {manga.title?.english && manga.title.english !== title && (
+                <h2 className="text-lg font-medium text-[#b3b3b3] mt-2">{manga.title.english}</h2>
               )}
-              {anime.title?.romaji && anime.title.romaji !== title && anime.title.romaji !== anime.title?.english && (
-                <span className="text-xs text-[#808080] block mt-1">
-                  Native: {anime.title.romaji}
-                </span>
+              {manga.title?.romaji && manga.title.romaji !== title && manga.title.romaji !== manga.title?.english && (
+                <span className="text-xs text-[#808080] block mt-1">Native: {manga.title.romaji}</span>
               )}
             </div>
 
@@ -690,25 +526,30 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {tags?.map(tag => (
-                <span
-                  key={tag?.name}
-                  className="px-3 py-1 rounded-full text-xs font-semibold bg-white/[0.04] border border-white/5 text-white/90 hover:bg-white/[0.08] transition-colors"
-                >
-                  {tag?.name}
-                </span>
-              ))}
-            </div>
+            {/* Tags row */}
+            {manga?.tags && manga.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {manga.tags.filter(Boolean).map(tag => {
+                  if (!tag) return null
+                  return (
+                    <span
+                      key={tag.name}
+                      className="px-3 py-1 rounded-full text-xs font-semibold bg-white/[0.02] border border-white/5 text-[#808080] hover:text-white hover:bg-white/[0.06] transition-colors"
+                      title={tag.description || undefined}
+                    >
+                      {tag.name}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
 
             {/* Synopsis Panel */}
             <div className="rounded-2xl bg-white/[0.02] border border-white/5 p-6">
               <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#e50914]/10 text-[#e50914] text-[9px] font-bold tracking-wider uppercase mb-3.5 w-fit border border-[#e50914]/20">
                 NARRATIVE SYNOPSIS
               </span>
-              <p className="text-sm md:text-base text-[#b3b3b3] leading-relaxed">
-                {description}
-              </p>
+              <p className="text-sm md:text-base text-[#b3b3b3] leading-relaxed">{description}</p>
             </div>
 
             {/* Tabs Selector */}
@@ -716,37 +557,33 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
               <div className="flex justify-between gap-6">
                 <button
                   onClick={() => setActiveTab('overview')}
-                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'overview'
-                    ? 'border-[#e50914] text-white'
-                    : 'border-transparent text-[#808080] hover:text-white'
-                    }`}
+                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${
+                    activeTab === 'overview' ? 'border-[#e50914] text-white' : 'border-transparent text-[#808080] hover:text-white'
+                  }`}
                 >
                   Overview
                 </button>
                 <button
                   onClick={() => setActiveTab('characters')}
-                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'characters'
-                    ? 'border-[#e50914] text-white'
-                    : 'border-transparent text-[#808080] hover:text-white'
-                    }`}
+                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${
+                    activeTab === 'characters' ? 'border-[#e50914] text-white' : 'border-transparent text-[#808080] hover:text-white'
+                  }`}
                 >
                   Characters
                 </button>
                 <button
                   onClick={() => setActiveTab('staff')}
-                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'staff'
-                    ? 'border-[#e50914] text-white'
-                    : 'border-transparent text-[#808080] hover:text-white'
-                    }`}
+                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${
+                    activeTab === 'staff' ? 'border-[#e50914] text-white' : 'border-transparent text-[#808080] hover:text-white'
+                  }`}
                 >
                   Staff
                 </button>
                 <button
                   onClick={() => setActiveTab('stats')}
-                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'stats'
-                    ? 'border-[#e50914] text-white'
-                    : 'border-transparent text-[#808080] hover:text-white'
-                    }`}
+                  className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${
+                    activeTab === 'stats' ? 'border-[#e50914] text-white' : 'border-transparent text-[#808080] hover:text-white'
+                  }`}
                 >
                   Stats
                 </button>
@@ -756,83 +593,49 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
             {/* Tab Contents */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Characters & Voice Actors Preview list */}
-                {anime.characterPreview?.edges && anime.characterPreview.edges.length > 0 && (
+                {/* Character preview */}
+                {charactersData?.Media?.characters?.edges && charactersData.Media.characters.edges.length > 0 && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
-                      Key Cast & Seiyuu
+                      Key Characters
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {anime.characterPreview.edges.filter(Boolean).map(edge => {
-                        const charNode = edge?.node
-                        const vaNode = edge?.voiceActors?.[0]
-                        if (!charNode) return null
+                      {charactersData.Media.characters.edges
+                        .filter(Boolean)
+                        .slice(0, 6)
+                        .map(edge => {
+                          const charNode = edge?.node
+                          if (!charNode) return null
 
-                        return (
-                          <div
-                            key={edge.id || charNode.id}
-                            className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex justify-between items-center gap-3"
-                          >
-                            {/* Character Details */}
-                            <div className="flex items-center gap-3 min-w-0">
+                          return (
+                            <div
+                              key={edge.id || charNode.id}
+                              className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex items-center gap-3"
+                            >
                               <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 bg-white/5">
                                 {charNode.image?.large && (
-                                  <Image
-                                    src={charNode.image.large}
-                                    alt={charNode.name?.userPreferred || ''}
-                                    fill
-                                    sizes="40px"
-                                    className="object-cover"
-                                  />
+                                  <Image src={charNode.image.large} alt={charNode.name?.userPreferred || ''} fill sizes="40px" className="object-cover" />
                                 )}
                               </div>
                               <div className="min-w-0">
-                                <h4 className="text-xs font-bold text-white truncate">
-                                  {charNode.name?.userPreferred}
-                                </h4>
-                                <span className="text-[9px] text-[#808080] capitalize">
-                                  {edge.role?.toLowerCase() || 'Cast'}
-                                </span>
+                                <h4 className="text-xs font-bold text-white truncate">{charNode.name?.userPreferred}</h4>
+                                <span className="text-[9px] text-[#808080] capitalize">{edge.role?.toLowerCase() || 'Cast'}</span>
                               </div>
                             </div>
-
-                            {/* Japanese Voice Actor Details */}
-                            {vaNode && (
-                              <div className="flex items-center gap-2.5 text-right justify-end min-w-0">
-                                <div className="min-w-0">
-                                  <h5 className="text-[10px] font-bold text-[#b3b3b3] truncate">
-                                    {vaNode.name?.userPreferred}
-                                  </h5>
-                                  <span className="text-[8px] text-[#555] block">JP Actor</span>
-                                </div>
-                                <div className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 bg-white/5">
-                                  {vaNode.image?.large && (
-                                    <Image
-                                      src={vaNode.image.large}
-                                      alt={vaNode.name?.userPreferred || ''}
-                                      fill
-                                      sizes="32px"
-                                      className="object-cover"
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
                     </div>
                   </div>
                 )}
 
                 {/* Key Production Staff Preview (Slice to 4) */}
-                {anime.staffPreview?.edges && anime.staffPreview.edges.length > 0 && (
+                {staffData?.Media?.staff?.edges && staffData.Media.staff.edges.length > 0 && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
-                      Key Production Staff
+                      Creators & Artists
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {anime.staffPreview.edges
+                      {staffData.Media.staff.edges
                         .filter(Boolean)
                         .slice(0, 4)
                         .map(edge => {
@@ -840,28 +643,15 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                           if (!staffNode) return null
 
                           return (
-                            <div
-                              key={edge.id || staffNode.id}
-                              className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex items-center gap-3"
-                            >
+                            <div key={edge.id || staffNode.id} className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex items-center gap-3">
                               <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 bg-white/5">
                                 {staffNode.image?.large && (
-                                  <Image
-                                    src={staffNode.image.large}
-                                    alt={staffNode.name?.userPreferred || ''}
-                                    fill
-                                    sizes="40px"
-                                    className="object-cover"
-                                  />
+                                  <Image src={staffNode.image.large} alt={staffNode.name?.userPreferred || ''} fill sizes="40px" className="object-cover" />
                                 )}
                               </div>
                               <div className="min-w-0">
-                                <h4 className="text-xs font-bold text-white truncate">
-                                  {staffNode.name?.userPreferred}
-                                </h4>
-                                <span className="text-[9px] text-[#808080] capitalize block truncate">
-                                  {edge.role || 'Staff'}
-                                </span>
+                                <h4 className="text-xs font-bold text-white truncate">{staffNode.name?.userPreferred}</h4>
+                                <span className="text-[9px] text-[#808080] capitalize block truncate">{edge.role || 'Staff'}</span>
                               </div>
                             </div>
                           )
@@ -871,25 +661,22 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 )}
 
                 {/* Relations list */}
-                {anime.relations?.edges && anime.relations.edges.length > 0 && (
+                {manga.relations?.edges && manga.relations.edges.length > 0 && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
                       Franchise Relations
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                      {anime.relations.edges.filter(Boolean).map(edge => {
+                      {manga.relations.edges.filter(Boolean).map(edge => {
                         const node = edge?.node
                         if (!node) return null
                         const rTitle = node.title?.userPreferred || 'Related'
                         const rCover = node.coverImage?.large || ''
                         const relationType = edge.relationType?.replace(/_/g, ' ') || 'Relation'
+                        const linkHref = node.type === 'ANIME' ? `/anime/${node.id}` : `/manga/${node.id}`
 
                         return (
-                          <Link
-                            key={edge.id || node.id}
-                            href={`/anime/${node.id}`}
-                            className="group flex flex-col text-left cursor-pointer"
-                          >
+                          <Link key={edge.id || node.id} href={linkHref} className="group flex flex-col text-left cursor-pointer">
                             <div className="relative aspect-[2/3] w-full rounded-xl overflow-hidden bg-[#1a1a1a] border border-white/5 mb-2">
                               {rCover && (
                                 <Image
@@ -916,45 +703,49 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 )}
 
 
-                {anime.trailer?.id && (
+                {/* Trailer */}
+                {manga.trailer?.id && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
                       Trailer
                     </h3>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="relative aspect-video w-full max-w-2xl rounded-2xl overflow-hidden border border-white/5 bg-black">
                       <iframe
-                        width="800"
-                        height="450"
-                        src={`https://www.youtube.com/embed/${anime.trailer.id}`}
-                        title="YouTube video player"
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${manga.trailer.id}`}
+                        title="Manga trailer player"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
+                        className="absolute inset-0 w-full h-full"
                       ></iframe>
                     </div>
                   </div>
                 )}
 
                 {/* Recommendations */}
-                {anime.recommendations?.nodes && anime.recommendations.nodes.length > 0 && (
+                {manga.recommendations?.nodes && manga.recommendations.nodes.length > 0 && (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
                       You Might Also Like
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                      {anime.recommendations.nodes
+                      {manga.recommendations.nodes
                         .filter(node => node && node.mediaRecommendation)
                         .slice(0, 5)
                         .map((node, i) => {
-                          const recMedia = node?.mediaRecommendation
+                          if (!node) return null
+                          const recMedia = node.mediaRecommendation
                           if (!recMedia) return null
                           const recTitle = recMedia.title?.userPreferred || 'Recommendation'
                           const recCover = recMedia.coverImage?.large || ''
+                          const linkHref = recMedia.type === 'ANIME' ? `/anime/${recMedia.id}` : `/manga/${recMedia.id}`
 
                           return (
                             <Link
                               key={recMedia.id || i}
-                              href={`/anime/${recMedia.id}`}
+                              href={linkHref}
                               className="group flex flex-col text-left cursor-pointer"
                             >
                               <div className="relative aspect-[2/3] w-full rounded-xl overflow-hidden bg-[#1a1a1a] border border-white/5 mb-2">
@@ -986,73 +777,32 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 {allCharacters && allCharacters.length > 0 ? (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
-                      Characters & Voice Actors
+                      All Characters
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {allCharacters
-                        .filter(Boolean)
-                        .map((edge, index) => {
-                          const charNode = edge?.node
-                          if (!charNode) return null
+                      {allCharacters.filter(Boolean).map((edge, index) => {
+                        const charNode = edge?.node
+                        if (!charNode) return null
 
-                          const vaRole = edge?.voiceActorRoles?.find((v: any) => v?.voiceActor?.language === 'Japanese') || edge?.voiceActorRoles?.[0]
-                          const voiceActor = vaRole?.voiceActor
-
-                          return (
-                            <div
-                              key={`${edge.id || charNode.id}-${index}`}
-                              className="flex justify-between rounded-xl bg-white/[0.01] border border-white/5 overflow-hidden h-20 transition-all hover:border-white/10 hover:bg-white/[0.03]"
-                            >
-                              {/* Character Info */}
-                              <div className="flex gap-3">
-                                <div className="relative w-14 h-full bg-white/5 shrink-0">
-                                  {charNode.image?.large && (
-                                    <Image
-                                      src={charNode.image.large}
-                                      alt={charNode.name?.userPreferred || ''}
-                                      fill
-                                      sizes="56px"
-                                      className="object-cover"
-                                    />
-                                  )}
-                                </div>
-                                <div className="flex flex-col justify-center min-w-0 py-2">
-                                  <h4 className="text-xs font-bold text-white truncate max-w-[120px]">
-                                    {charNode.name?.userPreferred}
-                                  </h4>
-                                  <span className="text-[10px] text-[#808080] capitalize mt-0.5">
-                                    {edge.role?.toLowerCase() || 'Supporting'}
-                                  </span>
-                                </div>
+                        return (
+                          <div
+                            key={`${edge.id || charNode.id}-${index}`}
+                            className="flex justify-between rounded-xl bg-white/[0.01] border border-white/5 overflow-hidden h-20 transition-all hover:border-white/10 hover:bg-white/[0.03]"
+                          >
+                            <div className="flex gap-3">
+                              <div className="relative w-14 h-full bg-white/5 shrink-0">
+                                {charNode.image?.large && (
+                                  <Image src={charNode.image.large} alt={charNode.name?.userPreferred || ''} fill sizes="56px" className="object-cover" />
+                                )}
                               </div>
-
-                              {/* Voice Actor Info */}
-                              {voiceActor && (
-                                <div className="flex gap-3">
-                                  <div className="flex flex-col justify-center items-end min-w-0 py-2 text-right">
-                                    <h4 className="text-xs font-bold text-white truncate max-w-[120px]">
-                                      {voiceActor.name?.userPreferred}
-                                    </h4>
-                                    <span className="text-[10px] text-[#808080] mt-0.5">
-                                      {voiceActor.language || 'Japanese'}
-                                    </span>
-                                  </div>
-                                  <div className="relative w-14 h-full bg-white/5 shrink-0">
-                                    {voiceActor.image?.large && (
-                                      <Image
-                                        src={voiceActor.image.large}
-                                        alt={voiceActor.name?.userPreferred || ''}
-                                        fill
-                                        sizes="56px"
-                                        className="object-cover"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              )}
+                              <div className="flex flex-col justify-center min-w-0 py-2">
+                                <h4 className="text-xs font-bold text-white truncate max-w-[180px]">{charNode.name?.userPreferred}</h4>
+                                <span className="text-[10px] text-[#808080] capitalize mt-0.5">{edge.role?.toLowerCase() || 'Supporting'}</span>
+                              </div>
                             </div>
-                          )
-                        })}
+                          </div>
+                        )
+                      })}
                     </div>
                     {hasNextPage && (
                       <div ref={loaderRef} className="py-8 flex justify-center items-center">
@@ -1068,46 +818,33 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
 
             {activeTab === 'staff' && (
               <div className="space-y-8">
-                {/* Full Production Staff List */}
                 {allStaff && allStaff.length > 0 ? (
                   <div>
                     <h3 className="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 uppercase font-mono tracking-widest text-xs">
-                      Production Staff
+                      Production Staff & Creators
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {allStaff
-                        .filter(Boolean)
-                        .map((edge, index) => {
-                          const staffNode = edge?.node
-                          if (!staffNode) return null
+                      {allStaff.filter(Boolean).map((edge, index) => {
+                        const staffNode = edge?.node
+                        if (!staffNode) return null
 
-                          return (
-                            <div
-                              key={`${edge.id || staffNode.id}-${index}`}
-                              className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex items-center gap-3"
-                            >
-                              <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 bg-white/5">
-                                {staffNode.image?.large && (
-                                  <Image
-                                    src={staffNode.image.large}
-                                    alt={staffNode.name?.userPreferred || ''}
-                                    fill
-                                    sizes="40px"
-                                    className="object-cover"
-                                  />
-                                )}
-                              </div>
-                              <div className="min-w-0">
-                                <h4 className="text-xs font-bold text-white truncate">
-                                  {staffNode.name?.userPreferred}
-                                </h4>
-                                <span className="text-[9px] text-[#808080] capitalize block truncate">
-                                  {edge.role || 'Staff'}
-                                </span>
-                              </div>
+                        return (
+                          <div
+                            key={`${edge.id || staffNode.id}-${index}`}
+                            className="rounded-xl bg-white/[0.01] border border-white/5 p-3 flex items-center gap-3"
+                          >
+                            <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 bg-white/5">
+                              {staffNode.image?.large && (
+                                <Image src={staffNode.image.large} alt={staffNode.name?.userPreferred || ''} fill sizes="40px" className="object-cover" />
+                              )}
                             </div>
-                          )
-                        })}
+                            <div className="min-w-0">
+                              <h4 className="text-xs font-bold text-white truncate">{staffNode.name?.userPreferred}</h4>
+                              <span className="text-[9px] text-[#808080] capitalize block truncate">{edge.role || 'Staff'}</span>
+                            </div>
+                          </div>
+                        )
+                      })}
                     </div>
                     {hasNextStaffPage && (
                       <div ref={staffLoaderRef} className="py-8 flex justify-center items-center">
@@ -1116,7 +853,7 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                     )}
                   </div>
                 ) : (
-                  <p className="text-xs text-[#808080]">No production staff information available.</p>
+                  <p className="text-xs text-[#808080]">No creator information available.</p>
                 )}
               </div>
             )}
@@ -1137,42 +874,9 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                               .filter(Boolean)
                               .map(n => ({
                                 date: formatTrendDate(n?.date),
-                                trending: n?.trending || 0
+                                trending: n?.trending || 0,
                               }))
-                              .reverse()
-                            }
-                          />
-                        </div>
-                      ) : null}
-
-                      {/* Airing Score Progression (Full Width) */}
-                      {statsData?.Media?.airingTrends?.nodes && statsData.Media.airingTrends.nodes.length > 0 ? (
-                        <div className="lg:col-span-2">
-                          <AiringScoreChart
-                            data={statsData.Media.airingTrends.nodes
-                              .filter(Boolean)
-                              .map(n => ({
-                                episode: `${n?.episode || 0}`,
-                                score: n?.averageScore || 0
-                              }))
-                              .reverse()
-                            }
-                          />
-                        </div>
-                      ) : null}
-
-                      {/* Airing Watchers Progression (Full Width) */}
-                      {statsData?.Media?.airingTrends?.nodes && statsData.Media.airingTrends.nodes.length > 0 ? (
-                        <div className="lg:col-span-2">
-                          <AiringWatchersChart
-                            data={statsData.Media.airingTrends.nodes
-                              .filter(Boolean)
-                              .map(n => ({
-                                episode: `${n?.episode || 0}`,
-                                watchers: n?.inProgress || 0
-                              }))
-                              .reverse()
-                            }
+                              .reverse()}
                           />
                         </div>
                       ) : null}
@@ -1180,15 +884,13 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                       {/* Status distribution chart */}
                       {statsData?.Media?.distribution?.status && statsData.Media.distribution.status.length > 0 ? (
                         <StatusChart
-                          data={statsData.Media.distribution.status
-                            .map(d => {
-                              if (!d) return { status: '', amount: 0 }
-                              return {
-                                status: d.status?.toLowerCase().replace(/_/g, ' ') || '',
-                                amount: d.amount || 0
-                              }
-                            })
-                          }
+                          data={statsData.Media.distribution.status.map(d => {
+                            if (!d) return { status: '', amount: 0 }
+                            return {
+                              status: d.status?.toLowerCase().replace(/_/g, ' ') || '',
+                              amount: d.amount || 0,
+                            }
+                          })}
                         />
                       ) : (
                         <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-center">
@@ -1199,15 +901,13 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                       {/* Score distribution chart */}
                       {statsData?.Media?.distribution?.score && statsData.Media.distribution.score.length > 0 ? (
                         <ScoreChart
-                          data={statsData.Media.distribution.score
-                            .map(d => {
-                              if (!d) return { score: '', amount: 0 }
-                              return {
-                                score: `${d.score || 0}`,
-                                amount: d.amount || 0
-                              }
-                            })
-                          }
+                          data={statsData.Media.distribution.score.map(d => {
+                            if (!d) return { score: '', amount: 0 }
+                            return {
+                              score: `${d.score || 0}`,
+                              amount: d.amount || 0,
+                            }
+                          })}
                         />
                       ) : (
                         <div className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-center">
