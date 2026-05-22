@@ -34,7 +34,7 @@ export default function AIDiscoverySuite() {
   const currentFeature = features[activeIndex]
 
   return (
-    <div className="relative w-screen h-screen bg-[#060606] text-white overflow-hidden select-none">
+    <div className="relative w-screen min-h-screen md:h-screen bg-[#060606] text-white overflow-y-auto md:overflow-hidden select-none">
       <BackgroundParticles />
       
       {/* Navbar overlay */}
@@ -67,9 +67,9 @@ export default function AIDiscoverySuite() {
       </div>
 
       {/* Content Area */}
-      <div className="absolute inset-0 z-10 flex items-center justify-left px-6 sm:px-12 md:px-16 lg:px-24">
+      <div className="relative md:absolute md:inset-0 z-10 pt-28 pb-20 md:py-0 flex items-center justify-center md:justify-start px-6 sm:px-12 md:px-16 lg:px-24 min-h-screen md:min-h-0">
         {/* Unified Glass Console Box wrapping both content and visualizer */}
-        <div className="max-w-6xl w-full bg-black/35 border border-white/10 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 lg:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16 lg:gap-24">
+        <div className="max-w-6xl w-full bg-black/35 border border-white/10 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-8 md:p-12 lg:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 lg:gap-24">
           
           {/* Subtle inside gradient glow */}
           <div className="absolute -inset-px bg-gradient-to-tr from-red-500/10 via-transparent to-transparent pointer-events-none rounded-[2.5rem]" />
@@ -162,7 +162,7 @@ export default function AIDiscoverySuite() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-            className="hidden md:flex flex-1 max-w-[360px] aspect-square lg:max-w-[420px] items-center justify-center relative bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] z-10"
+            className="flex w-full max-w-[280px] sm:max-w-[320px] md:max-w-none md:flex-1 aspect-square items-center justify-center relative bg-white/[0.03] border border-white/10 rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] z-10 mx-auto md:mx-0 mt-6 md:mt-0"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -184,20 +184,20 @@ export default function AIDiscoverySuite() {
       {/* Navigation Arrows */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/10 bg-black/45 backdrop-blur hover:bg-red-500/10 hover:border-red-500/30 flex items-center justify-center text-gray-400 hover:text-white transition-all transform active:scale-90 hover:scale-105"
+        className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/10 bg-black/45 backdrop-blur hover:bg-red-500/10 hover:border-red-500/30 flex items-center justify-center text-gray-400 hover:text-white transition-all transform active:scale-90 hover:scale-105"
         aria-label="Previous Feature"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
 
       <button
         onClick={handleNext}
-        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/10 bg-black/45 backdrop-blur hover:bg-red-500/10 hover:border-red-500/30 flex items-center justify-center text-gray-400 hover:text-white transition-all transform active:scale-90 hover:scale-105"
+        className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 rounded-full border border-white/10 bg-black/45 backdrop-blur hover:bg-red-500/10 hover:border-red-500/30 flex items-center justify-center text-gray-400 hover:text-white transition-all transform active:scale-90 hover:scale-105"
         aria-label="Next Feature"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5">
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>

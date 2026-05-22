@@ -39,8 +39,8 @@ export default function AIDiscovery() {
               className="w-full h-full object-cover pointer-events-none"
             />
             {/* Smooth overlay gradients to keep text fully readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+            <div className="absolute inset-0 bg-linear-to-r from-black via-black/85 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -54,7 +54,7 @@ export default function AIDiscovery() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded bg-white/5 border border-white/8 text-xs font-medium text-[#b3b3b3]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded bg-white/5 border border-white/8 text-xs font-medium text-text-secondary">
             <BrainIcon size={12} />
             Powered by AI
           </div>
@@ -68,9 +68,9 @@ export default function AIDiscovery() {
         </motion.div>
 
         {/* Dynamic Bento/Console wrapper */}
-        <div className="w-full max-w-5xl bg-black/45 border border-white/10 backdrop-blur-xl rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
+        <div className="w-full max-w-5xl bg-black/45 border border-white/10 backdrop-blur-xl rounded-4xl p-8 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
           {/* Top-right corner soft glow */}
-          <div className="absolute -inset-px bg-gradient-to-tr from-red-500/5 via-transparent to-transparent pointer-events-none rounded-[2rem]" />
+          <div className="absolute -inset-px bg-linear-to-tr from-red-500/5 via-transparent to-transparent pointer-events-none rounded-4xl" />
 
           {/* Left panel: Info */}
           <div className="flex-1 max-w-xl text-left relative z-10">
@@ -123,7 +123,7 @@ export default function AIDiscovery() {
           </div>
 
           {/* Right panel: Live Interactive visualizer */}
-          <div className="w-full md:w-[320px] aspect-square flex items-center justify-center relative bg-white/[0.02] border border-white/5 rounded-2xl p-6 overflow-hidden z-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
+          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-none md:w-[320px] aspect-square flex items-center justify-center relative bg-white/2 border border-white/5 rounded-2xl p-6 overflow-hidden z-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] mx-auto md:mx-0 mt-6 md:mt-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
