@@ -26,6 +26,7 @@ docker run -d \
 docker run -d \
   --name cloud_ollama \
   --device nvidia.com/gpu=all \
+  -e OLLAMA_NUM_PARALLEL=4 \
   -p 11434:11434 \
   -v ollama_data:/root/.ollama \
   ollama/ollama:latest

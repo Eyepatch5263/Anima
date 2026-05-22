@@ -4,15 +4,12 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { StarIcon } from './icons'
-import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
+import type { WatchingGridProps } from '@/app/types/watching.grid.type'
+import type { MagazineCardProps } from '@/app/types/watching.grid.type'
+import GridSkeleton from '@/skeletons/GridSkeleton'
 
-interface WatchingGridProps {
-  popular: UnwrappedMedia[]
-  seasonal: UnwrappedMedia[]
-  isLoading: boolean
-}
 
-function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedia; index: number; featured?: boolean }) {
+function MagazineCard({ anime, index, featured = false }: MagazineCardProps) {
   const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
   const title = anime.title?.userPreferred || 'Unknown'
   const genres = (anime.genres || []).filter(Boolean).slice(0, 3) as string[]
@@ -20,7 +17,7 @@ function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedi
   const score = anime.averageScore
 
   return (
-    <motion.div
+    <motion.div 
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -39,7 +36,7 @@ function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedi
         )}
 
         {/* Dark gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent group-hover:from-black/80 transition-all duration-500" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent group-hover:from-black/80 transition-all duration-500" />
 
         {/* Score */}
         {score && (
@@ -58,7 +55,7 @@ function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedi
           <h3 className={`font-bold text-white leading-snug mb-2 ${featured ? 'text-xl md:text-2xl' : 'text-sm'}`}>
             {title}
           </h3>
-          <div className="flex items-center gap-2 text-[11px] text-[#b3b3b3]">
+          <div className="flex items-center gap-2 text-[11px] text-text-secondary">
             {genres.map((g, i) => (
               <React.Fragment key={g}>
                 {i > 0 && <span className="text-[#555]">·</span>}
@@ -68,7 +65,7 @@ function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedi
             {studio && (
               <>
                 <span className="text-[#555]">·</span>
-                <span className="text-[#808080]">{studio}</span>
+                <span className="text-text-muted">{studio}</span>
               </>
             )}
           </div>
@@ -78,11 +75,7 @@ function MagazineCard({ anime, index, featured = false }: { anime: UnwrappedMedi
   )
 }
 
-function GridSkeleton() {
-  return (
-    <div className="rounded-lg bg-[#1a1a1a] animate-pulse h-64" />
-  )
-}
+<GridSkeleton/>
 
 export default function WatchingGrid({ popular, seasonal, isLoading }: WatchingGridProps) {
   const combined = [...popular, ...seasonal]

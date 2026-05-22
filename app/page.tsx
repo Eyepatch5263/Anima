@@ -3,12 +3,9 @@
 import { useAnimeData } from '@/src/hooks/useAnimeData'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
-import FeaturedShowcase from './components/FeaturedShowcase'
 import WatchingGrid from './components/WatchingGrid'
-import TopRatedList from './components/TrendingGrid'
 import AIDiscovery from './components/AIDiscovery'
 import NarrativeIntel from './components/NarrativeIntel'
-import CommunityIntel from './components/CommunityIntel'
 import Footer from './components/Footer'
 import BackgroundParticles from './components/BackgroundParticles'
 

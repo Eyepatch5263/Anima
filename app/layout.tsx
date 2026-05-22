@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inria_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-import BackgroundParticles from "./components/BackgroundParticles";
 
 const inriaSans = Inria_Sans({
   variable: "--font-inria-sans",
@@ -16,6 +15,14 @@ export const metadata: Metadata = {
   title: "Anima — AI-Powered Anime Discovery",
   description:
     "Discover anime through narrative intelligence. AI-powered emotional mapping, philosophical depth analysis, and spoiler-safe recommendations.",
+  icons: {
+    icon: [
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

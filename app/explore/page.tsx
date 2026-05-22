@@ -15,7 +15,7 @@ const publicAnimes = [
   {
     title: "Frieren: Beyond Journey's End",
     description: "An elf mage and her former party members' journey to the afterlife, discovering the depth of human connections.",
-    image: "/frieren-beyond.jpg",
+    image: "/frieren-beyond.webp",
     genre: ["Adventure", "Drama", "Fantasy"],
     rating: "9.39",
     link: "/anime/154587"
@@ -23,7 +23,7 @@ const publicAnimes = [
   {
     title: "Jujutsu Kaisen",
     description: "A boy swallows a cursed talisman and enters a school of sorcery to fight curses and exorcise the King of Curses.",
-    image: "/jujutsu-kaisen.jpg",
+    image: "/jujutsu-kaisen.webp",
     genre: ["Action", "Fantasy", "Supernatural"],
     rating: "8.78",
     link: "/anime/113415"
@@ -31,7 +31,7 @@ const publicAnimes = [
   {
     title: "One Piece",
     description: "Monkey D. Luffy and his pirate crew explore a fantastical world of endless oceans and islands in search of the ultimate treasure.",
-    image: "/one-piece.jpg",
+    image: "/one-piece.webp",
     genre: ["Action", "Adventure", "Fantasy"],
     rating: "8.92",
     link: "/anime/21"
@@ -39,7 +39,7 @@ const publicAnimes = [
   {
     title: "Devil May Cry",
     description: "Dante, the legendary half-demon devil hunter, battles against underworld invasions with lethal weapons and unmatched style.",
-    image: "/devil-may-cry.png",
+    image: "/devil-may-cry.webp",
     genre: ["Action", "Fantasy", "Supernatural"],
     rating: "Upcoming",
     link: "/explore/upcoming"
@@ -47,7 +47,7 @@ const publicAnimes = [
   {
     title: "Dark Moon: The Blood Altar",
     description: "Webtoon adaptation following seven brothers at Decelis Academy and the mysterious girl who changes their lives.",
-    image: "/dark-moon-the-blood.jpg",
+    image: "/dark-moon-the-blood.webp",
     genre: ["Drama", "Romance", "Supernatural"],
     rating: "Featured",
     link: "/explore/trending"

@@ -207,7 +207,7 @@ Output valid JSON:
             "options": {
                 "temperature": 0.2
             }
-        }, timeout=45)
+        }, timeout=180)
         
         if res.status_code == 200:
             data = json.loads(res.json().get("response", "").strip())

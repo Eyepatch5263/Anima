@@ -2,46 +2,9 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { SearchIcon, ShieldIcon, BrainIcon, NetworkIcon, LayersIcon, HeartIcon } from './icons'
+import { BrainIcon } from './icons'
+import { AIDiscoveryfeatures as features } from '@/app/constants/AIDiscoveryFeat'
 
-const features = [
-  {
-    icon: <SearchIcon size={20} />,
-    title: 'Semantic Search',
-    description: 'Find anime by describing feelings, themes, or moments — not just titles and tags.',
-    span: 'col-span-1 md:col-span-2',
-  },
-  {
-    icon: <ShieldIcon size={20} />,
-    title: 'Spoiler-Safe AI',
-    description: 'Get deep recommendations without plot reveals. Our AI understands narrative without spoiling.',
-    span: 'col-span-1',
-  },
-  {
-    icon: <BrainIcon size={20} />,
-    title: 'Narrative Intelligence',
-    description: 'Story arcs, pacing, emotional depth — analyzed beyond surface level.',
-    span: 'col-span-1',
-  },
-  {
-    icon: <NetworkIcon size={20} />,
-    title: 'Multi-Agent Recommendations',
-    description: 'Multiple AI perspectives synthesize nuanced, personalized suggestions.',
-    span: 'col-span-1 md:col-span-2',
-  },
-  {
-    icon: <LayersIcon size={20} />,
-    title: 'Scene-Level Search',
-    description: 'Find specific moments across thousands of episodes — that one rainy rooftop scene.',
-    span: 'col-span-1',
-  },
-  {
-    icon: <HeartIcon size={20} />,
-    title: 'Emotional Mapping',
-    description: 'Discover based on the emotional journey you seek — catharsis, wonder, melancholy.',
-    span: 'col-span-1 md:col-span-2',
-  },
-]
 
 export default function AIDiscovery() {
   return (
@@ -62,7 +25,7 @@ export default function AIDiscovery() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4" style={{ textWrap: 'balance' } as React.CSSProperties}>
             Intelligence, Not Just Search
           </h2>
-          <p className="text-[#808080] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Go beyond filters and keywords. Our AI understands narrative structure,
             emotional cadence, and character psychology.
           </p>
