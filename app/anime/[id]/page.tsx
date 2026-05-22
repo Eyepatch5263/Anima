@@ -8,7 +8,7 @@ import { Chart as ReactChart, AxisOptions } from 'react-charts'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { StarIcon, HeartIcon, ChevronRightIcon } from '../../components/icons'
+import { StarIcon, HeartIcon, ChevronRightIcon } from '../../constants/icons'
 
 // React 19 compatibility wrapper for react-charts which ignores defaultProps on function components.
 function Chart(props: any) {
@@ -24,7 +24,7 @@ function Chart(props: any) {
     }),
     getDatumStyle: () => ({}),
     getSeriesOrder: (d: any) => d,
-    onHover: () => {},
+    onHover: () => { },
     grouping: 'primary',
     focus: 'auto',
     showVoronoi: false,
@@ -155,9 +155,9 @@ function ScoreChart({ data }: { data: ScoreDatum[] }) {
 function formatDaySuffix(day: number): string {
   if (day > 3 && day < 21) return day + 'th';
   switch (day % 10) {
-    case 1:  return day + "st";
-    case 2:  return day + "nd";
-    case 3:  return day + "rd";
+    case 1: return day + "st";
+    case 2: return day + "nd";
+    case 3: return day + "rd";
     default: return day + "th";
   }
 }
@@ -335,7 +335,7 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
     isAdult: false,
   })
 
-  console.log("overview data:",overviewData)
+  console.log("overview data:", overviewData)
 
   const staffData = GetStaffQuery({
     id,
@@ -676,8 +676,8 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'overview'
-                      ? 'border-[#e50914] text-white'
-                      : 'border-transparent text-[#808080] hover:text-white'
+                    ? 'border-[#e50914] text-white'
+                    : 'border-transparent text-[#808080] hover:text-white'
                     }`}
                 >
                   Overview
@@ -685,8 +685,8 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 <button
                   onClick={() => setActiveTab('characters')}
                   className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'characters'
-                      ? 'border-[#e50914] text-white'
-                      : 'border-transparent text-[#808080] hover:text-white'
+                    ? 'border-[#e50914] text-white'
+                    : 'border-transparent text-[#808080] hover:text-white'
                     }`}
                 >
                   Characters
@@ -694,8 +694,8 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 <button
                   onClick={() => setActiveTab('staff')}
                   className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'staff'
-                      ? 'border-[#e50914] text-white'
-                      : 'border-transparent text-[#808080] hover:text-white'
+                    ? 'border-[#e50914] text-white'
+                    : 'border-transparent text-[#808080] hover:text-white'
                     }`}
                 >
                   Staff
@@ -703,8 +703,8 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                 <button
                   onClick={() => setActiveTab('stats')}
                   className={`pb-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer focus:outline-none ${activeTab === 'stats'
-                      ? 'border-[#e50914] text-white'
-                      : 'border-transparent text-[#808080] hover:text-white'
+                    ? 'border-[#e50914] text-white'
+                    : 'border-transparent text-[#808080] hover:text-white'
                     }`}
                 >
                   Stats
@@ -907,7 +907,7 @@ export default function AnimeDetailPage({ params }: { params: Promise<{ id: stri
                     </h3>
                     <div className="flex flex-wrap gap-3">
                       <iframe
-                        width="800"                                                                                               
+                        width="800"
                         height="450"
                         src={`https://www.youtube.com/embed/${anime.trailer.id}`}
                         title="YouTube video player"

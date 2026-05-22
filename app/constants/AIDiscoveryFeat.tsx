@@ -1,4 +1,4 @@
-import { SearchIcon, ShieldIcon, BrainIcon, NetworkIcon, LayersIcon, HeartIcon } from "../components/icons";
+import { SearchIcon, ShieldIcon, BrainIcon, NetworkIcon, LayersIcon, HeartIcon } from "./icons";
 
 export const AIDiscoveryfeatures = [
   {

@@ -1,73 +1,20 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { StarIcon, CrownIcon, ChevronRightIcon } from './icons'
+import { StarIcon } from '../constants/icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
-
-/* ── Genre pill colors (consistent per genre) ─── */
-
-const genreColors: Record<string, string> = {
-  'Action': 'bg-[#e50914]/80 text-white',
-  'Adventure': 'bg-[#2ecc71]/80 text-black',
-  'Comedy': 'bg-[#e87c03]/80 text-black',
-  'Drama': 'bg-[#3498db]/80 text-white',
-  'Fantasy': 'bg-[#9b59b6]/80 text-white',
-  'Horror': 'bg-[#c0392b]/80 text-white',
-  'Mystery': 'bg-[#8e44ad]/80 text-white',
-  'Psychological': 'bg-[#2980b9]/80 text-white',
-  'Romance': 'bg-[#e84393]/80 text-white',
-  'Sci-Fi': 'bg-[#00b894]/80 text-black',
-  'Slice of Life': 'bg-[#fdcb6e]/80 text-black',
-  'Supernatural': 'bg-[#6c5ce7]/80 text-white',
-  'Thriller': 'bg-[#636e72]/80 text-white',
-  'Sports': 'bg-[#00cec9]/80 text-black',
-  'Mecha': 'bg-[#0984e3]/80 text-white',
-  'Music': 'bg-[#fd79a8]/80 text-black',
-  'Ecchi': 'bg-[#fab1a0]/80 text-black',
-}
-
-function getGenreColor(genre: string) {
-  return genreColors[genre] || 'bg-white/10 text-white/80'
-}
-
-function formatEpisodes(anime: UnwrappedMedia): string {
-  if (anime.format === 'MOVIE') {
-    const mins = anime.duration
-    if (mins) {
-      const h = Math.floor(mins / 60)
-      const m = mins % 60
-      return h > 0 ? `${h}h ${m}m` : `${m}m`
-    }
-    return 'Movie'
-  }
-  return anime.episodes ? `${anime.episodes} eps` : '—'
-}
-
-function formatType(format: string | null): string {
-  if (!format) return '—'
-  switch (format) {
-    case 'TV': return 'TV Show'
-    case 'TV_SHORT': return 'TV Short'
-    case 'MOVIE': return 'Movie'
-    case 'SPECIAL': return 'Special'
-    case 'OVA': return 'OVA'
-    case 'ONA': return 'ONA'
-    case 'MUSIC': return 'Music'
-    default: return format
-  }
-}
+import { formatEpisodes, formatType, getGenreColor } from '@/utilities/trending-grid-utility'
 
 /* ── Mosaic Card Component ──────────────────── */
 
-function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
+export function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
   const styleIdx = (rank - 1) % 4
   const aspectClass =
     styleIdx === 0 ? 'aspect-[2/3]' :
-    styleIdx === 1 ? 'aspect-[2/3]' :
-    styleIdx === 2 ? 'aspect-square' : 'aspect-[4/3]'
+      styleIdx === 1 ? 'aspect-[2/3]' :
+        styleIdx === 2 ? 'aspect-square' : 'aspect-[4/3]'
 
   const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
   const bannerUrl = anime.bannerImage || coverUrl
@@ -83,7 +30,7 @@ function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-20px' }}
         transition={{ duration: 0.35 }}
-        className={`w-full relative overflow-hidden rounded-2xl bg-[#1a1a1a]/40 border border-white/5 cursor-pointer flex flex-col justify-end p-4 md:p-5 group ${aspectClass}`}
+        className={`w-full relative overflow-hidden rounded-2xl bg-surface-raised/40 border border-white/5 cursor-pointer flex flex-col justify-end p-4 md:p-5 group ${aspectClass}`}
       >
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -94,7 +41,7 @@ function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-104"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent group-hover:via-black/75 transition-all duration-300" />
+          <div className="absolute inset-0 bg-linear-to-t from-black via-black/55 to-transparent group-hover:via-black/75 transition-all duration-300" />
         </div>
 
         {/* Rank number */}
@@ -107,7 +54,7 @@ function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
           <h4 className="text-xs md:text-sm font-bold text-white line-clamp-1">
             {title}
           </h4>
-          <div className="flex items-center gap-2 mt-1 text-[10px] text-[#b3b3b3]">
+          <div className="flex items-center gap-2 mt-1 text-[10px] text-text-secondary">
             {score && (
               <span className="text-[#46d369] font-bold">{score}% Match</span>
             )}
@@ -135,7 +82,7 @@ function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
           </h4>
 
           {/* Metadata Details */}
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 pt-2.5 border-t border-white/10 text-[9px] md:text-[10px] text-[#808080]">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 pt-2.5 border-t border-white/10 text-[9px] md:text-[10px] text-tetx-muted">
             <div>
               <span className="text-[#555] uppercase block text-[8px] tracking-wider mb-0.5">Rating</span>
               <span className="text-[#46d369] font-bold flex items-center gap-0.5">
@@ -161,63 +108,3 @@ function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: number }) {
   )
 }
 
-function MosaicSkeleton() {
-  return (
-    <div className="columns-2 sm:columns-3 lg:columns-4 gap-6">
-      {Array.from({ length: 10 }).map((_, i) => {
-        const styleIdx = i % 4
-        const aspectClass =
-          styleIdx === 0 ? 'aspect-[16/10]' :
-          styleIdx === 1 ? 'aspect-[2/3]' :
-          styleIdx === 2 ? 'aspect-square' : 'aspect-[3/4]'
-        return (
-          <div
-            key={i}
-            className={`break-inside-avoid mb-6 rounded-2xl bg-white/[0.02] border border-white/5 animate-pulse ${aspectClass}`}
-          />
-        )
-      })}
-    </div>
-  )
-}
-
-/* ── Main Component ────────────────────────── */
-
-interface TopRatedListProps {
-  topRated: UnwrappedMedia[]
-  isLoading: boolean
-}
-
-export default function TopRatedList({ topRated, isLoading }: TopRatedListProps) {
-  // Only display top 10 in the mosaic landing page view
-  const items = topRated.slice(0, 10)
-
-  return (
-    <section id="top100" className="relative py-12 max-w-7xl mx-auto px-6 lg:px-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6 px-1">
-        <h3 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-          <CrownIcon size={14} className="text-[#e50914]" />
-          Top 100 Anime
-        </h3>
-        <Link
-          href="/explore/top-100"
-          className="text-xs text-[#808080] hover:text-white flex items-center gap-0.5 transition-colors"
-        >
-          View All <ChevronRightIcon size={12} />
-        </Link>
-      </div>
-
-      {/* Grid container */}
-      {isLoading ? (
-        <MosaicSkeleton />
-      ) : (
-        <div className="columns-2 sm:columns-3 lg:columns-4 gap-6">
-          {items.map((anime, i) => (
-            <MosaicCard key={anime.id} anime={anime} rank={i + 1} />
-          ))}
-        </div>
-      )}
-    </section>
-  )
-}

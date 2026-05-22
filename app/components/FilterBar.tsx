@@ -1,55 +1,13 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import  { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { SearchIcon } from './icons'
+import { SearchIcon } from '../constants/icons'
 import { GetGenresAndTagsQuery } from '@/src/anime/GenereQuery'
-import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
+import { FilterState, defaultFilters } from '@/app/types/filterbar.type'
+import { YEARS } from '@/utilities/animegrid-utility'
+import { FORMATS, SEASONS, STATUSES } from '@/app/constants/filterbar'
 
-/* ── Filter option types ──────────────────── */
-
-export interface FilterState {
-  search: string
-  genre: string
-  year: string
-  season: string
-  format: string
-  status: string
-}
-
-export const defaultFilters: FilterState = {
-  search: '',
-  genre: '',
-  year: '',
-  season: '',
-  format: '',
-  status: '',
-}
-
-const YEARS = Array.from({ length: 2027 - 1940 + 1 }, (_, i) => String(2027 - i))
-
-const SEASONS = [
-  { value: 'WINTER', label: 'Winter' },
-  { value: 'SPRING', label: 'Spring' },
-  { value: 'SUMMER', label: 'Summer' },
-  { value: 'FALL', label: 'Fall' },
-]
-
-const FORMATS = [
-  { value: 'TV', label: 'TV Show' },
-  { value: 'MOVIE', label: 'Movie' },
-  { value: 'SPECIAL', label: 'Special' },
-  { value: 'OVA', label: 'OVA' },
-  { value: 'ONA', label: 'ONA' },
-  { value: 'MUSIC', label: 'Music' },
-]
-
-const STATUSES = [
-  { value: 'RELEASING', label: 'Airing' },
-  { value: 'FINISHED', label: 'Finished' },
-  { value: 'NOT_YET_RELEASED', label: 'Not Yet Aired' },
-  { value: 'CANCELLED', label: 'Cancelled' },
-]
 
 /* ── Dropdown component ──────────────────── */
 
@@ -79,15 +37,14 @@ function Dropdown({
 
   return (
     <div className="flex flex-col gap-1.5" ref={ref}>
-      <label className="text-[11px] font-semibold text-[#808080] uppercase tracking-wider">{label}</label>
+      <label className="text-[11px] font-semibold text-text-muted uppercase tracking-wider">{label}</label>
       <div className="relative">
         <button
           onClick={() => setOpen(!open)}
-          className={`flex items-center justify-between gap-2 w-full min-w-[130px] px-3 py-2 rounded-lg text-sm border transition-all duration-200 ${
-            value
-              ? 'bg-white/8 border-white/15 text-white'
-              : 'bg-white/[0.03] border-white/8 text-[#808080]'
-          } hover:border-white/20 hover:bg-white/8`}
+          className={`flex items-center justify-between gap-2 w-full min-w-[130px] px-3 py-2 rounded-lg text-sm border transition-all duration-200 ${value
+              ? 'bg-surface-raised border-white/15 text-white'
+              : 'bg-surface-raised border-white/8 text-text-muted'
+            } hover:border-white/20 hover:bg-white/8`}
         >
           <span className="truncate">{selectedLabel}</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
@@ -103,14 +60,13 @@ function Dropdown({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.98 }}
               transition={{ duration: 0.15 }}
-              className="absolute z-50 top-full mt-1 left-0 w-full min-w-[160px] max-h-60 overflow-y-auto rounded-lg bg-[#1a1a1a] border border-white/10 shadow-2xl shadow-black/60 hide-scrollbar"
+              className="absolute z-50 top-full mt-1 left-0 w-full min-w-[160px] max-h-60 overflow-y-auto rounded-lg bg-surface-raised border border-white/10 shadow-2xl shadow-black/60 hide-scrollbar"
             >
               {/* "Any" option to clear */}
               <button
                 onClick={() => { onChange(''); setOpen(false) }}
-                className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                  !value ? 'text-white bg-white/8' : 'text-[#b3b3b3] hover:bg-white/5 hover:text-white'
-                }`}
+                className={`w-full text-left px-3 py-2 text-sm transition-colors ${!value ? 'text-white bg-white/8' : 'text-text-secondary hover:bg-white/5 hover:text-white'
+                  }`}
               >
                 Any
               </button>
@@ -118,9 +74,8 @@ function Dropdown({
                 <button
                   key={opt.value}
                   onClick={() => { onChange(opt.value); setOpen(false) }}
-                  className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                    value === opt.value ? 'text-white bg-white/8' : 'text-[#b3b3b3] hover:bg-white/5 hover:text-white'
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm transition-colors ${value === opt.value ? 'text-white bg-white/8' : 'text-text-secondary hover:bg-white/5 hover:text-white'
+                    }`}
                 >
                   {opt.label}
                 </button>
@@ -157,7 +112,7 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
       <div className="flex flex-wrap items-end justify-between gap-4">
         {/* Search */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] font-semibold text-[#808080] uppercase tracking-wider">Search</label>
+          <label className="text-[11px] font-semibold text-text-muted uppercase tracking-wider">Search</label>
           <div className="relative">
             <SearchIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#555]" />
             <input
@@ -165,7 +120,7 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
               value={filters.search}
               onChange={e => update('search', e.target.value)}
               placeholder="Search..."
-              className="w-[140px] lg:w-[180px] pl-8 pr-3 py-2 rounded-lg text-sm bg-white/[0.03] border border-white/8 text-white placeholder-[#555] focus:border-white/20 focus:bg-white/8 focus:outline-none transition-all duration-200"
+              className="w-[140px] lg:w-[180px] pl-8 pr-3 py-2 rounded-lg text-sm bg-white/3 border border-white/8 text-white placeholder-[#555] focus:border-white/20 focus:bg-white/8 focus:outline-none transition-all duration-200"
             />
           </div>
         </div>
@@ -212,7 +167,7 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => onChange(defaultFilters)}
-            className="mb-0.5 px-3 py-2 rounded-lg text-xs font-medium text-[#e50914] bg-[#e50914]/10 border border-[#e50914]/20 hover:bg-[#e50914]/20 transition-all duration-200"
+            className="mb-0.5 px-3 py-2 rounded-lg text-xs font-medium text-accent-primary bg-accent-primary/10 border border-accent-primary/20 hover:bg-accent-primary/20 transition-all duration-200"
           >
             Clear All
           </motion.button>
@@ -220,45 +175,4 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
       </div>
     </div>
   )
-}
-
-/* ── Filter utility function ─────────────── */
-
-export function applyFilters(data: UnwrappedMedia[], filters: FilterState): UnwrappedMedia[] {
-  return data.filter(anime => {
-    // Search
-    if (filters.search) {
-      const query = filters.search.toLowerCase()
-      const title = (anime.title?.userPreferred || '').toLowerCase()
-      if (!title.includes(query)) return false
-    }
-
-    // Genre
-    if (filters.genre) {
-      const genres = (anime.genres || []).filter(Boolean) as string[]
-      if (!genres.includes(filters.genre)) return false
-    }
-
-    // Year
-    if (filters.year) {
-      if (anime.seasonYear !== Number(filters.year)) return false
-    }
-
-    // Season
-    if (filters.season) {
-      if (anime.season !== filters.season) return false
-    }
-
-    // Format
-    if (filters.format) {
-      if (anime.format !== filters.format) return false
-    }
-
-    // Status
-    if (filters.status) {
-      if (anime.status !== filters.status) return false
-    }
-
-    return true
-  })
 }

@@ -3,120 +3,19 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import Navbar from './Navbar'
-import FilterBar, { defaultFilters, type FilterState } from './FilterBar'
 import Footer from './Footer'
-import { useInfiniteAnime, type SortType } from '@/src/hooks/useInfiniteAnime'
-import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
-
-/* ── Poster card with optional rank badge ───── */
-
-function PosterCard({ anime, index, showRank }: { anime: UnwrappedMedia; index: number; showRank?: boolean }) {
-  const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
-  const title = anime.title?.userPreferred || 'Unknown'
-
-  return (
-    <Link href={`/anime/${anime.id}`} className="group block cursor-pointer">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-30px' }}
-        transition={{ duration: 0.3, delay: (index % 6) * 0.04 }}
-        className="w-full h-full"
-      >
-        <div className="relative aspect-3/4 rounded-lg overflow-hidden bg-[#1a1a1a] mb-2">
-          {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt={title}
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-              className="object-cover transition-transform duration-400 group-hover:scale-105"
-              priority={index < 6}
-            />
-          ) : (
-            <div className="w-full h-full bg-[#222]" />
-          )}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-
-          {/* Rank badge */}
-          {showRank && (
-            <div className="absolute top-2 left-2 min-w-[28px] h-7 px-1.5 rounded bg-[#e50914] flex items-center justify-center">
-              <span className="text-xs font-bold text-white">#{index + 1}</span>
-            </div>
-          )}
-        </div>
-        <p className="text-[12px] text-[#b3b3b3] group-hover:text-white leading-snug line-clamp-2 transition-colors duration-200">
-          {title}
-        </p>
-      </motion.div>
-    </Link>
-  )
-}
-
-function PosterSkeleton() {
-  return (
-    <div>
-      <div className="aspect-3/4 rounded-lg bg-[#1a1a1a] animate-pulse mb-2" />
-      <div className="h-3 w-3/4 bg-[#1a1a1a] rounded animate-pulse" />
-    </div>
-  )
-}
-
-/* ── Loading spinner row ────────────────────── */
-
-function LoadingMore() {
-  return (
-    <div className="flex items-center justify-center py-10 gap-3">
-      <div className="w-5 h-5 border-2 border-white/10 border-t-[#e50914] rounded-full animate-spin" />
-      <span className="text-sm text-[#808080]">Loading more...</span>
-    </div>
-  )
-}
+import { useInfiniteAnime } from '@/src/hooks/useInfiniteAnime'
+import { CarouselSkeleton } from '@/skeletons/CarouselSkeleton'
+import { LoadingMore } from '../constants/Spinner'
+import { AnimeGridPageProps } from '../types/anime.grid.type'
+import { cleanDescription } from '@/utilities/animegrid-utility'
+import { PosterSkeleton } from '@/skeletons/PosterSkeleton'
+import PosterCard from './PosterCard'
+import { defaultFilters, FilterState } from '../types/filterbar.type'
+import FilterBar from './FilterBar'
 
 /* ── Main grid page ────────────────────────── */
-
-/* ── Helper function to clean HTML descriptions ───── */
-
-function cleanDescription(html: string | null | undefined): string {
-  if (!html) return ''
-  return html.replace(/<[^>]*>/g, '').trim()
-}
-
-/* ── Carousel Skeleton loader ───── */
-
-function CarouselSkeleton() {
-  return (
-    <div className="relative rounded-3xl overflow-hidden h-[300px] sm:h-[380px] border border-white/5 bg-[#141414]/50 mb-8 animate-pulse">
-      <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-transparent" />
-      <div className="absolute inset-0 flex flex-col justify-center max-w-xl px-8 sm:px-12 z-20 gap-4">
-        <div className="flex gap-2">
-          <div className="w-16 h-4 bg-white/10 rounded" />
-          <div className="w-12 h-4 bg-white/10 rounded" />
-        </div>
-        <div className="w-3/4 h-8 bg-white/10 rounded animate-pulse" />
-        <div className="w-full h-4 bg-white/10 rounded animate-pulse" />
-        <div className="w-5/6 h-4 bg-white/10 rounded animate-pulse" />
-        <div className="flex items-center gap-4 mt-2">
-          <div className="w-28 h-8 bg-white/10 rounded-xl" />
-          <div className="w-12 h-4 bg-white/10 rounded" />
-          <div className="w-12 h-4 bg-white/10 rounded" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* ── Main grid page ────────────────────────── */
-
-interface AnimeGridPageProps {
-  title: string
-  sort: SortType
-  showRank?: boolean
-  initialSeason?: string
-  initialSeasonYear?: number
-}
 
 export default function AnimeGridPage({
   title,
@@ -219,17 +118,17 @@ export default function AnimeGridPage({
                           alt={animeTitle}
                           fill
                           priority={idx === 0}
-                          className="object-cover object-center scale-102 transition-transform duration-[10000ms] ease-out group-hover:scale-105"
+                          className="object-cover object-center scale-102 transition-transform duration-10000 ease-out group-hover:scale-105"
                           unoptimized={bgImage.startsWith('data:') || bgImage.startsWith('blob:')}
                         />
                       )}
                       
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
 
                       {/* Content Overlay */}
                       <div className="absolute inset-0 flex flex-col justify-center max-w-xl px-8 sm:px-12 z-20">
                         <div className="flex flex-wrap gap-2 mb-3">
-                          <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-[#e50914] text-white">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-accent-primary text-white">
                             Featured
                           </span>
                           {rating && (
@@ -250,7 +149,7 @@ export default function AnimeGridPage({
                         <div className="flex items-center gap-4">
                           <Link
                             href={`/anime/${anime.id}`}
-                            className="px-5 py-2 rounded-xl text-xs font-bold bg-[#e50914] text-white hover:bg-[#f6121d] transition-all transform hover:scale-103 shadow-lg shadow-[#e50914]/20 cursor-pointer"
+                            className="px-5 py-2 rounded-xl text-xs font-bold bg-accent-primary text-white hover:bg-accent-primary/80 transition-all transform hover:scale-103 shadow-lg shadow-accent-primary/20 cursor-pointer"
                           >
                             View Details
                           </Link>
@@ -275,7 +174,7 @@ export default function AnimeGridPage({
                         key={idx}
                         onClick={() => setActiveSlide(idx)}
                         className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                          idx === activeSlide ? 'bg-[#e50914] w-6' : 'bg-white/30 hover:bg-white/50'
+                          idx === activeSlide ? 'bg-accent-primary w-6' : 'bg-white/30 hover:bg-white/50'
                         }`}
                         aria-label={`Go to slide ${idx + 1}`}
                       />
@@ -304,8 +203,8 @@ export default function AnimeGridPage({
         {/* No results */}
         {!isLoading && data.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-[#808080] text-lg mb-2">No anime found</p>
-            <p className="text-[#555] text-sm">Try adjusting your filters</p>
+            <p className="text-text-muted text-lg mb-2">No anime found</p>
+            <p className="text-accent-primary text-sm">Try adjusting your filters</p>
           </div>
         )}
 
@@ -317,7 +216,7 @@ export default function AnimeGridPage({
 
         {/* End of results */}
         {!hasNextPage && data.length > 0 && !isLoading && (
-          <p className="text-center text-[#555] text-xs py-8">
+          <p className="text-center text-text-muted text-xs py-8">
             Showing all {data.length} results
           </p>
         )}

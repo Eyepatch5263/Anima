@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { BrainIcon } from './icons'
+import { BrainIcon } from '../constants/icons'
 import { FeatureVisualizer } from '../constants/AIDiscoveryVisuals'
 import { aiFeatures as features } from '../constants/AIDiscoveryFeat'
 
@@ -157,8 +157,8 @@ export default function AIDiscovery() {
                 key={index}
                 onClick={() => setActiveIndex(index)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${index === activeIndex
-                    ? 'w-6 bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]'
-                    : 'w-1.5 bg-white/30 hover:bg-white/60'
+                  ? 'w-6 bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]'
+                  : 'w-1.5 bg-white/30 hover:bg-white/60'
                   }`}
                 aria-label={`Go to feature slide ${index + 1}`}
               />

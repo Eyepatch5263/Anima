@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { HeartIcon, ChevronLeftIcon } from '../../components/icons'
+import { HeartIcon, ChevronLeftIcon } from '../../constants/icons'
 
 interface MapPoint {
   title: string

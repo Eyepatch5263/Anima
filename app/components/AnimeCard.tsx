@@ -1,42 +1,8 @@
 'use client'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { StarIcon } from './icons'
-import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
-
-interface AnimeCardProps {
-  anime: UnwrappedMedia
-  index?: number
-  variant?: 'default' | 'large' | 'compact'
-  priority?: boolean
-}
-
-export function AnimeCardSkeleton({ variant = 'default' }: { variant?: 'default' | 'large' | 'compact' }) {
-  const heightClass = variant === 'large' ? 'h-80' : variant === 'compact' ? 'h-52' : 'h-72'
-  return (
-    <div className={`rounded-lg overflow-hidden bg-[#1a1a1a] ${variant === 'compact' ? 'flex gap-0' : ''}`}>
-      <div className={`${variant === 'compact' ? 'w-28 shrink-0' : 'w-full'} ${heightClass} bg-[#222] animate-pulse`} />
-      <div className={`p-4 ${variant === 'compact' ? 'flex-1 py-4' : ''}`}>
-        <div className="h-4 w-3/4 bg-[#2a2a2a] rounded animate-pulse mb-3" />
-        <div className="flex gap-2">
-          <div className="h-5 w-14 bg-[#222] rounded animate-pulse" />
-          <div className="h-5 w-14 bg-[#222] rounded animate-pulse" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ScoreBadge({ score }: { score: number | null }) {
-  if (!score) return null
-  const cls = score >= 80 ? 'score-high' : score >= 70 ? 'score-mid' : 'score-low'
-  return (
-    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold ${cls}`}>
-      <StarIcon size={8} />
-      {score}%
-    </div>
-  )
-}
+import { ScoreBadge } from '../constants/ScoreBadge'
+import type { AnimeCardProps } from '../types/anime.card.type'
 
 export default function AnimeCard({ anime, index = 0, variant = 'default', priority = false }: AnimeCardProps) {
   const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
@@ -52,7 +18,7 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.4, delay: index * 0.05 }}
-        className="rounded-lg overflow-hidden flex gap-0 bg-[#1a1a1a] hover:bg-[#222] transition-colors duration-300 group cursor-pointer"
+        className="rounded-lg overflow-hidden flex gap-0 bg-surface-raised hover:bg-[#222] transition-colors duration-300 group cursor-pointer"
       >
         <div className="relative w-24 shrink-0 overflow-hidden">
           {coverUrl && (
@@ -64,7 +30,7 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
         <div className="flex-1 p-3 flex flex-col justify-between min-w-0">
           <div>
             <h4 className="text-sm font-semibold text-white truncate">{title}</h4>
-            {studio && <p className="text-[11px] text-[#808080] mt-0.5 truncate">{studio}</p>}
+            {studio && <p className="text-[11px] text-text-muted mt-0.5 truncate">{studio}</p>}
           </div>
           <div className="flex items-center gap-2 mt-2">
             <ScoreBadge score={anime.averageScore} />
@@ -81,9 +47,8 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.4, delay: index * 0.06 }}
-      className={`group cursor-pointer rounded-lg overflow-hidden bg-[#181818] hover:bg-[#222] transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-black/50 ${
-        variant === 'large' ? 'col-span-2 row-span-2' : ''
-      }`}
+      className={`group cursor-pointer rounded-lg overflow-hidden bg-surface-raised hover:bg-[#222] transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-black/50 ${variant === 'large' ? 'col-span-2 row-span-2' : ''
+        }`}
     >
       {/* Image */}
       <div className={`relative overflow-hidden ${variant === 'large' ? 'h-80' : 'h-72'}`}>
@@ -97,7 +62,7 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
         )}
 
         {/* Bottom gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-surface-raised via-transparent to-transparent" />
 
         {/* Score badge */}
         <div className="absolute top-3 right-3">
@@ -106,7 +71,7 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
 
         {/* Format badge */}
         {format && (
-          <span className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/60 text-[9px] font-semibold text-[#b3b3b3] uppercase tracking-wider">
+          <span className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/60 text-[9px] font-semibold text-text-secondary uppercase tracking-wider">
             {format}
           </span>
         )}
@@ -114,12 +79,11 @@ export default function AnimeCard({ anime, index = 0, variant = 'default', prior
 
       {/* Info */}
       <div className="px-3 py-3">
-        <h3 className={`font-semibold text-white leading-snug mb-1 truncate ${
-          variant === 'large' ? 'text-base' : 'text-sm'
-        }`}>
+        <h3 className={`font-semibold text-white leading-snug mb-1 truncate ${variant === 'large' ? 'text-base' : 'text-sm'
+          }`}>
           {title}
         </h3>
-        <div className="flex items-center gap-2 text-[11px] text-[#808080]">
+        <div className="flex items-center gap-2 text-[11px] text-text-muted">
           {genres.map((g) => (
             <span key={g}>{g}</span>
           ))}

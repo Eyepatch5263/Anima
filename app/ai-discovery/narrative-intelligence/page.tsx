@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { BrainIcon, ChevronLeftIcon, SearchIcon, SparklesIcon } from '../../components/icons'
+import { BrainIcon, ChevronLeftIcon, SearchIcon, SparklesIcon } from '../../constants/icons'
 
 interface NarrativeProfile {
   anime_id: number
@@ -35,13 +35,13 @@ const keyShowcases = [
 export default function NarrativeIntelligencePage() {
   const [selectedId, setSelectedId] = useState<number>(154587)
   const [selectedProfile, setSelectedProfile] = useState<NarrativeProfile | null>(null)
-  
+
   // Search state
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<NarrativeProfile[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [searchLoading, setSearchLoading] = useState(false)
-  
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -70,11 +70,11 @@ export default function NarrativeIntelligencePage() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
-    
+
     setSearchLoading(true)
     setIsSearching(true)
     setError(null)
-    
+
     try {
       const res = await fetch('/api/narrative-search', {
         method: 'POST',
@@ -90,7 +90,7 @@ export default function NarrativeIntelligencePage() {
       }
       const data = await res.json()
       setSearchResults(data.results || [])
-      
+
       if (data.results && data.results.length > 0) {
         setSelectedProfile(data.results[0])
       }
@@ -183,11 +183,10 @@ export default function NarrativeIntelligencePage() {
                   setSelectedId(tab.id)
                   setIsSearching(false)
                 }}
-                className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all ${
-                  selectedId === tab.id && !isSearching
+                className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all ${selectedId === tab.id && !isSearching
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
               >
                 {tab.name}
               </button>
@@ -213,17 +212,16 @@ export default function NarrativeIntelligencePage() {
                 Clear Search
               </button>
             </div>
-            
+
             <div className="flex flex-wrap gap-2.5">
               {searchResults.map((item) => (
                 <button
                   key={item.anime_id}
                   onClick={() => setSelectedProfile(item)}
-                  className={`px-4 py-2 text-xs font-semibold rounded-xl border transition-all ${
-                    selectedProfile?.anime_id === item.anime_id
+                  className={`px-4 py-2 text-xs font-semibold rounded-xl border transition-all ${selectedProfile?.anime_id === item.anime_id
                       ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
                       : 'bg-white/[0.02] border-white/5 text-gray-400 hover:border-white/10 hover:text-white'
-                  }`}
+                    }`}
                 >
                   {item.title}
                 </button>
@@ -255,7 +253,7 @@ export default function NarrativeIntelligencePage() {
             >
               {/* Summary and Art panel */}
               <div className="lg:col-span-2 flex flex-col glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden backdrop-blur-md">
-                
+
                 {/* Banner overlay backing */}
                 {selectedProfile.banner_image && (
                   <div className="absolute top-0 left-0 right-0 h-32 opacity-15 pointer-events-none z-0">
@@ -323,7 +321,7 @@ export default function NarrativeIntelligencePage() {
 
               {/* Narrative Attributes display */}
               <div className="lg:col-span-3 space-y-6">
-                
+
                 {/* 100-point signature metrics index */}
                 <div className="glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-[2rem] shadow-2xl backdrop-blur-md space-y-5">
                   <span className="text-[10px] text-blue-400 font-bold uppercase tracking-widest block mb-1">

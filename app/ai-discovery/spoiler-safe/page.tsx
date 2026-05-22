@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { ShieldIcon, ChevronLeftIcon } from '../../components/icons'
+import { ShieldIcon, ChevronLeftIcon } from '../../constants/icons'
 
 export default function SpoilerSafePage() {
   const [spoilerFilterActive, setSpoilerFilterActive] = useState(true)
@@ -74,9 +74,8 @@ export default function SpoilerSafePage() {
               </span>
               <button
                 onClick={() => setSpoilerFilterActive(!spoilerFilterActive)}
-                className={`relative w-14 h-8 rounded-full transition-colors duration-300 p-1 flex items-center ${
-                  spoilerFilterActive ? 'bg-emerald-500' : 'bg-red-500'
-                }`}
+                className={`relative w-14 h-8 rounded-full transition-colors duration-300 p-1 flex items-center ${spoilerFilterActive ? 'bg-emerald-500' : 'bg-red-500'
+                  }`}
               >
                 <motion.div
                   layout

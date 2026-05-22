@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRightIcon } from './icons'
+import { ChevronRightIcon } from '../constants/icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
 
 interface HeroSectionProps {
@@ -29,8 +29,8 @@ export default function HeroSection({ trending }: HeroSectionProps) {
         )}
 
         {/* Dark vignette overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#141414] via-transparent to-[#141414]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/90 via-transparent to-[#141414]/90" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#141414] via-transparent to-[#141414]" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#141414]/90 via-transparent to-[#141414]/90" />
         <div className="absolute inset-0 bg-[#141414]/40" />
 
         {/* Static grid background */}
@@ -52,11 +52,11 @@ export default function HeroSection({ trending }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-white/5 border border-white/8 text-xs font-medium text-[#b3b3b3]"
+          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-white/5 border border-white/8 text-xs font-medium text-text-secondary"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e50914] opacity-60" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e50914]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-primary opacity-60" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-primary" />
           </span>
           AI-Powered Narrative Intelligence
         </motion.div>
@@ -71,7 +71,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
         >
           <span className="text-white">Discover Stories</span>
           <br />
-          <span className="text-white">That Stay With You<span className="text-[#e50914]">.</span></span>
+          <span className="text-white">That Stay With You<span className="text-accent-primary">.</span></span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -79,7 +79,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-lg sm:text-xl text-[#808080] max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           AI-powered narrative intelligence for anime lovers.
           <br className="hidden sm:block" />
@@ -95,7 +95,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
         >
           <a
             href="/explore"
-            className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded bg-[#e50914] hover:bg-[#f6121d] shadow-lg shadow-red-900/25 transition-all duration-300 hover:scale-[1.02]"
+            className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded bg-accent-primary hover:bg-accent-primary/80 shadow-lg shadow-red-900/25 transition-all duration-300 hover:scale-[1.02]"
           >
             Explore Anime
             <ChevronRightIcon size={16} className="group-hover:translate-x-0.5 transition-transform" />
@@ -110,7 +110,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#141414] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-t from-[#141414] to-transparent" />
     </section>
   )
 }

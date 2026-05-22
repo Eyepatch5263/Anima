@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { NetworkIcon, ChevronLeftIcon } from '../../components/icons'
+import { NetworkIcon, ChevronLeftIcon } from '../../constants/icons'
 
 interface AgentMessage {
   agent: string
@@ -138,9 +138,8 @@ export default function MultiAgentPage() {
                 setActiveStep(-1)
               }}
               disabled={debating}
-              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
-                selectedPromptKey === 'darkFantasy' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
-              } disabled:opacity-50`}
+              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${selectedPromptKey === 'darkFantasy' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+                } disabled:opacity-50`}
             >
               Dark Fantasy
             </button>
@@ -151,9 +150,8 @@ export default function MultiAgentPage() {
                 setActiveStep(-1)
               }}
               disabled={debating}
-              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
-                selectedPromptKey === 'relaxingSliceOfLife' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
-              } disabled:opacity-50`}
+              className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${selectedPromptKey === 'relaxingSliceOfLife' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+                } disabled:opacity-50`}
             >
               Cozy Slice of Life
             </button>

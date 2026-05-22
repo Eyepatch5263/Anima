@@ -1,34 +1,7 @@
 'use client'
 
-import React from 'react'
 import { motion } from 'framer-motion'
-
-const tags = [
-  { label: 'Existential Crisis', x: '8%', y: '18%', delay: 0 },
-  { label: 'Slow Burn', x: '72%', y: '12%', delay: 0.3 },
-  { label: 'Morally Grey', x: '18%', y: '72%', delay: 0.6 },
-  { label: 'Coming of Age', x: '68%', y: '68%', delay: 0.9 },
-  { label: 'Psychological', x: '42%', y: '38%', delay: 0.2 },
-  { label: 'Catharsis', x: '82%', y: '42%', delay: 0.5 },
-  { label: 'Unreliable Narrator', x: '3%', y: '45%', delay: 0.8 },
-  { label: 'Time Loop', x: '38%', y: '82%', delay: 1.1 },
-  { label: 'Philosophical', x: '76%', y: '82%', delay: 0.4 },
-  { label: 'Character Study', x: '32%', y: '8%', delay: 0.7 },
-]
-
-const graphNodes = [
-  { cx: 200, cy: 120, r: 5, label: 'Tragedy' },
-  { cx: 400, cy: 80, r: 7, label: 'Growth' },
-  { cx: 300, cy: 200, r: 9, label: 'Identity' },
-  { cx: 500, cy: 180, r: 6, label: 'Isolation' },
-  { cx: 150, cy: 250, r: 4, label: 'Hope' },
-  { cx: 450, cy: 280, r: 8, label: 'Sacrifice' },
-  { cx: 350, cy: 320, r: 5, label: 'Connection' },
-]
-
-const graphEdges = [
-  [0, 2], [1, 2], [2, 3], [1, 3], [0, 4], [3, 5], [2, 6], [4, 6], [5, 6],
-]
+import { graphEdges, graphNodes, tags } from '@/app/constants/narrative-intel'
 
 export default function NarrativeIntel() {
   return (
@@ -54,16 +27,16 @@ export default function NarrativeIntel() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded bg-white/5 border border-white/8 text-xs font-medium text-[#b3b3b3]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded bg-white/5 border border-white/8 text-xs font-medium text-text-secondary">
               Narrative Analysis
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-6 leading-tight">
-              Beyond Genres<span className="text-[#e50914]">.</span>{' '}
-              <span className="text-[#b3b3b3]">Into Narrative.</span>
+              Beyond Genres<span className="text-accent-primary">.</span>{' '}
+              <span className="text-text-secondary">Into Narrative.</span>
             </h2>
 
-            <p className="text-[#808080] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
+            <p className="text-text-secondary text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
               Find stories based on emotional arcs, philosophy, pacing, and character psychology — not just genres.
               Our AI maps the invisible threads that connect great stories.
             </p>
@@ -83,11 +56,11 @@ export default function NarrativeIntel() {
                   className="flex gap-4 items-start"
                 >
                   <div className="shrink-0 w-8 h-8 rounded bg-white/5 flex items-center justify-center mt-0.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#e50914]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent-primary" />
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-white mb-0.5">{item.label}</h4>
-                    <p className="text-xs text-[#808080]">{item.desc}</p>
+                    <p className="text-xs text-text-secondary">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -142,7 +115,7 @@ export default function NarrativeIntel() {
             {tags.map((tag) => (
               <motion.div
                 key={tag.label}
-                className="absolute px-3 py-1.5 rounded bg-[#1a1a1a] border border-white/5 text-[10px] sm:text-xs font-medium text-[#808080] whitespace-nowrap hover:text-white hover:border-white/15 transition-all duration-300"
+                className="absolute px-3 py-1.5 rounded bg-surface-raised border border-white/5 text-[10px] sm:text-xs font-medium text-text-muted whitespace-nowrap hover:text-white hover:border-white/15 transition-all duration-300"
                 style={{ left: tag.x, top: tag.y }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}

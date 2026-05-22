@@ -1,7 +1,5 @@
 'use client'
-
-import React from 'react'
-import { GithubIcon, TwitterIcon } from './icons'
+import { GithubIcon, InstagramIcon } from '../constants/icons'
 
 const footerLinks = {
   Platform: ['Discover', 'Trending', 'Top 100', 'Seasonal'],
@@ -21,25 +19,25 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded bg-[#e50914] flex items-center justify-center text-white font-bold text-sm">
-                夢
+              <div className="w-8 h-8 rounded bg-accent-primary flex items-center justify-center text-white font-bold text-sm">
+                あ
               </div>
-              <span className="text-lg font-semibold text-white">Yūgen</span>
+              <span className="text-lg font-semibold text-white">Anima</span>
             </div>
-            <p className="text-sm text-[#808080] leading-relaxed max-w-xs mb-6">
+            <p className="text-sm text-text-secondary leading-relaxed max-w-xs mb-6">
               AI-powered narrative intelligence for anime lovers.
               Discover stories that resonate with your soul.
             </p>
             <div className="flex items-center gap-3">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://github.com/Eyepatch5263" target="_blank" rel="noopener noreferrer"
                 className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-[#808080] hover:text-white hover:bg-white/10 transition-all duration-300"
                 aria-label="GitHub">
                 <GithubIcon size={15} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/eyepatch_5263" target="_blank" rel="noopener noreferrer"
                 className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-[#808080] hover:text-white hover:bg-white/10 transition-all duration-300"
                 aria-label="Twitter">
-                <TwitterIcon size={13} />
+                <InstagramIcon size={13} />
               </a>
             </div>
           </div>
@@ -61,13 +59,8 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#555]">© {new Date().getFullYear()} Yūgen. Built with narrative intelligence.</p>
-          <p className="text-xs text-[#444]">
-            Data powered by{' '}
-            <a href="https://anilist.co" target="_blank" rel="noopener noreferrer"
-              className="text-[#808080] hover:text-[#e50914] transition-colors">AniList</a>
-          </p>
+        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center">
+          <p className="text-sm text-[#555]">© {new Date().getFullYear()} Anima. Built with narrative intelligence.</p>
         </div>
       </div>
     </footer>

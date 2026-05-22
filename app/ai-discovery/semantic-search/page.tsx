@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { SearchIcon, SparklesIcon, ChevronLeftIcon, StarIcon } from '../../components/icons'
+import { SearchIcon, SparklesIcon, ChevronLeftIcon, StarIcon } from '../../constants/icons'
 
 interface AnimeResult {
   id: number
@@ -131,14 +131,12 @@ export default function SemanticSearchPage() {
             <button
               type="button"
               onClick={() => setFilterAdult(!filterAdult)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                filterAdult ? 'bg-red-600' : 'bg-gray-700'
-              }`}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${filterAdult ? 'bg-red-600' : 'bg-gray-700'
+                }`}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                  filterAdult ? 'translate-x-5' : 'translate-x-0'
-                }`}
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${filterAdult ? 'translate-x-5' : 'translate-x-0'
+                  }`}
               />
             </button>
           </div>

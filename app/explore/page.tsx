@@ -5,96 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAnimeData } from '@/src/hooks/useAnimeData'
 import Navbar from '../components/Navbar'
-import FilterBar, { defaultFilters, type FilterState, applyFilters } from '../components/FilterBar'
+import FilterBar from '../components/FilterBar'
 import FeaturedShowcase from '../components/FeaturedShowcase'
-import TopRatedList from '../components/TrendingGrid'
+import TopRatedList from '../components/TopratedList'
 import Footer from '../components/Footer'
 import BackgroundParticles from '../components/BackgroundParticles'
-
-const publicAnimes = [
-  {
-    title: "Frieren: Beyond Journey's End",
-    description: "An elf mage and her former party members' journey to the afterlife, discovering the depth of human connections.",
-    image: "/frieren-beyond.webp",
-    genre: ["Adventure", "Drama", "Fantasy"],
-    rating: "9.39",
-    link: "/anime/154587"
-  },
-  {
-    title: "Jujutsu Kaisen",
-    description: "A boy swallows a cursed talisman and enters a school of sorcery to fight curses and exorcise the King of Curses.",
-    image: "/jujutsu-kaisen.webp",
-    genre: ["Action", "Fantasy", "Supernatural"],
-    rating: "8.78",
-    link: "/anime/113415"
-  },
-  {
-    title: "One Piece",
-    description: "Monkey D. Luffy and his pirate crew explore a fantastical world of endless oceans and islands in search of the ultimate treasure.",
-    image: "/one-piece.webp",
-    genre: ["Action", "Adventure", "Fantasy"],
-    rating: "8.92",
-    link: "/anime/21"
-  },
-  {
-    title: "Devil May Cry",
-    description: "Dante, the legendary half-demon devil hunter, battles against underworld invasions with lethal weapons and unmatched style.",
-    image: "/devil-may-cry.webp",
-    genre: ["Action", "Fantasy", "Supernatural"],
-    rating: "Upcoming",
-    link: "/explore/upcoming"
-  },
-  {
-    title: "Dark Moon: The Blood Altar",
-    description: "Webtoon adaptation following seven brothers at Decelis Academy and the mysterious girl who changes their lives.",
-    image: "/dark-moon-the-blood.webp",
-    genre: ["Drama", "Romance", "Supernatural"],
-    rating: "Featured",
-    link: "/explore/trending"
-  }
-]
-
-const exploreCategories = [
-  {
-    title: "Trending Now",
-    desc: "Popular titles being watched right now",
-    path: "/explore/trending",
-    gradient: "from-orange-600/20 to-red-600/10 hover:border-orange-500/30",
-    color: "text-orange-500",
-    
-  },
-  {
-    title: "Upcoming Releases",
-    desc: "Highly anticipated future releases",
-    path: "/explore/upcoming",
-    gradient: "from-blue-600/20 to-cyan-600/10 hover:border-blue-500/30",
-    color: "text-blue-500",
-   
-  },
-  {
-    title:"Popular This Season",
-    desc: "Most popular titles this season",
-    path: "/explore/popular-this-season",
-    gradient: "from-green-600/20 to-emerald-600/10 hover:border-green-500/30",
-    color: "text-green-500",
-  },
-  {
-    title: "Top 100 Rated",
-    desc: "Highest rated anime of all time",
-    path: "/explore/top-100",
-    gradient: "from-yellow-600/20 to-amber-600/10 hover:border-yellow-500/30",
-    color: "text-yellow-500",
-    
-  },
-  {
-    title: "All-Time Popular",
-    desc: "Most popular titles in the community",
-    path: "/explore/all-time-popular",
-    gradient: "from-red-600/20 to-pink-600/10 hover:border-purple-500/30",
-    color: "text-purple-500",
-    
-  }
-]
+import { publicAnimes, exploreCategories } from '../constants/explore-anime'
+import { applyFilters } from '../constants/ApplyFilter'
+import { defaultFilters, FilterState } from '../types/filterbar.type'
 
 export default function ExplorePage() {
   const { trending, seasonal, nextSeason, popular, topRated, isLoading, currentSeason } = useAnimeData()
@@ -134,16 +52,16 @@ export default function ExplorePage() {
                   alt={anime.title}
                   fill
                   priority={idx === 0}
-                  className="object-cover object-center scale-102 transition-transform duration-[10000ms] ease-out group-hover:scale-105"
+                  className="object-cover object-center scale-102 transition-transform duration-10000 ease-out group-hover:scale-105"
                 />
                 
-               <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
+               <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
                
 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-center max-w-xl px-8 sm:px-12 z-20">
                   <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-[#e50914] text-white">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-accent-primary text-white">
                       Featured
                     </span>
                     {anime.rating && (
@@ -164,7 +82,7 @@ export default function ExplorePage() {
                   <div className="flex items-center gap-4">
                     <Link
                       href={anime.link}
-                      className="px-5 py-2 rounded-xl text-xs font-bold bg-[#e50914] text-white hover:bg-[#f6121d] transition-all transform hover:scale-103 shadow-lg shadow-[#e50914]/20 cursor-pointer"
+                      className="px-5 py-2 rounded-xl text-xs font-bold bg-accent-primary text-white hover:bg-accent-primary/80 transition-all transform hover:scale-103 shadow-lg shadow-accent-primary/20 cursor-pointer"
                     >
                       View Details
                     </Link>
@@ -187,7 +105,7 @@ export default function ExplorePage() {
                   key={idx}
                   onClick={() => setActiveSlide(idx)}
                   className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                    idx === activeSlide ? 'bg-[#e50914] w-6' : 'bg-white/30 hover:bg-white/50'
+                    idx === activeSlide ? 'bg-accent-primary w-6' : 'bg-white/30 hover:bg-white/50'
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
@@ -205,13 +123,13 @@ export default function ExplorePage() {
                 <Link
                   key={idx}
                   href={cat.path}
-                  className={`flex items-center gap-4 p-4 rounded-2xl bg-white/[0.01] border border-white/5 transition-all hover:scale-[1.02] hover:bg-white/[0.02] bg-gradient-to-br ${cat.gradient} group`}
+                  className={`flex items-center gap-4 p-4 rounded-2xl bg-white/1 border border-white/5 transition-all hover:scale-[1.02] hover:bg-white/2 bg-linear-to-br ${cat.gradient} group`}
                 >
                   <div>
-                    <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-[#e50914] transition-colors">
+                    <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-accent-primary transition-colors">
                       {cat.title}
                     </h3>
-                    <p className="text-[10px] sm:text-xs text-[#808080] mt-1 leading-normal">
+                    <p className="text-[10px] sm:text-xs text-text-muted mt-1 leading-normal">
                       {cat.desc}
                     </p>
                   </div>

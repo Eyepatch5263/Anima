@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
-import { LayersIcon, ChevronLeftIcon, PlayIcon } from '../../components/icons'
+import { LayersIcon, ChevronLeftIcon, PlayIcon } from '../../constants/icons'
 
 interface SceneResult {
   query: string
@@ -94,11 +94,10 @@ export default function SceneSearchPage() {
             <button
               key={key}
               onClick={() => handleSelect(key)}
-              className={`text-xs px-4 py-2.5 rounded-xl border transition-all ${
-                selectedKey === key
+              className={`text-xs px-4 py-2.5 rounded-xl border transition-all ${selectedKey === key
                   ? 'bg-cyan-600 border-cyan-500 text-white shadow-lg'
                   : 'bg-white/[0.02] border-white/5 text-gray-400 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               "{value.query}"
             </button>

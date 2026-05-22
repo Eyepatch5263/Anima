@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { StarIcon } from './icons'
+import { StarIcon } from '../constants/icons'
 import type { WatchingGridProps } from '@/app/types/watching.grid.type'
 import type { MagazineCardProps } from '@/app/types/watching.grid.type'
 import GridSkeleton from '@/skeletons/GridSkeleton'
@@ -17,14 +17,13 @@ function MagazineCard({ anime, index, featured = false }: MagazineCardProps) {
   const score = anime.averageScore
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: index * 0.07 }}
-      className={`group cursor-pointer relative overflow-hidden rounded-lg ${
-        featured ? 'md:col-span-2 md:row-span-2' : ''
-      }`}
+      className={`group cursor-pointer relative overflow-hidden rounded-lg ${featured ? 'md:col-span-2 md:row-span-2' : ''
+        }`}
     >
       <div className={`relative overflow-hidden ${featured ? 'h-full min-h-[400px]' : 'h-64'}`}>
         {coverUrl ? (
@@ -41,9 +40,8 @@ function MagazineCard({ anime, index, featured = false }: MagazineCardProps) {
         {/* Score */}
         {score && (
           <div className="absolute top-3 right-3">
-            <div className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold ${
-              score >= 80 ? 'score-high' : score >= 70 ? 'score-mid' : 'score-low'
-            }`}>
+            <div className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold ${score >= 80 ? 'score-high' : score >= 70 ? 'score-mid' : 'score-low'
+              }`}>
               <StarIcon size={8} />
               {score}
             </div>
