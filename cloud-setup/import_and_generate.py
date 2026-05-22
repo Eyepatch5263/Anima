@@ -31,7 +31,6 @@ def get_db_connection():
         host=DB_HOST,
         port=DB_PORT,
         user=DB_USER,
-        password=DB_PASS,
         dbname=DB_NAME
     )
 
@@ -80,32 +79,30 @@ def import_csv_to_db():
     with open(CSV_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            def parse_list(val):
-                if not val:
-                    return []
-                val = val.strip()
-                if val.startswith('[') and val.endswith(']'):
-                    try:
-                        return json.loads(val.replace("'", '"'))
-                    except Exception:
-                        pass
-                return [x.strip() for x in val.split(',') if x.strip()]
-                
-            anime_id = int(row['id'])
+            try:
+                anime_id = int(row['anime_id'])
+            except (ValueError, KeyError):
+                continue
             
             cur.execute("SELECT id FROM anime WHERE id = %s", (anime_id,))
             if cur.fetchone():
                 continue
                 
-            title_romaji = row.get('title_romaji')
-            title_english = row.get('title_english')
-            genres = parse_list(row.get('genres'))
-            tags = parse_list(row.get('tags'))
-            synopsis = row.get('synopsis')
-            description = row.get('description')
-            is_adult = row.get('is_adult', 'false').lower() == 'true'
-            cover_image = row.get('cover_image')
-            banner_image = row.get('banner_image')
+            title_romaji = row.get('title') or None
+            title_english = row.get('english_title') or None
+            
+            def parse_semi_list(val):
+                if not val:
+                    return []
+                return [x.strip() for x in val.split(';') if x.strip()]
+                
+            genres = parse_semi_list(row.get('genres'))
+            tags = parse_semi_list(row.get('tags'))
+            synopsis = row.get('synopsis') or None
+            description = row.get('description') or None
+            is_adult = row.get('is_adult', '').lower() in ('true', '1', 't')
+            cover_image = row.get('cover_image_large') or None
+            banner_image = row.get('banner_image') or None
             
             def safe_float(val):
                 try:
@@ -115,14 +112,14 @@ def import_csv_to_db():
                     
             def safe_int(val):
                 try:
-                    return int(val) if val else 0
+                    return int(float(val)) if val else 0
                 except ValueError:
                     return 0
 
-            mean_score = safe_float(row.get('mean_score'))
-            score = safe_float(row.get('score'))
-            start_year = safe_int(row.get('start_year'))
-            season_year = safe_int(row.get('season_year'))
+            mean_score = safe_float(row.get('mean_score') or row.get('score'))
+            score = safe_float(row.get('score') or row.get('mean_score'))
+            start_year = safe_int(row.get('start_year') or row.get('season_year'))
+            season_year = safe_int(row.get('season_year') or row.get('start_year'))
             
             cur.execute("""
                 INSERT INTO anime (
@@ -279,7 +276,6 @@ def generate_embedding(text):
     return None
 
 def index_batch_to_qdrant(qdrant_client, anime_ids):
-    print(f"Indexing batch of {len(anime_ids)} IDs into Qdrant...")
     records = fetch_anime_by_ids(anime_ids)
     if not records:
         return

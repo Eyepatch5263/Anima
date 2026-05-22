@@ -3069,3 +3069,215 @@ Batch indexing completed successfully.
     [43/50] -> Successfully generated: Daigunder
     [44/50] -> Successfully generated: Kinnikuman
     [45/50] -> Successfully generated: Kinnikuman (1984)
+    [46/50] -> Successfully generated: Kinnikuman: Daiabare! Segi Choujin
+    [47/50] -> Successfully generated: Kinnikuman: Seigi Choujin vs. Kodai Choujin
+    [48/50] -> Successfully generated: Kinnikuman: Gyakushuu! Uchuu Kakure Choujin
+    [49/50] -> Successfully generated: Kinnikuman: Haresugata! Seigi Choujin
+    [50/50] -> Successfully generated: Kinnikuman: New York Kikiippatsu!
+  Parallel generation done in 86.43 seconds.
+  Saved 50 records to PostgreSQL in 0.53 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [2701 to 2750 / 14153] ---
+    [1/50] -> Successfully generated: Himitsu no Akko-chan
+    [2/50] -> Successfully generated: Kinnikuman: Kessen! Shichinin no Seigi Choujin vs. Uchuu Nobushi
+    [3/50] -> Successfully generated: Kinnikuman: Seigi Choujin vs. Senshi Choujin
+    [4/50] -> Successfully generated: Kinnikuman: Kinnikusei Oui Soudatsu-hen
+    [5/50] -> Successfully generated: Do You Know the Milfing Man?
+    [6/50] -> Successfully generated: Tenkuu Danzai Skelter Heaven
+    [7/50] -> Successfully generated: Gundam Evolve
+    [8/50] -> Successfully generated: Vampiyan Kids
+    [9/50] -> Successfully generated: Potemayo Specials
+    [10/50] -> Successfully generated: Combining Squadron Mechander Robo
+    [11/50] -> Successfully generated: Yatterman
+    [12/50] -> Successfully generated: ARIA The ORIGINATION
+    [13/50] -> Successfully generated: Hatenkou Yugi
+    [14/50] -> Successfully generated: H2O: Footprints in the Sand
+    [15/50] -> Successfully generated: Romance is in the Flash of the Sword II
+    [16/50] -> Successfully generated: Septem Charm Magical Kanan
+    [17/50] -> Successfully generated: Oh! My Sex Goddess!
+    [18/50] -> Successfully generated: Momiji
+    [19/50] -> Successfully generated: Muteki Koujin Daitarn 3
+    [20/50] -> Successfully generated: Blue Flames
+    [21/50] -> Successfully generated: Arisa
+    [22/50] -> Successfully generated: Heartwork: Love Guns
+    [23/50] -> Successfully generated: House of 100 Tongues
+    [24/50] -> Successfully generated: Dr. Slump
+    [25/50] -> Successfully generated: Montana Jones
+    [26/50] -> Successfully generated: Armored Police Metal Jack
+    [27/50] -> Successfully generated: Uchuusen Sagittarius
+    [28/50] -> Successfully generated: Rumbling Hearts OVA
+    [29/50] -> Successfully generated: Harbor Light Monogatari: Fashion Lala yori
+    [30/50] -> Successfully generated: Our Home's Fox Deity
+    [31/50] -> Successfully generated: Kite Liberator
+    [32/50] -> Successfully generated: Discode
+    [33/50] -> Successfully generated: Yuusha Exkaiser
+    [34/50] -> Successfully generated: Franz Kafka's A Country Doctor
+    [35/50] -> Successfully generated: Giant Gorg
+    [36/50] -> Successfully generated: School Days: Magical Heart☆Kokoro-chan
+    [37/50] -> Successfully generated: IZUMO OVA
+    [38/50] -> Successfully generated: Stop!! Hibari-kun!
+    [39/50] -> Successfully generated: Horny Ladies And The News
+    [40/50] -> Successfully generated: Smart-san
+    [41/50] -> Successfully generated: Open Your Mind
+    [42/50] -> Successfully generated: RIN ~Daughters of Mnemosyne~
+    [43/50] -> Successfully generated: Mikan Enikki
+    [44/50] -> Successfully generated: Kiddy GiRL-AND
+    [45/50] -> Successfully generated: Kininaru Kimochi
+    [46/50] -> Successfully generated: Zombie-Loan Specials
+    [47/50] -> Successfully generated: Fortune Dogs
+    [48/50] -> Successfully generated: Mahoutsukai Sally
+    [49/50] -> Successfully generated: Kurenai
+    [50/50] -> Successfully generated: Amatsuki
+  Parallel generation done in 108.15 seconds.
+  Saved 50 records to PostgreSQL in 1.08 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [2751 to 2800 / 14153] ---
+    [1/50] -> Successfully generated: Persona -trinity soul-
+    [2/50] -> Successfully generated: RD Sennou Chousashitsu
+    [3/50] -> Successfully generated: UFO Senshi Dai Apolon
+    [4/50] -> Successfully generated: Oshare Majo♥Love and Berry: Shiawase no Mahou
+    [5/50] -> Successfully generated: JAPAN, Our Homeland
+    [6/50] -> Successfully generated: Shoubushi Densetsu Tetsuya
+    [7/50] -> Successfully generated: Teacher's Pet (2)
+    [8/50] -> Successfully generated: Legend of the Galactic Heroes Gaiden: A Hundred Billion Stars
+    [9/50] -> Successfully generated: RGB Adventure
+    [10/50] -> Successfully generated: Kirepapa.
+    [11/50] -> Successfully generated: Holy Virgins
+    [12/50] -> Successfully generated: Leatherman
+    [13/50] -> Successfully generated: Mikagura Tanteidan
+    [14/50] -> Successfully generated: Hana Dorei
+    [15/50] -> Successfully generated: Nadia: Secret of Blue Water Specials
+    [16/50] -> Successfully generated: Punishment
+    [17/50] -> Successfully generated: Orchid☆Emblem
+    [18/50] -> Successfully generated: Secret Desires: Passions of the Midara
+    [19/50] -> Successfully generated: Slave Market
+    [20/50] -> Successfully generated: Witch Girl Meg
+    [21/50] -> Successfully generated: BUS GAMER
+    [22/50] -> Successfully generated: Hoshi no Umi no Amuri
+    [23/50] -> Successfully generated: Miss Machiko
+    [24/50] -> Successfully generated: La Corda D'Oro: Primo Passo - A Summer Encore
+    [25/50] -> Successfully generated: Dark
+    [26/50] -> Successfully generated: Kimagure Orange Road TV Pilot
+    [27/50] -> Successfully generated: Gloria
+    [28/50] -> Successfully generated: Hurricane Polymar: Holy Blood
+    [29/50] -> Successfully generated: God Mars
+    [30/50] -> Successfully generated: Sexy Sailor Soldiers
+    [31/50] -> Successfully generated: Women at Work
+    [32/50] -> Successfully generated: Idolm@ster Xenoglossia Specials
+    [33/50] -> Successfully generated: Blassreiter
+    [34/50] -> Successfully generated: Tsuri Baka Eika-san! Sky Girls Dynamite Fishing
+    [35/50] -> Successfully generated: Family of Debauchery
+    [36/50] -> Successfully generated: Furakappa
+    [37/50] -> Successfully generated: Yawaraka Sangokushi Tsukisase!! Ryofuko-chan
+    [38/50] -> Successfully generated: Jungle no Ouja Taa-chan
+    [39/50] -> Successfully generated: Sumomomo Momomo: Chijou Saikyou no Yome Specials
+    [40/50] -> Successfully generated: Shigofumi
+    [41/50] -> Successfully generated: Kodomo no Omocha (OVA)
+    [42/50] -> Successfully generated: Like Mother Like Daughter
+    [43/50] -> Successfully generated: The Orphans of Simitra
+    [44/50] -> Successfully generated: Famous Dog Lassie
+    [45/50] -> Successfully generated: Oni-Tensei
+    [46/50] -> Successfully generated: Spy of Darkness
+    [47/50] -> Successfully generated: Blame! Special
+    [48/50] -> Successfully generated: Blame! Prologue
+    [49/50] -> Successfully generated: Chou Mashin Eiyuuden Wataru
+    [50/50] -> Successfully generated: Gou-Q-Chouji Ikkiman
+  Parallel generation done in 120.18 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [2801 to 2850 / 14153] ---
+    [1/50] -> Successfully generated: Mister Ajikko
+    [2/50] -> Successfully generated: The Many Dream Journeys of Meme
+    [3/50] -> Successfully generated: Charlotte Holmes
+    [4/50] -> Successfully generated: Bumpety Boo
+    [5/50] -> Successfully generated: Top Striker
+    [6/50] -> Successfully generated: DARCROWS
+    [7/50] -> Successfully generated: Karakuri Ninja Girl
+    [8/50] -> Successfully generated: The☆Ultraman
+    [9/50] -> Successfully generated: Resident Evil: Degeneration
+    [10/50] -> Successfully generated: Ghost in the Shell: Stand Alone Complex: Uchikomatic Days
+    [11/50] -> Successfully generated: Mad Bull 34
+    [12/50] -> Successfully generated: Kamichu! OVA
+    [13/50] -> Successfully generated: The Galaxy Adventures of Oz
+    [14/50] -> Successfully generated: Hot Juicy Teacher
+    [15/50] -> Successfully generated: Slave Doll - Maid to Order
+    [16/50] -> Successfully generated: To Love Ru
+    [17/50] -> Successfully generated: Candy☆Boy: Side Story For Archive
+    [18/50] -> Successfully generated: Vampire Knight
+    [19/50] -> Successfully generated: Pi Po Pa Po Patrol
+    [20/50] -> Successfully generated: Bosco Adventure
+    [21/50] -> Successfully generated: Ellcia
+    [22/50] -> Successfully generated: MINKY MOMO in Yume ni Kakeru Hashi
+    [23/50] -> Successfully generated: A.LI.CE
+    [24/50] -> Successfully generated: Kemeko DX
+    [25/50] -> Successfully generated: NAGASAKI 1945: Angelus no Kane
+    [26/50] -> Successfully generated: Kino no Tabi: the Beautiful World - Tou no Kuni: Free Lance
+    [27/50] -> Successfully generated: Haruka Nogizaka's Secret
+    [28/50] -> Successfully generated: Maria Watches Over Us: Don't Tell Mother Maria.
+    [29/50] -> Successfully generated: Maria Watches Over Us: Printemps - Don't Tell Mother Maria.
+    [30/50] -> Successfully generated: S.A: Special A
+    [31/50] -> Successfully generated: Pictures at an Exhibition
+    [32/50] -> Successfully generated: The Genesis
+    [33/50] -> Successfully generated: Push
+    [34/50] -> Successfully generated: Muramasa
+    [35/50] -> Successfully generated: Mrs. Junkie
+    [36/50] -> Successfully generated: Taimanin Asagi
+    [37/50] -> Successfully generated: Nayuta
+    [38/50] -> Successfully generated: Grendizer: Getter Robo G - Great Mazinger Kessen! Daikaijuu
+    [39/50] -> Successfully generated: Madonna
+    [40/50] -> Successfully generated: Maison Ikkoku: Prelude
+    [41/50] -> Successfully generated: Ghost in the Shell: Stand Alone Complex 2nd GIG - Tachikomatic Days
+    [42/50] -> Successfully generated: Yuusha Tokkyuu Might Gaine
+    [43/50] -> Successfully generated: Genji Monogatari
+    [44/50] -> Successfully generated: rayca
+    [45/50] -> Successfully generated: Mega Man Star Force Tribe
+    [46/50] -> Successfully generated: The Golden Laws
+    [47/50] -> Successfully generated: Steady x Study
+    [48/50] -> Successfully generated: Shin Onimusha: Dawn of Dreams the Story
+    [49/50] -> Successfully generated: DINOZAURS : THE SERIES
+    [50/50] -> Successfully generated: Yume Miru, Anime on-chan
+  Parallel generation done in 102.20 seconds.
+  Saved 50 records to PostgreSQL in 0.54 seconds.
+Indexing batch of 50 IDs into Qdrant...
+Upserting 50 points to Qdrant...
+Batch indexing completed successfully.
+
+--- Processing Chunk [2851 to 2900 / 14153] ---
+    [1/50] -> Successfully generated: Yuusha Shirei Dagwon
+    [2/50] -> Successfully generated: Sisters of Wellber Zwei
+    [3/50] -> Successfully generated: Kanokon: The Girl Who Cried Fox
+    [4/50] -> Successfully generated: Genius Party
+    [5/50] -> Successfully generated: Riki-Oh: The Wall of Hell
+    [6/50] -> Successfully generated: Riki-Oh 2: Child of Destruction
+    [7/50] -> Successfully generated: Tenshi Nanka ja Nai
+    [8/50] -> Successfully generated: Tanjou: Debut
+    [9/50] -> Successfully generated: Noramimi
+    [10/50] -> Successfully generated: Saint Seiya: The Hades Chapter - Elysion
+    [11/50] -> Successfully generated: Hal & Bons
+    [12/50] -> Successfully generated: New Hal & Bons
+    [13/50] -> Successfully generated: Ginga no Uo: URSA minor BLUE
+    [14/50] -> Successfully generated: Mr. Stain on Junk Alley
+    [15/50] -> Successfully generated: Locke the Superman
+    [16/50] -> Successfully generated: Magic Woman M
+    [17/50] -> Successfully generated: Lesbian Ward
+    [18/50] -> Successfully generated: Kowaremono - Fragile Hearts
+    [19/50] -> Successfully generated: Virtuacall
+    [20/50] -> Successfully generated: Dark Tours
+    [21/50] -> Successfully generated: Professor Shino's Classes in Seduction
+    [22/50] -> Successfully generated: Varanoir Kingdom of Chaos The Universe
+    [23/50] -> Successfully generated: Twin Dolls
+    [24/50] -> Successfully generated: Neko Rahmen
+    [25/50] -> Successfully generated: Midnight Strike Force
+    [26/50] -> Successfully generated: Cleavage
+    [27/50] -> Successfully generated: Slave Nurses
+    [28/50] -> Successfully generated: Sin Sorority
+    [29/50] -> Successfully generated: Changing Moral Hazard
