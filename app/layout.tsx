@@ -23,6 +23,28 @@ export const metadata: Metadata = {
       },
     ],
   },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://anima.pratyush.works",
+    title: "Anima — AI-Powered Anime Discovery",
+    description: "Discover anime through narrative intelligence, emotional mapping, and philosophic depth analysis.",
+    siteName: "Anima",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Anima — AI-Powered Anime Discovery",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anima — AI-Powered Anime Discovery",
+    description: "Discover anime through narrative intelligence, emotional mapping, and philosophic depth analysis.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +58,9 @@ export default function RootLayout({
       className={`${inriaSans.className} antialiased dark`}
       style={{ colorScheme: "dark", backgroundColor: "#141414" }}
     >
+      <head>
+      <meta name="google-site-verification" content="SUz7wHgUD9NgYm8u4pn2YqX5YNDmlBagjhS0T3nx1Bk" />
+      </head>
       <Providers>
         
         <body className="min-h-screen noise-overlay">{children}</body>
