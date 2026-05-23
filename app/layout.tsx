@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "Anima",
     images: [
       {
-        url: "/og-image.png",
+        url: "/ai-1.webp",
         width: 1200,
         height: 630,
         alt: "Anima — AI-Powered Anime Discovery",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Anima — AI-Powered Anime Discovery",
     description: "Discover anime through narrative intelligence, emotional mapping, and philosophic depth analysis.",
-    images: ["/og-image.png"],
+    images: ["/ai-1.webp"],
   },
 };
 
