@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const { embedding } = await ollamaResponse.json()
 
     console.log(`[Semantic Search] Server querying Qdrant URL: ${QDRANT_URL}/collections/anime/points/search`)
-    const qdrantLimit = Math.max(limit * 4, 64)
+    const qdrantLimit = Math.max(limit * 8, 128)
     const qdrantResponse = await fetch(`${QDRANT_URL}/collections/anime/points/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -119,6 +119,16 @@ export async function POST(request: Request) {
 
       // D. Semantic Similarity Base Score (weighted)
       relevanceScore += (item.score || 0) * 5.0
+
+      // E. Year Recency Boost (Latest year wise)
+      if (payload.start_year) {
+        const currentYear = new Date().getFullYear()
+        const yearDiff = currentYear - payload.start_year
+        if (yearDiff >= 0) {
+          const recencyBoost = Math.max(0, 12 - (yearDiff * 0.6))
+          relevanceScore += recencyBoost
+        }
+      }
 
       return {
         id: item.id,
