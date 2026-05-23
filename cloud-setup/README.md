@@ -1,6 +1,6 @@
 # Cloud GPU Droplet Generation & Local Recovery Guide
 
-This guide describes how to run the anime narrative intelligence generator on a DigitalOcean GPU droplet (e.g. RTX 4000 Ada) and copy the populated databases back to your local environment.
+This guide describes how to run the anime narrative intelligence generator on a DigitalOcean GPU droplet (e.g. RTX 4000 Ada), secure internal ports, route requests via Nginx, and copy the populated databases back to your local environment.
 
 ---
 
@@ -28,6 +28,7 @@ This guide describes how to run the anime narrative intelligence generator on a 
 
 Upload the following files to a folder on your droplet (e.g., `~/cloud-setup/`):
 * `docker-compose.yml`
+* `nginx.conf`
 * `import_and_generate.py`
 * `run_pipeline.sh`
 * `1960-2026.csv` (Copy this from your local workspace)
@@ -57,7 +58,23 @@ tmux new -s narrative_gen
 
 ---
 
-## 4. Package and Download Populated Databases
+## 4. Secure Gateway Architecture & Nginx Config
+
+To prevent unauthorized access to backend containers, all individual container ports are bound to the loopback interface (`127.0.0.1`), meaning they are not exposed to the public internet.
+
+The configuration exposes **only port 80** through an **Nginx** reverse proxy:
+* **Qdrant API Route**: `http://<droplet-ip>/qdrant/` (proxies to container port `6333`)
+* **Ollama API Route**: `http://<droplet-ip>/ollama/` (proxies to container port `11434`)
+* **PostgreSQL (Database)**: Bound to `127.0.0.1:5432` and remains fully private. If remote access is needed, use SSH port forwarding (`ssh -L 5432:127.0.0.1:5432 user@your-droplet-ip`).
+
+To check the gateway health, navigate to `http://<droplet-ip>/health` or run:
+```bash
+curl http://<droplet-ip>/health
+```
+
+---
+
+## 5. Package and Download Populated Databases
 
 Once processing finishes on the cloud:
 
@@ -78,7 +95,7 @@ Once processing finishes on the cloud:
 
 ---
 
-## 5. Load Volumes Locally
+## 6. Load Volumes Locally
 
 1. On your local machine, stop any running local Postgres/Qdrant containers.
 2. Extract the downloaded archive directly into your local docker volume directories or local mapping folders:

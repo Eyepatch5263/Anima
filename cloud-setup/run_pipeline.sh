@@ -3,12 +3,12 @@ set -e
 
 echo "=== STARTING CLOUD CONTAINERS INDIVIDUALLY ==="
 # Remove existing containers if they exist to prevent conflicts
-docker rm -f cloud_postgres cloud_qdrant cloud_ollama 2>/dev/null || true
+docker rm -f cloud_postgres cloud_qdrant cloud_ollama cloud_nginx 2>/dev/null || true
 
 # Start Postgres
 docker run -d \
   --name cloud_postgres \
-  -p 5432:5432 \
+  -p 127.0.0.1:5432:5432 \
   -v postgres_data:/var/lib/postgresql/data \
   --entrypoint "" \
   postgres:15 \
@@ -17,8 +17,8 @@ docker run -d \
 # Start Qdrant
 docker run -d \
   --name cloud_qdrant \
-  -p 6333:6333 \
-  -p 6334:6334 \
+  -p 127.0.0.1:6333:6333 \
+  -p 127.0.0.1:6334:6334 \
   -v qdrant_data:/qdrant/storage \
   qdrant/qdrant:latest
 
@@ -27,9 +27,18 @@ docker run -d \
   --name cloud_ollama \
   --device nvidia.com/gpu=all \
   -e OLLAMA_NUM_PARALLEL=4 \
-  -p 11434:11434 \
+  -p 127.0.0.1:11434:11434 \
   -v ollama_data:/root/.ollama \
   ollama/ollama:latest
+
+# Start Nginx Gateway Proxy
+docker run -d \
+  --name cloud_nginx \
+  -p 80:80 \
+  --link cloud_qdrant:cloud_qdrant \
+  --link cloud_ollama:cloud_ollama \
+  -v "$(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro" \
+  nginx:alpine
 
 echo "=== WAITING FOR SERVICES TO BE READY ==="
 until curl -s -f http://localhost:11434/ > /dev/null; do
@@ -40,6 +49,11 @@ done
 until curl -s -f http://localhost:6333/readyz > /dev/null; do
   echo "Waiting for Qdrant ready status..."
   sleep 3
+done
+
+until curl -s -f http://localhost/health > /dev/null; do
+  echo "Waiting for Nginx Gateway ready status..."
+  sleep 2
 done
 
 python3 -c "

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     // 2. Query Qdrant for a larger candidate pool for re-ranking
     const qdrantLimit = Math.max(limit * 4, 64)
-    const qdrantResponse = await fetch('http://localhost:6333/collections/anime_vectors/points/search', {
+    const qdrantResponse = await fetch('http://localhost:6333/collections/anime/points/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

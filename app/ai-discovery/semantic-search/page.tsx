@@ -99,6 +99,21 @@ export default function SemanticSearchPage() {
 
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-16">
+          {/* Safe Search Switch */}
+          <div className="flex justify-start mb-2 ml-1 items-center shrink-0">
+            <label className="flex items-center gap-2 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={filterAdult}
+                onChange={(e) => setFilterAdult(!filterAdult)}
+                className="sr-only peer"
+              />
+              <div className="relative w-8 h-4.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:inset-s-[3px] after:bg-gray-400 peer-checked:after:bg-red-500 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-red-500/20 border border-white/5 peer-checked:border-red-500/50"></div>
+              <span className="text-[11px] font-medium text-gray-400 group-hover:text-gray-300 transition-colors select-none">
+                Safe Search (Filter Adult Content)
+              </span>
+            </label>
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault()
@@ -106,7 +121,7 @@ export default function SemanticSearchPage() {
             }}
             className="relative flex items-center"
           >
-            <div className="absolute left-4 text-gray-400">
+            <div className="absolute left-4  text-gray-400">
               <SearchIcon size={20} />
             </div>
             <input
@@ -124,22 +139,6 @@ export default function SemanticSearchPage() {
               {loading ? 'Searching...' : 'Analyze'}
             </button>
           </form>
-
-          {/* Safe Search Switch */}
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <span className="text-xs text-gray-400">Safe Search (Filter Adult Content)</span>
-            <button
-              type="button"
-              onClick={() => setFilterAdult(!filterAdult)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${filterAdult ? 'bg-red-600' : 'bg-gray-700'
-                }`}
-            >
-              <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${filterAdult ? 'translate-x-5' : 'translate-x-0'
-                  }`}
-              />
-            </button>
-          </div>
 
           {/* Suggestions */}
           <div className="mt-4 flex flex-wrap gap-2 justify-center">

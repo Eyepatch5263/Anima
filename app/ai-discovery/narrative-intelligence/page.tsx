@@ -41,6 +41,7 @@ export default function NarrativeIntelligencePage() {
   const [searchResults, setSearchResults] = useState<NarrativeProfile[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [searchLoading, setSearchLoading] = useState(false)
+  const [filterAdult, setFilterAdult] = useState(true)
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -82,7 +83,7 @@ export default function NarrativeIntelligencePage() {
         body: JSON.stringify({
           query: searchQuery,
           limit: 6,
-          filterAdult: true
+          filterAdult: filterAdult
         })
       })
       if (!res.ok) {
@@ -149,28 +150,63 @@ export default function NarrativeIntelligencePage() {
           </p>
         </div>
 
-        {/* Search Engine Bar */}
-        <div className="max-w-xl mx-auto mb-12">
-          <form onSubmit={handleSearch} className="relative flex items-center bg-[#0d0d0d]/80 border border-white/10 rounded-2xl p-1.5 focus-within:border-blue-500/50 shadow-[0_15px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-            <div className="pl-3.5 text-gray-400">
-              <SearchIcon size={18} />
+
+        <div className="max-w-2xl mx-auto mb-16">
+          {/* Safe Search Toggle */}
+          <div className="flex justify-start mb-2 ml-1 items-center shrink-0">
+            <label className="flex items-center gap-2 cursor-pointer group">
+              <input  
+                type="checkbox"
+                checked={filterAdult}
+                onChange={(e) => setFilterAdult(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="relative w-8 h-4.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:inset-s-[3px] after:bg-gray-400 peer-checked:after:bg-blue-500 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-500/20 border border-white/5 peer-checked:border-blue-500/50"></div>
+              <span className="text-[11px] font-medium text-gray-400 group-hover:text-gray-300 transition-colors select-none">
+                Safe Search (Filter Adult Content)
+              </span>
+            </label>
+          </div>
+
+          {/* Search Engine Bar */}
+          <form onSubmit={handleSearch} className="relative flex items-center">
+            <div className="absolute left-4 text-gray-400">
+              <SearchIcon size={20} />
             </div>
             <input
               type="text"
-              placeholder="Search narrative traits (e.g., 'existential isolation slow burn')"
+              placeholder="Search narrative traits (e.g. I want a slow-paced space story...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-transparent border-0 outline-none focus:ring-0 text-sm px-3 text-white placeholder-gray-500"
+              className="w-full bg-[#161616]/80 border border-white/5 focus:border-blue-500/50 rounded-2xl py-4 pl-12 pr-28 text-sm focus:outline-none transition-all placeholder:text-gray-500 shadow-2xl glass-heavy"
             />
             <button
               type="submit"
               disabled={searchLoading}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all flex items-center gap-1.5 disabled:opacity-50"
+              className="absolute right-2 px-5 py-2 text-xs font-semibold text-white rounded-xl bg-blue-600 hover:bg-blue-500 transition-all disabled:opacity-50"
             >
               {searchLoading ? 'Analyzing...' : 'Analyze'}
-              <SparklesIcon size={12} />
             </button>
           </form>
+
+          {/* Suggestions */}
+          <div className="mt-4 flex flex-wrap gap-2 justify-center">
+            {[
+              "I want a slow-paced space story with a gritty atmosphere",
+              "Something dark with themes of isolation and mental struggles",
+              "Show me a cozy, relaxing slice of life with episodic stories",
+              "A fast-paced, intense action anime about revenge and betrayal"
+            ].map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setSearchQuery(s)}
+                className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/10 transition-all"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Anime Selector Tabs */}
@@ -184,8 +220,8 @@ export default function NarrativeIntelligencePage() {
                   setIsSearching(false)
                 }}
                 className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all ${selectedId === tab.id && !isSearching
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
               >
                 {tab.name}
@@ -199,7 +235,7 @@ export default function NarrativeIntelligencePage() {
           <div className="mb-10">
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
-                Vector Results ({searchResults.length})
+                Results ({searchResults.length})
               </span>
               <button
                 onClick={() => {
@@ -219,8 +255,8 @@ export default function NarrativeIntelligencePage() {
                   key={item.anime_id}
                   onClick={() => setSelectedProfile(item)}
                   className={`px-4 py-2 text-xs font-semibold rounded-xl border transition-all ${selectedProfile?.anime_id === item.anime_id
-                      ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
-                      : 'bg-white/[0.02] border-white/5 text-gray-400 hover:border-white/10 hover:text-white'
+                    ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
+                    : 'bg-white/[0.02] border-white/5 text-gray-400 hover:border-white/10 hover:text-white'
                     }`}
                 >
                   {item.title}
