@@ -307,3 +307,26 @@ input[type="range"]::-moz-range-thumb {
   background: rgba(255, 255, 255, 0.15);
   color: #b3b3b3;
 }
+
+/* ── Staggered Hero Entrance Animations (CSS-only for instant rendering) ── */
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-in-up {
+  opacity: 0;
+  animation: heroFadeInUp 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+.hero-delay-100 { animation-delay: 100ms; }
+.hero-delay-200 { animation-delay: 200ms; }
+.hero-delay-350 { animation-delay: 350ms; }
+.hero-delay-500 { animation-delay: 500ms; }
+

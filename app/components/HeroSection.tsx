@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import { ChevronRightIcon } from '../constants/icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
 
@@ -48,51 +47,33 @@ export default function HeroSection({ trending }: HeroSectionProps) {
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center pt-24 pb-20">
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-white/5 border border-white/8 text-xs font-medium text-text-secondary"
-        >
+        <div className="hero-fade-in-up hero-delay-100 inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-white/5 border border-white/8 text-xs font-medium text-text-secondary">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-primary opacity-60" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-primary" />
           </span>
           AI-Powered Narrative Intelligence
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-6"
+        <h1
+          className="hero-fade-in-up hero-delay-200 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-6"
           style={{ textWrap: 'balance' } as React.CSSProperties}
         >
           <span className="text-white">Discover Stories</span>
           <br />
           <span className="text-white">That Stay With You<span className="text-accent-primary">.</span></span>
-        </motion.h1>
+        </h1>
 
         {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
+        <p className="hero-fade-in-up hero-delay-350 text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
           AI-powered narrative intelligence for anime lovers.
           <br className="hidden sm:block" />
           Find your next obsession through emotional arcs, not just genres.
-        </motion.p>
+        </p>
 
         {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.55 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14"
-        >
+        <div className="hero-fade-in-up hero-delay-500 flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <a
             href="/explore"
             className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded bg-accent-primary hover:bg-accent-primary/80 shadow-lg shadow-red-900/25 transition-all duration-300 hover:scale-[1.02]"
@@ -107,7 +88,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
             Explore Manga
             <ChevronRightIcon size={16} className="group-hover:translate-x-0.5 transition-transform" />
           </a>
-        </motion.div>
+        </div>
       </div>
 
       {/* Bottom fade */}
