@@ -108,7 +108,7 @@ export default function SemanticSearchPage() {
                 onChange={(e) => setFilterAdult(!filterAdult)}
                 className="sr-only peer"
               />
-              <div className="relative w-8 h-4.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:inset-s-[3px] after:bg-gray-400 peer-checked:after:bg-red-500 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-red-500/20 border border-white/5 peer-checked:border-red-500/50"></div>
+              <div className="relative w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-red-500/20 border border-white/5 peer-checked:border-red-500/50 transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 peer-checked:after:bg-red-500 after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:after:translate-x-4"></div>
               <span className="text-[11px] font-medium text-gray-400 group-hover:text-gray-300 transition-colors select-none">
                 Safe Search (Filter Adult Content)
               </span>
@@ -188,70 +188,72 @@ export default function SemanticSearchPage() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               {results.map((anime, idx) => (
-                <motion.div
+                <Link
                   key={anime.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-4 flex flex-col justify-between hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 shadow-xl"
+                  href={`/anime/${anime.id}`}
+                  className="group block cursor-pointer"
                 >
-                  <div>
-                    {/* Image Container with Match Badge */}
-                    <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-4 bg-white/5">
-                      {anime.cover_image ? (
-                        <img
-                          src={anime.cover_image}
-                          alt={anime.title_romaji}
-                          referrerPolicy="no-referrer"
-                          className="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs text-gray-600">
-                          No Image
-                        </div>
-                      )}
-                      {/* Similarity Badge */}
-                      <div className="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-black/80 border border-red-500/30 text-red-500 font-bold text-[10px] sm:text-xs shadow-lg">
-                        {Math.round(anime.score * 10) / 10}% Match
-                      </div>
-                    </div>
-
-                    <h3 className="font-semibold text-sm sm:text-base group-hover:text-red-500 transition-colors line-clamp-1">
-                      {anime.title_romaji}
-                    </h3>
-                    <p className="text-xs text-gray-400 line-clamp-1 mb-2">
-                      {anime.title_english || anime.title_romaji}
-                    </p>
-
-                    {/* Metadata */}
-                    <div className="flex flex-wrap items-center gap-1.5 mb-3 text-[10px] text-gray-500">
-                      <span>{anime.format || 'TV'}</span>
-                      {anime.start_year && (
-                        <>
-                          <span className="w-1 h-1 rounded-full bg-gray-700" />
-                          <span>{anime.start_year}</span>
-                        </>
-                      )}
-                      {anime.episodes && (
-                        <>
-                          <span className="w-1 h-1 rounded-full bg-gray-700" />
-                          <span>{anime.episodes} eps</span>
-                        </>
-                      )}
-                    </div>
-
-                    <p className="text-xs text-gray-400 leading-relaxed line-clamp-3 mb-4">
-                      {anime.description}
-                    </p>
-                  </div>
-
-                  <Link
-                    href={`/anime/${anime.id}`}
-                    className="w-full py-2.5 rounded-xl border border-white/5 hover:border-white/10 bg-white/5 hover:bg-white/10 text-center text-xs font-semibold tracking-wide transition-all"
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                    className="h-full rounded-2xl border border-white/5 bg-white/[0.02] p-4 flex flex-col justify-between hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 shadow-xl"
                   >
-                    View Details
-                  </Link>
-                </motion.div>
+                    <div>
+                      {/* Image Container with Match Badge */}
+                      <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-4 bg-white/5">
+                        {anime.cover_image ? (
+                          <img
+                            src={anime.cover_image}
+                            alt={anime.title_romaji}
+                            referrerPolicy="no-referrer"
+                            className="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs text-gray-600">
+                            No Image
+                          </div>
+                        )}
+                        {/* Similarity Badge */}
+                        <div className="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-black/80 border border-red-500/30 text-red-500 font-bold text-[10px] sm:text-xs shadow-lg">
+                          {Math.round(anime.score * 10) / 10}% Match
+                        </div>
+                      </div>
+
+                      <h3 className="font-semibold text-sm sm:text-base group-hover:text-red-500 transition-colors line-clamp-1">
+                        {anime.title_romaji}
+                      </h3>
+                      <p className="text-xs text-gray-400 line-clamp-1 mb-2">
+                        {anime.title_english || anime.title_romaji}
+                      </p>
+
+                      {/* Metadata */}
+                      <div className="flex flex-wrap items-center gap-1.5 mb-3 text-[10px] text-gray-500">
+                        <span>{anime.format || 'TV'}</span>
+                        {anime.start_year && (
+                          <>
+                            <span className="w-1 h-1 rounded-full bg-gray-700" />
+                            <span>{anime.start_year}</span>
+                          </>
+                        )}
+                        {anime.episodes && (
+                          <>
+                            <span className="w-1 h-1 rounded-full bg-gray-700" />
+                            <span>{anime.episodes} eps</span>
+                          </>
+                        )}
+                      </div>
+
+                      <p className="text-xs text-gray-400 leading-relaxed line-clamp-3 mb-4">
+                        {anime.description}
+                      </p>
+                    </div>
+
+                    <div className="w-full py-2.5 rounded-xl border border-white/5 group-hover:border-white/10 bg-white/5 group-hover:bg-white/10 text-center text-xs font-semibold tracking-wide transition-all">
+                      View Details
+                    </div>
+                  </motion.div>
+                </Link>
               ))}
             </motion.div>
           )}

@@ -68,9 +68,8 @@ export default function NarrativeIntelligencePage() {
   }, [selectedId])
 
   // Handle Narrative Query Search
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!searchQuery.trim()) return
+  const executeSearch = async (queryText: string) => {
+    if (!queryText.trim()) return
 
     setSearchLoading(true)
     setIsSearching(true)
@@ -81,7 +80,7 @@ export default function NarrativeIntelligencePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: searchQuery,
+          query: queryText,
           limit: 6,
           filterAdult: filterAdult
         })
@@ -100,6 +99,11 @@ export default function NarrativeIntelligencePage() {
     } finally {
       setSearchLoading(false)
     }
+  }
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault()
+    executeSearch(searchQuery)
   }
 
   const getSignatureMetrics = (profile: NarrativeProfile) => {
@@ -124,7 +128,7 @@ export default function NarrativeIntelligencePage() {
       <BackgroundParticles />
       <Navbar />
 
-      <main className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
+      <main className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 pt-32 pb-16 grow w-full">
         {/* Back Link */}
         <div className="mb-6">
           <Link
@@ -142,7 +146,7 @@ export default function NarrativeIntelligencePage() {
             <BrainIcon size={13} />
             Narrative Intelligence Index
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-blue-400">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-linear-to-r from-white via-blue-100 to-blue-400">
             Narrative Signature Index
           </h1>
           <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
@@ -161,7 +165,7 @@ export default function NarrativeIntelligencePage() {
                 onChange={(e) => setFilterAdult(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="relative w-8 h-4.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:inset-s-[3px] after:bg-gray-400 peer-checked:after:bg-blue-500 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-500/20 border border-white/5 peer-checked:border-blue-500/50"></div>
+              <div className="relative w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-blue-500/20 border border-white/5 peer-checked:border-blue-500/50 transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 peer-checked:after:bg-blue-500 after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:after:translate-x-4"></div>
               <span className="text-[11px] font-medium text-gray-400 group-hover:text-gray-300 transition-colors select-none">
                 Safe Search (Filter Adult Content)
               </span>
@@ -200,7 +204,10 @@ export default function NarrativeIntelligencePage() {
               <button
                 key={s}
                 type="button"
-                onClick={() => setSearchQuery(s)}
+                onClick={() => {
+                  setSearchQuery(s)
+                  executeSearch(s)
+                }}
                 className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/10 transition-all"
               >
                 {s}
@@ -256,7 +263,7 @@ export default function NarrativeIntelligencePage() {
                   onClick={() => setSelectedProfile(item)}
                   className={`px-4 py-2 text-xs font-semibold rounded-xl border transition-all ${selectedProfile?.anime_id === item.anime_id
                     ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg'
-                    : 'bg-white/[0.02] border-white/5 text-gray-400 hover:border-white/10 hover:text-white'
+                    : 'bg-white/2 border-white/5 text-gray-400 hover:border-white/10 hover:text-white'
                     }`}
                 >
                   {item.title}
@@ -288,7 +295,7 @@ export default function NarrativeIntelligencePage() {
               className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start"
             >
               {/* Summary and Art panel */}
-              <div className="lg:col-span-2 flex flex-col glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden backdrop-blur-md">
+              <div className="lg:col-span-2 flex flex-col glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-4xl shadow-2xl relative overflow-hidden backdrop-blur-md">
 
                 {/* Banner overlay backing */}
                 {selectedProfile.banner_image && (
@@ -299,16 +306,19 @@ export default function NarrativeIntelligencePage() {
                       className="w-full h-full object-cover filter blur"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] to-transparent" />
                   </div>
                 )}
 
-                <div className="relative z-10 flex gap-4 mb-6">
+                <Link
+                  href={`/anime/${selectedProfile.anime_id}`}
+                  className="relative z-10 flex gap-4 mb-6 group/title hover:opacity-85 transition-opacity cursor-pointer"
+                >
                   {selectedProfile.cover_image && (
                     <img
                       src={selectedProfile.cover_image}
                       alt={selectedProfile.title}
-                      className="w-20 h-28 object-cover rounded-xl border border-white/10 shadow-lg"
+                      className="w-20 h-28 object-cover rounded-xl border border-white/10 shadow-lg group-hover/title:border-blue-500/50 transition-colors"
                       referrerPolicy="no-referrer"
                     />
                   )}
@@ -316,7 +326,7 @@ export default function NarrativeIntelligencePage() {
                     <span className="text-[10px] text-blue-500 font-bold uppercase tracking-widest block mb-1">
                       Narrative Profile
                     </span>
-                    <h2 className="text-xl sm:text-2xl font-bold leading-tight line-clamp-2">
+                    <h2 className="text-xl sm:text-2xl font-bold leading-tight line-clamp-2 group-hover/title:text-blue-400 transition-colors">
                       {selectedProfile.title}
                     </h2>
                     {selectedProfile.genres && selectedProfile.genres.length > 0 && (
@@ -325,7 +335,7 @@ export default function NarrativeIntelligencePage() {
                       </p>
                     )}
                   </div>
-                </div>
+                </Link>
 
                 <div className="relative z-10 pt-4 border-t border-white/5">
                   <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-2">
@@ -340,7 +350,7 @@ export default function NarrativeIntelligencePage() {
                   <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-2">
                     Genres & Tags
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 mb-6">
                     {selectedProfile.genres?.slice(0, 2).map((g) => (
                       <span key={g} className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-[9px] text-gray-400">
                         {g}
@@ -352,6 +362,15 @@ export default function NarrativeIntelligencePage() {
                       </span>
                     ))}
                   </div>
+
+                  <div className="pt-4 border-t border-white/5">
+                    <Link
+                      href={`/anime/${selectedProfile.anime_id}`}
+                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-blue-500/30 hover:border-blue-500/50 bg-blue-500/10 hover:bg-blue-500/20 text-center text-xs font-semibold tracking-wide text-blue-400 hover:text-white transition-all duration-300"
+                    >
+                      View Full Anime Profile →
+                    </Link>
+                  </div>
                 </div>
               </div>
 
@@ -359,7 +378,7 @@ export default function NarrativeIntelligencePage() {
               <div className="lg:col-span-3 space-y-6">
 
                 {/* 100-point signature metrics index */}
-                <div className="glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-[2rem] shadow-2xl backdrop-blur-md space-y-5">
+                <div className="glass-heavy border border-white/5 bg-[#0a0a0a]/50 p-6 md:p-8 rounded-4xl shadow-2xl backdrop-blur-md space-y-5">
                   <span className="text-[10px] text-blue-400 font-bold uppercase tracking-widest block mb-1">
                     Signature Indexes
                   </span>
@@ -376,7 +395,7 @@ export default function NarrativeIntelligencePage() {
                             initial={{ width: 0 }}
                             animate={{ width: `${metric.value}%` }}
                             transition={{ duration: 0.8, delay: idx * 0.08 }}
-                            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+                            className="h-full bg-linear-to-r from-blue-500 to-indigo-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.3)]"
                           />
                         </div>
                         <p className="text-[9px] text-gray-500">
