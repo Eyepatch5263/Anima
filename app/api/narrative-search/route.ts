@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
 
+const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+
+
 function sanitizeText(text: string): string {
   if (!text) return ''
   return text
@@ -66,7 +70,8 @@ User search query: "${query}"`
 
     let llmJson: any = null
     try {
-      const ollamaResponse = await fetch('http://localhost:11434/api/generate', {
+      console.log(`[Narrative Search] Server querying LLM from Ollama URL: ${OLLAMA_URL}/api/generate`)
+      const ollamaResponse = await fetch(`${OLLAMA_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -114,7 +119,8 @@ User search query: "${query}"`
     }
 
     // 3. Convert query text to embeddings using Ollama embedding model
-    const embedResponse = await fetch('http://localhost:11434/api/embeddings', {
+    console.log(`[Narrative Search] Server fetching embedding from Ollama URL: ${OLLAMA_URL}/api/embeddings`)
+    const embedResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -132,7 +138,8 @@ User search query: "${query}"`
 
     // 4. Query Qdrant for a larger candidate pool
     const qdrantLimit = Math.max(limit * 5, 50)
-    const qdrantResponse = await fetch('http://localhost:6333/collections/anime/points/search', {
+    console.log(`[Narrative Search] Server querying Qdrant URL: ${QDRANT_URL}/collections/anime/points/search`)
+    const qdrantResponse = await fetch(`${QDRANT_URL}/collections/anime/points/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

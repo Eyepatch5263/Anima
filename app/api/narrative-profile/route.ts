@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+
 function sanitizeText(text: string): string {
   if (!text) return ''
   return text
@@ -32,7 +34,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'ID parameter is required' }, { status: 400 })
     }
 
-    const qdrantResponse = await fetch(`http://localhost:6333/collections/anime/points/${id}`, {
+    const qdrantResponse = await fetch(`${QDRANT_URL}/collections/anime/points/${id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })

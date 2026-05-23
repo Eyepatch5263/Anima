@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+
 export async function POST(request: Request) {
   try {
     const { query, limit = 16, filterAdult = true } = await request.json()
@@ -7,8 +10,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 })
     }
 
+    console.log(`[Semantic Search] Server fetching embedding from Ollama URL: ${OLLAMA_URL}/api/embeddings`)
     // 1. Get embedding from Ollama
-    const ollamaResponse = await fetch('http://localhost:11434/api/embeddings', {
+    const ollamaResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -24,9 +28,9 @@ export async function POST(request: Request) {
 
     const { embedding } = await ollamaResponse.json()
 
-    // 2. Query Qdrant for a larger candidate pool for re-ranking
+    console.log(`[Semantic Search] Server querying Qdrant URL: ${QDRANT_URL}/collections/anime/points/search`)
     const qdrantLimit = Math.max(limit * 4, 64)
-    const qdrantResponse = await fetch('http://localhost:6333/collections/anime/points/search', {
+    const qdrantResponse = await fetch(`${QDRANT_URL}/collections/anime/points/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
