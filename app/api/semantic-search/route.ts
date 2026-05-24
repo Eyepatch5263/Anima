@@ -116,7 +116,7 @@ You must return valid JSON only in the following format:
 }`
 
     let llmResponseJson: any = null
-    const modelsToTry = ['qwen2.5:7b', 'qwen2.5:3b']
+    const modelsToTry = ['qwen2.5:7b']
     for (const modelName of modelsToTry) {
       try {
         console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
