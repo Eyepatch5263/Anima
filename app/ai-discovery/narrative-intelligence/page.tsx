@@ -218,7 +218,7 @@ export default function NarrativeIntelligencePage() {
 
         {/* Anime Selector Tabs */}
         {!isSearching && (
-          <div className="flex justify-center gap-2 mb-10 bg-white/[0.02] border border-white/5 p-1.5 rounded-2xl max-w-md mx-auto glass-heavy shadow-inner">
+          <div className="flex justify-center gap-2 mb-10 bg-white/2 border border-white/5 p-1.5 rounded-2xl max-w-md mx-auto glass-heavy shadow-inner">
             {keyShowcases.map((tab) => (
               <button
                 key={tab.id}

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
-const nextConfig: NextConfig = {
+export const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -20,4 +21,11 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "pratyush-pragyey",
+  project: "javascript-nextjs",
+  // Only print logs for uploading source maps in CI
+  silent: !process.env.CI,
+  tunnelRoute: "/sentry-tunnel",
+});
+

@@ -22,11 +22,9 @@ docker run -d \
   -v qdrant_data:/qdrant/storage \
   qdrant/qdrant:latest
 
-# Start GPU-enabled Ollama
+# Start CPU-only Ollama (no GPU required)
 docker run -d \
   --name cloud_ollama \
-  --device nvidia.com/gpu=all \
-  -e OLLAMA_NUM_PARALLEL=4 \
   -p 127.0.0.1:11434:11434 \
   -v ollama_data:/root/.ollama \
   ollama/ollama:latest
