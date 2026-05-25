@@ -33,6 +33,29 @@ services:
     volumes:
       - ollama_data:/root/.ollama
 
+  tei-embeddings:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
+    container_name: cloud_tei_embeddings
+    restart: always
+    command: --model-id thenlper/gte-small
+    ports:
+      - "127.0.0.1:8080:80"
+
+  tei-rerank:
+    image: ghcr.io/huggingface/text-embeddings-inference:1.6
+    container_name: cloud_tei_rerank
+    restart: always
+    command: --model-id cross-encoder/ms-marco-MiniLM-L-6-v2
+    ports:
+      - "127.0.0.1:8082:80"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
   nginx:
     image: nginx:alpine
     container_name: cloud_nginx
@@ -44,6 +67,8 @@ services:
     depends_on:
       - qdrant
       - ollama
+      - tei-embeddings
+      - tei-rerank
 
 volumes:
   postgres_data:

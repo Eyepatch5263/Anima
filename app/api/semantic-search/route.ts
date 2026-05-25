@@ -546,7 +546,7 @@ Return ONLY valid JSON in this exact format.
     const topCandidates = validCandidates.slice(0, 50)
 
     // Call Cross-Encoder reranker server
-    const CROSS_ENCODER_URL = 'http://localhost:8082/rerank'
+    const CROSS_ENCODER_URL = process.env.CROSS_ENCODER_URL || 'http://localhost:8082/rerank'
     const rerankedScores: Record<number, number> = {}
     let crossEncoderUsed = false
 
