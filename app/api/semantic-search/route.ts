@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
-const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+const OLLAMA_URL = 'http://localhost:11434'
+const QDRANT_URL = 'http://localhost:6333'
 
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
@@ -193,7 +193,7 @@ Return ONLY valid JSON in this exact format.
         try {
           console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
           const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 10000)
+          const timeoutId = setTimeout(() => controller.abort(), 100000)
 
           const response = await fetch(`${OLLAMA_URL}/api/generate`, {
             method: 'POST',
