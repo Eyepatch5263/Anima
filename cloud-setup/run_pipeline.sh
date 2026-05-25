@@ -2,34 +2,28 @@
 set -e
 
 echo "=== STARTING CLOUD CONTAINERS INDIVIDUALLY ==="
+# Create user-defined network if it doesn't exist
+docker network create anime-net 2>/dev/null || true
+
+# Connect running containers to the user-defined network (no restart required)
+docker network connect anime-net cloud_qdrant 2>/dev/null || true
+docker network connect anime-net cloud_ollama 2>/dev/null || true
+
 # Remove existing containers if they exist to prevent conflicts
-#docker rm -f cloud_qdrant cloud_ollama cloud_tei_embeddings cloud_tei_rerank cloud_nginx 2>/dev/null || true
-
-# # Start Qdrant
-# docker run -d \
-#   --name cloud_qdrant \
-#   -p 127.0.0.1:6333:6333 \
-#   -p 127.0.0.1:6334:6334 \
-#   -v qdrant_data:/qdrant/storage \
-#   qdrant/qdrant:latest
-
-# # Start CPU-only Ollama (no GPU required)
-# docker run -d \
-#   --name cloud_ollama \
-#   -p 127.0.0.1:11434:11434 \
-#   -v ollama_data:/root/.ollama \
-#   ollama/ollama:latest
+docker rm -f cloud_tei_embeddings cloud_tei_rerank cloud_nginx 2>/dev/null || true
 
 # Start TEI Embeddings Model (GTE Small)
 docker run -d \
   --name cloud_tei_embeddings \
+  --network anime-net \
   -p 127.0.0.1:8080:80 \
   ghcr.io/huggingface/text-embeddings-inference:cpu-1.6 \
   --model-id thenlper/gte-small
 
-# Start TEI Rerank Model (MS MARCO MiniLM L6 v2) using GPU Droplet acceleration
+# Start TEI Rerank Model (MS MARCO MiniLM L6 v2)
 docker run -d \
   --name cloud_tei_rerank \
+  --network anime-net \
   -p 127.0.0.1:8082:80 \
   ghcr.io/huggingface/text-embeddings-inference:cpu-1.6 \
   --model-id cross-encoder/ms-marco-MiniLM-L-6-v2
@@ -37,11 +31,8 @@ docker run -d \
 # Start Nginx Gateway Proxy
 docker run -d \
   --name cloud_nginx \
+  --network anime-net \
   -p 80:80 \
-  --link cloud_qdrant:cloud_qdrant \
-  --link cloud_ollama:cloud_ollama \
-  --link cloud_tei_embeddings:cloud_tei_embeddings \
-  --link cloud_tei_rerank:cloud_tei_rerank \
   -v "$(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro" \
   nginx:alpine
 
