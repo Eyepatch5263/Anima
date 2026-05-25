@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 
 const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
 const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
-const GTE_EMBED_URL = process.env.TEI_GTE_EMBED_URL || 'http://localhost:8080/embed'
-const COLLECTION_NAME = process.env.QDRANT_COLLECTION_NAME
+const GTE_EMBED_URL = process.env.GTE_EMBED_URL || 'http://localhost:8080/embed'
+const COLLECTION_NAME = process.env.COLLECTION_NAME
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
 function getFieldMatchScore(queryVal: any, candidateVal: any): number {
@@ -66,7 +66,7 @@ function makeSemanticText(payload: any): string {
 function isSimpleQuery(query: string): boolean {
   const clean = query.toLowerCase().trim().replace(/[^a-z0-9\s]/g, ' ')
   const words = clean.split(/\s+/).filter(Boolean)
-  
+
   if (words.length === 0) return true
 
   // List of common query connective/complex words
@@ -77,7 +77,7 @@ function isSimpleQuery(query: string): boolean {
     'tells', 'story', 'plot', 'legend', 'myth', 'god', 'shinigami', 'book', 'notebook',
     'notebooks', 'death', 'complex', 'world', 'planet'
   ]
-  
+
   const hasComplexIndicator = words.some(w => complexIndicators.includes(w))
   if (hasComplexIndicator) {
     return false
@@ -85,14 +85,14 @@ function isSimpleQuery(query: string): boolean {
 
   // Filter out stop words and search-generic words
   const searchStopWords = new Set([
-    'anime', 'show', 'shows', 'series', 'movie', 'movies', 'tv', 'recommendation', 
-    'recommendations', 'type', 'like', 'a', 'an', 'the', 'of', 'in', 'on', 'at', 
+    'anime', 'show', 'shows', 'series', 'movie', 'movies', 'tv', 'recommendation',
+    'recommendations', 'type', 'like', 'a', 'an', 'the', 'of', 'in', 'on', 'at',
     'to', 'for', 'and', 'or', 'recommend', 'me', 'some', 'good', 'best', 'great',
     'watch', 'watching', 'suggestion', 'suggestions', 'list'
   ])
-  
+
   const contentWords = words.filter(w => !searchStopWords.has(w))
-  
+
   // If there are no specific content words, or at most 3 content words, it is a simple query
   if (contentWords.length <= 3) {
     return true
@@ -100,10 +100,10 @@ function isSimpleQuery(query: string): boolean {
 
   // Known genres and tag categories (in lowercased/split format)
   const simpleKeywords = new Set([
-    'action', 'adventure', 'comedy', 'drama', 'fantasy', 'horror', 'mystery', 
-    'psychological', 'romance', 'sci', 'fi', 'scifi', 'slice', 'life', 'supernatural', 
-    'thriller', 'philosophical', 'emotional', 'romantic', 'sad', 'happy', 'dark', 
-    'mecha', 'shounen', 'shoujo', 'seinen', 'josei', 'school', 'magic', 'military', 
+    'action', 'adventure', 'comedy', 'drama', 'fantasy', 'horror', 'mystery',
+    'psychological', 'romance', 'sci', 'fi', 'scifi', 'slice', 'life', 'supernatural',
+    'thriller', 'philosophical', 'emotional', 'romantic', 'sad', 'happy', 'dark',
+    'mecha', 'shounen', 'shoujo', 'seinen', 'josei', 'school', 'magic', 'military',
     'music', 'sports', 'historical', 'isekai', 'cyberpunk', 'steampunk', 'postapocalyptic',
     'space', 'superpower', 'vampire', 'demons', 'angels', 'gods'
   ])
@@ -559,7 +559,7 @@ Return ONLY valid JSON in this exact format.
         })
 
         const texts = topCandidates.map(c => makeSemanticText(c.payload))
-        
+
         // Chunk requests to avoid both "413 Payload Too Large" and batch size limit of 32
         const batchSize = 5
         const chunks: string[][] = []
@@ -620,10 +620,10 @@ Return ONLY valid JSON in this exact format.
 
       // Blend calibrated Cross-Encoder score (30%) and Qdrant vector similarity (70%) to balance semantic recall & precision.
       // This prevents conservative cross-encoder scores from dragging down highly relevant vector matches.
-      const scoreToUse = crossEncoderUsed 
-        ? (calibratedCE * 0.3 + c.vectorSimilarity * 0.7) 
+      const scoreToUse = crossEncoderUsed
+        ? (calibratedCE * 0.3 + c.vectorSimilarity * 0.7)
         : c.vectorSimilarity
-      
+
       // Use Multiplicative Boosting for popularity and recency: 
       // Prefer latest anime first by giving a larger weight (0.5) to recency score
       const relevanceScore = scoreToUse * (1.0 + popularityScore * 0.1 + recencyScore * 0.5)
