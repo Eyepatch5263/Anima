@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = 'http://localhost:11434'
-const QDRANT_URL = 'http://localhost:6333'
+const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
 
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
