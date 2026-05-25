@@ -3,31 +3,22 @@ set -e
 
 echo "=== STARTING CLOUD CONTAINERS INDIVIDUALLY ==="
 # Remove existing containers if they exist to prevent conflicts
-docker rm -f cloud_postgres cloud_qdrant cloud_ollama cloud_tei_embeddings cloud_tei_rerank cloud_nginx 2>/dev/null || true
+#docker rm -f cloud_qdrant cloud_ollama cloud_tei_embeddings cloud_tei_rerank cloud_nginx 2>/dev/null || true
 
-# Start Postgres
-docker run -d \
-  --name cloud_postgres \
-  -p 127.0.0.1:5432:5432 \
-  -v postgres_data:/var/lib/postgresql/data \
-  --entrypoint "" \
-  postgres:15 \
-  bash -c "if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then chown -R postgres:postgres /var/lib/postgresql/data; gosu postgres initdb -D /var/lib/postgresql/data -U postgres; echo 'host all all all trust' >> /var/lib/postgresql/data/pg_hba.conf; gosu postgres pg_ctl -D /var/lib/postgresql/data -o '-p 5432' -w start; gosu postgres createdb -U postgres anime_db; gosu postgres pg_ctl -D /var/lib/postgresql/data -m fast -w stop; fi; gosu postgres postgres -D /var/lib/postgresql/data"
+# # Start Qdrant
+# docker run -d \
+#   --name cloud_qdrant \
+#   -p 127.0.0.1:6333:6333 \
+#   -p 127.0.0.1:6334:6334 \
+#   -v qdrant_data:/qdrant/storage \
+#   qdrant/qdrant:latest
 
-# Start Qdrant
-docker run -d \
-  --name cloud_qdrant \
-  -p 127.0.0.1:6333:6333 \
-  -p 127.0.0.1:6334:6334 \
-  -v qdrant_data:/qdrant/storage \
-  qdrant/qdrant:latest
-
-# Start CPU-only Ollama (no GPU required)
-docker run -d \
-  --name cloud_ollama \
-  -p 127.0.0.1:11434:11434 \
-  -v ollama_data:/root/.ollama \
-  ollama/ollama:latest
+# # Start CPU-only Ollama (no GPU required)
+# docker run -d \
+#   --name cloud_ollama \
+#   -p 127.0.0.1:11434:11434 \
+#   -v ollama_data:/root/.ollama \
+#   ollama/ollama:latest
 
 # Start TEI Embeddings Model (GTE Small)
 docker run -d \
