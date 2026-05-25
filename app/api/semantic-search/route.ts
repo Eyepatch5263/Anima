@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
-const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+const OLLAMA_URL = 'http://localhost:11434'
+const QDRANT_URL = 'http://localhost:6333'
 
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
@@ -41,6 +41,55 @@ function calculateDocumentSimilarity(docA: any, docB: any): number {
   const tagOverlap = commonTags / unionTags
 
   return (genreOverlap * 0.5) + (tagOverlap * 0.5)
+}
+
+function isSimpleQuery(query: string): boolean {
+  const clean = query.toLowerCase().trim().replace(/[^a-z0-9\s]/g, ' ')
+  const words = clean.split(/\s+/).filter(Boolean)
+  
+  if (words.length === 0) return true
+
+  // List of common query connective/complex words
+  const complexIndicators = [
+    'where', 'who', 'with', 'about', 'protagonist', 'character', 'carrying', 'carried',
+    'has', 'have', 'had', 'finds', 'secretly', 'stumbles', 'lives', 'works', 'fights',
+    'defeats', 'seeks', 'tries', 'trying', 'wants', 'wanting', 'looks', 'looking',
+    'tells', 'story', 'plot', 'legend', 'myth', 'god', 'shinigami', 'book', 'notebook',
+    'notebooks', 'death', 'complex', 'world', 'planet'
+  ]
+  
+  const hasComplexIndicator = words.some(w => complexIndicators.includes(w))
+  if (hasComplexIndicator) {
+    return false
+  }
+
+  // Filter out stop words and search-generic words
+  const searchStopWords = new Set([
+    'anime', 'show', 'shows', 'series', 'movie', 'movies', 'tv', 'recommendation', 
+    'recommendations', 'type', 'like', 'a', 'an', 'the', 'of', 'in', 'on', 'at', 
+    'to', 'for', 'and', 'or', 'recommend', 'me', 'some', 'good', 'best', 'great',
+    'watch', 'watching', 'suggestion', 'suggestions', 'list'
+  ])
+  
+  const contentWords = words.filter(w => !searchStopWords.has(w))
+  
+  // If there are no specific content words, or at most 3 content words, it is a simple query
+  if (contentWords.length <= 3) {
+    return true
+  }
+
+  // Known genres and tag categories (in lowercased/split format)
+  const simpleKeywords = new Set([
+    'action', 'adventure', 'comedy', 'drama', 'fantasy', 'horror', 'mystery', 
+    'psychological', 'romance', 'sci', 'fi', 'scifi', 'slice', 'life', 'supernatural', 
+    'thriller', 'philosophical', 'emotional', 'romantic', 'sad', 'happy', 'dark', 
+    'mecha', 'shounen', 'shoujo', 'seinen', 'josei', 'school', 'magic', 'military', 
+    'music', 'sports', 'historical', 'isekai', 'cyberpunk', 'steampunk', 'postapocalyptic',
+    'space', 'superpower', 'vampire', 'demons', 'angels', 'gods'
+  ])
+
+  // If every content word is a simple keyword, it's simple
+  return contentWords.every(w => simpleKeywords.has(w))
 }
 
 export async function POST(request: Request) {
@@ -115,43 +164,7 @@ You must return valid JSON only in the following format:
   }
 }`
 
-    let llmResponseJson: any = null
-    const modelsToTry = ['qwen2.5:7b']
-    for (const modelName of modelsToTry) {
-      try {
-        console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
-        const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 1000000)
-
-        const response = await fetch(`${OLLAMA_URL}/api/generate`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: modelName,
-            prompt,
-            format: 'json',
-            stream: false,
-            options: { temperature: 0.2 }
-          }),
-          signal: controller.signal
-        })
-
-        clearTimeout(timeoutId)
-
-        if (response.ok) {
-          const resBody = await response.json()
-          const responseText = resBody.response || ''
-          llmResponseJson = JSON.parse(responseText.trim())
-          console.log(`[Semantic Search] Successfully structured query with ${modelName}:`, JSON.stringify(llmResponseJson))
-          break
-        } else {
-          console.warn(`[Semantic Search] Model ${modelName} returned non-OK status: ${response.status}`)
-        }
-      } catch (err: any) {
-        console.warn(`[Semantic Search] Failed/Timed out to structure query with model ${modelName}:`, err.message || err)
-      }
-    }
-
+    const isSimple = isSimpleQuery(query)
     const defaultFields = {
       core_concepts: '',
       character_archetypes: '',
@@ -171,77 +184,127 @@ You must return valid JSON only in the following format:
       world_elements: 0.14
     }
 
-    // Robust LLM JSON Normalization Function
-    const normalizeLlmResponse = (parsed: any) => {
-      const fields: Record<string, string> = {}
-      const weights: Record<string, number> = {}
-      const targetKeys = Object.keys(defaultFields) as Array<keyof typeof defaultFields>
+    let queryFields: Record<string, string> = { ...defaultFields }
+    let normalizedWeights: Record<string, number> = {}
+    const weightKeys = Object.keys(defaultWeights) as Array<keyof typeof defaultWeights>
 
-      const findValue = (obj: any, targetKey: string) => {
-        if (!obj || typeof obj !== 'object') return undefined
-        const cleanTarget = targetKey.toLowerCase().replace(/_/g, '')
-        for (const k of Object.keys(obj)) {
-          if (k.toLowerCase().replace(/_/g, '') === cleanTarget) {
-            return obj[k]
+    weightKeys.forEach(k => {
+      normalizedWeights[k] = 0
+    })
+
+    if (!isSimple) {
+      let llmResponseJson: any = null
+      const modelsToTry = ['qwen2.5:7b','qwen2.5:3b']
+      for (const modelName of modelsToTry) {
+        try {
+          console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 1000000)
+
+          const response = await fetch(`${OLLAMA_URL}/api/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: modelName,
+              prompt,
+              format: 'json',
+              stream: false,
+              options: { temperature: 0.2 }
+            }),
+            signal: controller.signal
+          })
+
+          clearTimeout(timeoutId)
+
+          if (response.ok) {
+            const resBody = await response.json()
+            const responseText = resBody.response || ''
+            llmResponseJson = JSON.parse(responseText.trim())
+            console.log(`[Semantic Search] Successfully structured query with ${modelName}:`, JSON.stringify(llmResponseJson))
+            break
+          } else {
+            console.warn(`[Semantic Search] Model ${modelName} returned non-OK status: ${response.status}`)
           }
+        } catch (err: any) {
+          console.warn(`[Semantic Search] Failed/Timed out to structure query with model ${modelName}:`, err.message || err)
         }
-        return undefined
       }
 
-      let rawFields = parsed?.fields || {}
-      let rawWeights = parsed?.weights || {}
+      // Robust LLM JSON Normalization Function
+      const normalizeLlmResponse = (parsed: any) => {
+        const fields: Record<string, string> = {}
+        const weights: Record<string, number> = {}
+        const targetKeys = Object.keys(defaultFields) as Array<keyof typeof defaultFields>
 
-      const hasFlatFields = targetKeys.some(k => findValue(parsed, k) !== undefined)
-      if (hasFlatFields && Object.keys(rawFields).length === 0) {
-        rawFields = parsed || {}
+        const findValue = (obj: any, targetKey: string) => {
+          if (!obj || typeof obj !== 'object') return undefined
+          const cleanTarget = targetKey.toLowerCase().replace(/_/g, '')
+          for (const k of Object.keys(obj)) {
+            if (k.toLowerCase().replace(/_/g, '') === cleanTarget) {
+              return obj[k]
+            }
+          }
+          return undefined
+        }
+
+        let rawFields = parsed?.fields || {}
+        let rawWeights = parsed?.weights || {}
+
+        const hasFlatFields = targetKeys.some(k => findValue(parsed, k) !== undefined)
+        if (hasFlatFields && Object.keys(rawFields).length === 0) {
+          rawFields = parsed || {}
+        }
+
+        targetKeys.forEach(k => {
+          const val = findValue(rawFields, k)
+          if (Array.isArray(val)) {
+            fields[k] = val.join(', ')
+          } else {
+            fields[k] = val ? String(val) : ''
+          }
+        })
+
+        targetKeys.forEach(k => {
+          const val = findValue(rawWeights, k) ?? findValue(parsed, `${k}_weight`) ?? findValue(parsed, `${k}Weight`)
+          weights[k] = val !== undefined ? Number(val) : 0
+        })
+
+        return { fields, weights }
       }
 
-      targetKeys.forEach(k => {
-        const val = findValue(rawFields, k)
-        if (Array.isArray(val)) {
-          fields[k] = val.join(', ')
-        } else {
-          fields[k] = val ? String(val) : ''
-        }
-      })
+      const normalizedLlm = normalizeLlmResponse(llmResponseJson)
+      queryFields = normalizedLlm.fields
+      const rawWeights = normalizedLlm.weights
 
-      targetKeys.forEach(k => {
-        const val = findValue(rawWeights, k) ?? findValue(parsed, `${k}_weight`) ?? findValue(parsed, `${k}Weight`)
-        weights[k] = val !== undefined ? Number(val) : 0
-      })
+      console.log(`[Semantic Search] Normalized query fields:`, JSON.stringify(queryFields))
+      console.log(`[Semantic Search] Raw weights:`, JSON.stringify(rawWeights))
 
-      return { fields, weights }
+      // Normalize weights to sum to 1.0
+      let weightSum = 0
+      weightKeys.forEach(k => {
+        weightSum += (rawWeights[k] || 0)
+      })
+      weightKeys.forEach(k => {
+        normalizedWeights[k] = weightSum > 0 ? (rawWeights[k] || 0) / weightSum : defaultWeights[k]
+      })
+      console.log(`[Semantic Search] Normalized weights:`, JSON.stringify(normalizedWeights))
     }
 
-    const normalizedLlm = normalizeLlmResponse(llmResponseJson)
-    const queryFields = normalizedLlm.fields
-    const rawWeights = normalizedLlm.weights
-
-    console.log(`[Semantic Search] Normalized query fields:`, JSON.stringify(queryFields))
-    console.log(`[Semantic Search] Raw weights:`, JSON.stringify(rawWeights))
-
-    // Normalize weights to sum to 1.0
-    const weightKeys = Object.keys(defaultWeights) as Array<keyof typeof defaultWeights>
-    let weightSum = 0
-    weightKeys.forEach(k => {
-      weightSum += (rawWeights[k] || 0)
-    })
-    const normalizedWeights: Record<string, number> = {}
-    weightKeys.forEach(k => {
-      normalizedWeights[k] = weightSum > 0 ? (rawWeights[k] || 0) / weightSum : defaultWeights[k]
-    })
-    console.log(`[Semantic Search] Normalized weights:`, JSON.stringify(normalizedWeights))
-
     // Build the semantic query text
-    const parts: string[] = []
-    parts.push(`Query: ${query}`)
-    weightKeys.forEach(key => {
-      if (queryFields[key]) {
-        const displayName = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-        parts.push(`${displayName}: ${queryFields[key]}`)
-      }
-    })
-    const semanticQueryText = parts.join('. ')
+    let semanticQueryText = ''
+    if (isSimple) {
+      semanticQueryText = query
+    } else {
+      const parts: string[] = []
+      parts.push(`Query: ${query}`)
+      weightKeys.forEach(key => {
+        if (queryFields[key]) {
+          const displayName = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+          parts.push(`${displayName}: ${queryFields[key]}`)
+        }
+      })
+      semanticQueryText = parts.join('. ')
+    }
     console.log(`[Semantic Search] Embedding semantic query text: "${semanticQueryText}"`)
 
     const ollamaResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
@@ -303,8 +366,12 @@ You must return valid JSON only in the following format:
       const popularityCount = Number(payload.popularity_rank) || 0
       const popularityScore = Math.min(1.0, Math.log(Math.max(1, popularityCount)) / 13.82) * 0.05
 
-      // Final weighted rerank score: 70% vector similarity, 25% field overlap, 5% popularity
-      const relevanceScore = (vectorSimilarity * 0.70) + (fieldScore * 0.25) + popularityScore
+      // Final weighted rerank score:
+      // If simple: 95% vector similarity, 5% popularity
+      // If complex: 70% vector similarity, 25% field overlap, 5% popularity
+      const weightVectorSim = isSimple ? 0.95 : 0.70
+      const weightFieldScore = isSimple ? 0.0 : 0.25
+      const relevanceScore = (vectorSimilarity * weightVectorSim) + (fieldScore * weightFieldScore) + popularityScore
 
       return {
         ...payload,
@@ -360,8 +427,13 @@ You must return valid JSON only in the following format:
       }
     }
 
-    // Sort the selected results by vector similarity score (percentage) in descending order
-    selected.sort((a: any, b: any) => b.score - a.score)
+    // Sort the selected results by vector similarity score (percentage) in descending order, then by start year descending
+    selected.sort((a: any, b: any) => {
+      if (b.score !== a.score) {
+        return b.score - a.score
+      }
+      return (b.start_year ?? 0) - (a.start_year ?? 0)
+    })
 
     console.log(`[Semantic Search] Returned top 5 results after MMR:`, selected.slice(0, 5).map((c: any) => ({
       title: c.title_romaji,
