@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = 'http://localhost:11434'
-const QDRANT_URL = 'http://localhost:6333'
-const GTE_EMBED_URL = 'http://localhost:8080/embed'
-const COLLECTION_NAME = 'anime-semantic-multivector-gte'
-
+const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+const GTE_EMBED_URL = process.env.TEI_GTE_EMBED_URL || 'http://localhost:8080/embed'
+const COLLECTION_NAME = process.env.QDRANT_COLLECTION_NAME
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
 function getFieldMatchScore(queryVal: any, candidateVal: any): number {
