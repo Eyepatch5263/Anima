@@ -262,6 +262,12 @@ export default function SemanticSearchPage() {
                             {anime.title_english || anime.title_romaji}
                           </p>
 
+                          {anime.genres.slice(0, 3).map((genre: string, idx: number) => (
+                            <span key={idx} className="text-xs mr-2 text-gray-400">
+                              {genre}
+                            </span>
+                          ))}
+
                           {/* Metadata */}
                           <div className="flex flex-wrap items-center gap-1.5 mb-3 text-[10px] text-gray-500">
                             <span>{anime.format || 'TV'}</span>
@@ -277,6 +283,8 @@ export default function SemanticSearchPage() {
                                 <span>{anime.episodes} eps</span>
                               </>
                             )}
+
+                            
                           </div>
 
                           <p className="text-xs text-gray-400 leading-relaxed line-clamp-3 mb-4">

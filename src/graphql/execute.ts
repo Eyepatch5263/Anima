@@ -4,7 +4,8 @@ export async function execute<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
-  const response = await fetch('https://graphql.anilist.co', {
+  const url = typeof window !== 'undefined' ? '/api/graphql' : 'https://graphql.anilist.co'
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
