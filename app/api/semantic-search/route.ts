@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
-const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+const OLLAMA_URL = 'http://localhost:11434'
+const QDRANT_URL = 'http://localhost:6333'
+const GTE_EMBED_URL = 'http://localhost:8080/embed'
+const COLLECTION_NAME = 'anime-semantic-multivector-gte'
 
 
 // Calculates keyword/token overlap similarity between two strings safely supporting arrays
@@ -41,6 +43,25 @@ function calculateDocumentSimilarity(docA: any, docB: any): number {
   const tagOverlap = commonTags / unionTags
 
   return (genreOverlap * 0.5) + (tagOverlap * 0.5)
+}
+
+// Builds full semantic description text for cross-encoder reranking
+function makeSemanticText(payload: any): string {
+  const parts: string[] = []
+
+  let title = payload.title_romaji || ''
+  if (payload.title_english && payload.title_english !== title) {
+    title += ` (${payload.title_english})`
+  }
+  parts.push(`Title: ${title}`)
+
+  if (payload.description) {
+    parts.push(`Description: ${payload.description}`)
+  } else if (payload.core_concepts) {
+    parts.push(`Core Concepts: ${payload.core_concepts}`)
+  }
+
+  return parts.join(' | ')
 }
 
 function isSimpleQuery(query: string): boolean {
@@ -258,10 +279,22 @@ Return ONLY valid JSON in this exact format.
           }
         })
 
-        targetKeys.forEach(k => {
-          const val = findValue(rawWeights, k) ?? findValue(parsed, `${k}_weight`) ?? findValue(parsed, `${k}Weight`)
-          weights[k] = val !== undefined ? Number(val) : 0
-        })
+        if (Array.isArray(rawWeights)) {
+          let activeIndex = 0
+          targetKeys.forEach(k => {
+            if (fields[k] && fields[k].trim().length > 0) {
+              weights[k] = rawWeights[activeIndex] !== undefined ? Number(rawWeights[activeIndex]) : 0
+              activeIndex++
+            } else {
+              weights[k] = 0
+            }
+          })
+        } else {
+          targetKeys.forEach(k => {
+            const val = findValue(rawWeights, k) ?? findValue(parsed, `${k}_weight`) ?? findValue(parsed, `${k}Weight`)
+            weights[k] = val !== undefined ? Number(val) : 0
+          })
+        }
 
         return { fields, weights }
       }
@@ -316,11 +349,12 @@ Return ONLY valid JSON in this exact format.
       weightKeys.forEach(k => {
         const textVal = queryFields[k]
         const weightVal = normalizedWeights[k] || 0
-        if (textVal && textVal.trim() && weightVal > 0) {
+        if (weightVal > 0) {
+          const fallbackText = (textVal && textVal.trim()) ? textVal : query
           activeSearches.push({
             fieldKey: k,
             vectorName: vectorMapping[k] || k,
-            text: textVal,
+            text: fallbackText,
             weight: weightVal
           })
         }
@@ -342,20 +376,20 @@ Return ONLY valid JSON in this exact format.
     // Fetch embeddings in parallel
     const searchesWithEmbeddings = await Promise.all(
       activeSearches.map(async (search) => {
-        const ollamaResponse = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+        const response = await fetch(GTE_EMBED_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: 'qllama/bge-small-en-v1.5:latest',
-            prompt: search.text,
+            inputs: search.text,
           }),
         })
 
-        if (!ollamaResponse.ok) {
-          throw new Error(`Ollama error for field ${search.fieldKey}: ${await ollamaResponse.text()}`)
+        if (!response.ok) {
+          throw new Error(`Embedding server error for field ${search.fieldKey}: ${await response.text()}`)
         }
 
-        const { embedding } = await ollamaResponse.json()
+        const data = await response.json()
+        const embedding = data[0]
         return {
           ...search,
           embedding
@@ -377,7 +411,7 @@ Return ONLY valid JSON in this exact format.
     }
 
     console.log(`[Semantic Search] Querying Qdrant batch search with ${searchesWithEmbeddings.length} vectors`)
-    const qdrantResponse = await fetch(`${QDRANT_URL}/collections/anime-semantic-multivector/points/search/batch`, {
+    const qdrantResponse = await fetch(`${QDRANT_URL}/collections/${COLLECTION_NAME}/points/search/batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(batchRequest),
@@ -411,7 +445,7 @@ Return ONLY valid JSON in this exact format.
     try {
       const candidateIds = Array.from(candidateMap.keys())
       if (candidateIds.length > 0) {
-        const pointsResponse = await fetch(`${QDRANT_URL}/collections/anime-semantic-multivector/points`, {
+        const pointsResponse = await fetch(`${QDRANT_URL}/collections/${COLLECTION_NAME}/points`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -475,18 +509,17 @@ Return ONLY valid JSON in this exact format.
       })
     })
 
-    // Process and score candidates
-    const candidates = fusedCandidates.map((c) => {
+    // Process and score candidates, filtering out invalid ones first
+    const validCandidates = fusedCandidates.map((c) => {
       const payload = c.payload
       const animeScore = payload.score_val ?? payload.mean_score ?? payload.score ?? 0
       if (animeScore === 0) return null
       if (filterAdult && payload.is_adult) return null
 
-      // Popularity rank log scale
+      // Calculate lightweight popularity & recency scores for pre-ranking
       const popularityCount = Number(payload.popularity_rank) || 0
       const popularityScore = Math.min(1.0, Math.log(Math.max(1, popularityCount)) / 13.82) * 0.05
 
-      // Recency score favoring newer anime (clamped 1980 to 2026, exponential boost)
       const startYear = Number(payload.start_year) || 0
       let recencyScore = 0
       if (startYear > 0) {
@@ -497,25 +530,124 @@ Return ONLY valid JSON in this exact format.
         recencyScore = Math.pow(linearRecency, 2.5)
       }
 
-      // Final Relevance Score: 88% fused vector similarity, 4% popularity, 8% recency
-      const relevanceScore = (c.vectorSimilarity * 0.88) + (popularityScore * 0.8) + (recencyScore * 0.08)
+      // Pre-rerank score to select top 50 candidates for the expensive Cross-Encoder.
+      // We give a small boost for popularity and recency so popular/newer relevant matches make it into the top 50.
+      const preRerankScore = c.vectorSimilarity * (1.0 + popularityScore * 1.0 + recencyScore * 0.2)
+
+      return {
+        ...c,
+        popularityScore,
+        recencyScore,
+        preRerankScore
+      }
+    }).filter(Boolean) as any[]
+
+    // Sort by preRerankScore to identify top 50 candidates for Cross-Encoder reranking
+    validCandidates.sort((a, b) => b.preRerankScore - a.preRerankScore)
+    const topCandidates = validCandidates.slice(0, 50)
+
+    // Call Cross-Encoder reranker server
+    const CROSS_ENCODER_URL = 'http://localhost:8082/rerank'
+    const rerankedScores: Record<number, number> = {}
+    let crossEncoderUsed = false
+
+    if (topCandidates.length > 0) {
+      try {
+        console.log(`[Semantic Search] Reranking ${topCandidates.length} candidates with Cross-Encoder...`)
+        console.log('[DEBUG RERANK] Top 5 candidates before reranking:')
+        topCandidates.slice(0, 5).forEach((c, idx) => {
+          console.log(`  ${idx}. ${c.payload.title_romaji} (ID: ${c.id}) - vectorSimilarity: ${c.vectorSimilarity}`)
+        })
+
+        const texts = topCandidates.map(c => makeSemanticText(c.payload))
+        
+        // Chunk requests to avoid both "413 Payload Too Large" and batch size limit of 32
+        const batchSize = 5
+        const chunks: string[][] = []
+        for (let i = 0; i < texts.length; i += batchSize) {
+          chunks.push(texts.slice(i, i + batchSize))
+        }
+
+        const chunkPromises = chunks.map(async (chunk, chunkIdx) => {
+          const startIndex = chunkIdx * batchSize
+          const rerankResponse = await fetch(CROSS_ENCODER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              query: query,
+              texts: chunk
+            })
+          })
+
+          if (rerankResponse.ok) {
+            const chunkResults = await rerankResponse.json()
+            chunkResults.forEach((item: any) => {
+              const candidateIndex = startIndex + item.index
+              const candidate = topCandidates[candidateIndex]
+              if (candidate) {
+                rerankedScores[candidate.id] = item.score
+              }
+            })
+            return true
+          } else {
+            console.warn(`[Semantic Search] Cross-Encoder chunk [${startIndex}-${startIndex + chunk.length}] failed: ${rerankResponse.status}`)
+            return false
+          }
+        })
+
+        const results = await Promise.all(chunkPromises)
+        const successCount = results.filter(Boolean).length
+
+        if (successCount > 0) {
+          crossEncoderUsed = true
+          console.log(`[Semantic Search] Successfully reranked candidates with Cross-Encoder in ${successCount}/${chunks.length} batches.`)
+        }
+      } catch (err: any) {
+        console.warn(`[Semantic Search] Failed to rerank with Cross-Encoder:`, err.message || err)
+      }
+    }
+
+    // Process and calculate final relevance score
+    const candidates = topCandidates.map((c) => {
+      const payload = c.payload
+      const popularityScore = c.popularityScore
+      const recencyScore = c.recencyScore
+
+      // Calibrate Cross-Encoder score to expand the dynamic range for human perception:
+      // MS-MARCO models are trained on binary tasks and output highly conservative sigmoid scores.
+      // A power function (e.g. x^0.3) stretches these scores into a natural, intuitive spread.
+      const rawCE = rerankedScores[c.id] ?? 0.0
+      const calibratedCE = Math.pow(rawCE, 0.3)
+
+      // Blend calibrated Cross-Encoder score (30%) and Qdrant vector similarity (70%) to balance semantic recall & precision.
+      // This prevents conservative cross-encoder scores from dragging down highly relevant vector matches.
+      const scoreToUse = crossEncoderUsed 
+        ? (calibratedCE * 0.3 + c.vectorSimilarity * 0.7) 
+        : c.vectorSimilarity
+      
+      // Use Multiplicative Boosting for popularity and recency: 
+      // Prefer latest anime first by giving a larger weight (0.5) to recency score
+      const relevanceScore = scoreToUse * (1.0 + popularityScore * 0.1 + recencyScore * 0.5)
+
+      // Map the boosted relevance score to a 0-99 percentage for the UI Match Score badge.
+      // This ensures that the displayed score is directly aligned with the final ranking.
+      const displayScore = Math.min(99.0, relevanceScore * 100.0)
 
       return {
         ...payload,
         id: c.id,
-        score: c.score,
+        score: displayScore,
         relevanceScore
       }
-    }).filter(Boolean)
+    })
 
     // Sort by relevanceScore descending
     candidates.sort((a: any, b: any) => b.relevanceScore - a.relevanceScore)
 
-    console.log(`[Semantic Search] Top 5 candidates before MMR:`, candidates.slice(0, 5).map((c: any) => ({
-      title: c.title_romaji,
-      similarity: c.score,
-      relevanceScore: c.relevanceScore
-    })))
+    console.log(`[Semantic Search] Top 10 candidates before MMR:`)
+    candidates.slice(0, 10).forEach((c: any, idx: number) => {
+      console.log(`  ${idx}. ${c.title_romaji} (ID: ${c.id}) - Match Score: ${c.score.toFixed(2)}% - Relevance Score: ${(c.relevanceScore * 100).toFixed(2)}%`)
+    })
 
     // MMR Diversity Selection
     const selected: any[] = []

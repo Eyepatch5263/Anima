@@ -13,11 +13,10 @@ DB_USER = "postgres"
 DB_PASS = "root"
 DB_NAME = "anime_db"
 
-OLLAMA_URL = "http://localhost:11434"
-OLLAMA_EMBED_MODEL = "qllama/bge-small-en-v1.5:latest"
+GTE_EMBED_URL = "http://localhost:8080/embed"
 
 QDRANT_URL = "http://localhost:6333"
-COLLECTION_NAME = "anime-semantic-multivector"
+COLLECTION_NAME = "anime-semantic-multivector-gte"
 
 # Embedding cache setup
 EMBEDDING_CACHE = {}
@@ -126,22 +125,24 @@ def process_batch(records_batch, qdrant_client):
                         
     texts_list = list(texts_to_embed)
     embeddings_map = {}
-    ollama_batch_size = 256
+    tei_batch_size = 32
     
-    for i in range(0, len(texts_list), ollama_batch_size):
-        sub_batch = texts_list[i:i+ollama_batch_size]
+    for i in range(0, len(texts_list), tei_batch_size):
+        sub_batch = texts_list[i:i+tei_batch_size]
         for _ in range(3):
             try:
-                r = requests.post(f"{OLLAMA_URL}/api/embed", json={
-                    "model": OLLAMA_EMBED_MODEL,
-                    "input": sub_batch
+                r = requests.post(GTE_EMBED_URL, json={
+                    "inputs": sub_batch
                 }, timeout=30)
                 if r.status_code == 200:
-                    embeddings = r.json()["embeddings"]
+                    embeddings = r.json()
                     for t, emb in zip(sub_batch, embeddings):
                         embeddings_map[t] = emb
                     break
+                else:
+                    print(f"Error from embedding server: Status {r.status_code}, Body: {r.text}")
             except Exception as e:
+                print(f"Exception during embedding request: {e}")
                 time.sleep(1)
                 
     with cache_lock:
