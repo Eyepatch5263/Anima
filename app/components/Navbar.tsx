@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MenuIcon, XIcon } from '../constants/icons'
+import { useQueryClient } from '@tanstack/react-query'
+import { prefetchAnimeLanding } from '@/src/hooks/useAnimeData'
+import { prefetchMangaLanding } from '@/src/hooks/useInfiniteManga'
 
 const navLinks = [
   { label: 'Anime', href: '/explore' },
@@ -14,6 +17,15 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const queryClient = useQueryClient()
+
+  const handlePrefetch = (href: string) => {
+    if (href === '/explore') {
+      prefetchAnimeLanding(queryClient)
+    } else if (href === '/manga') {
+      prefetchMangaLanding(queryClient)
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -52,6 +64,7 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
+                  onMouseEnter={() => handlePrefetch(link.href)}
                   className="relative px-4 py-2 text-sm text-text-secondary hover:text-white transition-colors duration-300 rounded-lg group"
                 >
                   {link.label}
@@ -96,6 +109,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
+                  onMouseEnter={() => handlePrefetch(link.href)}
                   className="block px-4 py-3 text-sm text-text-secondary hover:text-white hover:bg-white/5 rounded-xl transition-colors"
                 >
                   {link.label}

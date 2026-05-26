@@ -364,3 +364,27 @@ export const GetMangaStatistics = (variables: GetMangaStatisticsQueryVariables) 
     })
     return data
 }
+
+export const prefetchMangaDetails = (queryClient: any, id: number) => {
+  const p1 = queryClient.prefetchQuery({
+    queryKey: ['manga-by-id', { id, type: 'MANGA' as MediaType, isAdult: false }],
+    queryFn: () => execute(GetMangaByIdQuery, { id, type: 'MANGA' as MediaType, isAdult: false }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p2 = queryClient.prefetchQuery({
+    queryKey: ['manga-characters', { id, page: 1 }],
+    queryFn: () => execute(GetMangaCharactersQuery, { id, page: 1 }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p3 = queryClient.prefetchQuery({
+    queryKey: ['manga-staff', { id, page: 1 }],
+    queryFn: () => execute(GetMangaStaffQuery, { id, page: 1 }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p4 = queryClient.prefetchQuery({
+    queryKey: ['manga-statistics', { id }],
+    queryFn: () => execute(GetMangaStatisticsQuery, { id }),
+    staleTime: 5 * 60 * 1000,
+  })
+  return Promise.all([p1, p2, p3, p4])
+}

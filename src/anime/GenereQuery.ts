@@ -287,3 +287,27 @@ export const GetTrendsAndRankingsQuery = ({id}:{id:number}) => {
     })
     return data
 }
+
+export const prefetchAnimeDetails = (queryClient: any, id: number) => {
+  const p1 = queryClient.prefetchQuery({
+    queryKey: ['anime-id', id, 'ANIME', false],
+    queryFn: () => execute(GetAnimeById, { id, type: 'ANIME', isAdult: false }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p2 = queryClient.prefetchQuery({
+    queryKey: ['characters-vas', id, 1],
+    queryFn: () => execute(GetCharactersAndVAs, { id, page: 1 }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p3 = queryClient.prefetchQuery({
+    queryKey: ['staff', id, 1],
+    queryFn: () => execute(GetStaff, { id, page: 1 }),
+    staleTime: 5 * 60 * 1000,
+  })
+  const p4 = queryClient.prefetchQuery({
+    queryKey: ['trends-rankings', id],
+    queryFn: () => execute(GetTrendsAndRankings, { id }),
+    staleTime: 5 * 60 * 1000,
+  })
+  return Promise.all([p1, p2, p3, p4])
+}

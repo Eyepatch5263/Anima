@@ -3,12 +3,20 @@ import { UnwrappedMedia } from '@/src/hooks/useAnimeData';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
+import { prefetchAnimeDetails } from '@/src/anime/GenereQuery';
 
 function PosterCard({ anime, index, showRank }: { anime: UnwrappedMedia; index: number; showRank?: boolean }) {
   const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
   const title = anime.title?.userPreferred || 'Unknown'
+  const queryClient = useQueryClient()
+
     return (
-      <Link href={`/anime/${anime.id}`} className="group block cursor-pointer">
+      <Link
+        href={`/anime/${anime.id}`}
+        className="group block cursor-pointer"
+        onMouseEnter={() => prefetchAnimeDetails(queryClient, anime.id)}
+      >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

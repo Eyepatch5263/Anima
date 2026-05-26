@@ -1,8 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { graphql } from '@/src/graphql'
-import { execute } from '@/src/graphql/execute'
 import { MediaSeason } from '@/src/graphql/graphql'
 import { useFragment } from '@/src/graphql/fragment-masking'
 import { MediaFragmentDoc } from '@/src/graphql/graphql'
@@ -145,18 +145,37 @@ export type UnwrappedMedia = {
 }
 
 export function useAnimeData() {
-  const { season, year } = getCurrentSeason()
-  const next = getNextSeason(season, year)
+  const [seasonInfo, setSeasonInfo] = useState<{
+    season: MediaSeason
+    year: number
+    nextSeason: MediaSeason
+    nextYear: number
+  } | null>(null)
+
+  useEffect(() => {
+    const current = getCurrentSeason()
+    const next = getNextSeason(current.season, current.year)
+    setSeasonInfo({
+      season: current.season,
+      year: current.year,
+      nextSeason: next.season,
+      nextYear: next.year,
+    })
+  }, [])
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['anime-landing', season, year, next.season, next.year],
-    queryFn: () =>
-      execute(GetAnimeByGenres, {
-        season,
-        seasonYear: year,
-        nextSeason: next.season,
-        nextYear: next.year,
-      }),
+    queryKey: ['anime-landing', seasonInfo],
+    queryFn: async () => {
+      if (!seasonInfo) return null
+      const { season, year, nextSeason, nextYear } = seasonInfo
+      const url = `/api/explore-data?season=${season}&seasonYear=${year}&nextSeason=${nextSeason}&nextYear=${nextYear}`
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error('Failed to fetch cached explore data')
+      }
+      return response.json()
+    },
+    enabled: !!seasonInfo,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
   })
@@ -176,9 +195,32 @@ export function useAnimeData() {
     nextSeason: unwrapList(data?.nextSeason?.media),
     popular: unwrapList(data?.popular?.media),
     topRated: unwrapList(data?.top?.media),
-    isLoading,
+    isLoading: isLoading || !seasonInfo,
     error,
-    currentSeason: season,
-    currentYear: year,
+    currentSeason: seasonInfo?.season || 'WINTER',
+    currentYear: seasonInfo?.year || 2026,
   }
+}
+
+export const prefetchAnimeLanding = (queryClient: any) => {
+  const current = getCurrentSeason()
+  const next = getNextSeason(current.season, current.year)
+  const seasonInfo = {
+    season: current.season,
+    year: current.year,
+    nextSeason: next.season,
+    nextYear: next.year,
+  }
+  return queryClient.prefetchQuery({
+    queryKey: ['anime-landing', seasonInfo],
+    queryFn: async () => {
+      const url = `/api/explore-data?season=${seasonInfo.season}&seasonYear=${seasonInfo.year}&nextSeason=${seasonInfo.nextSeason}&nextYear=${seasonInfo.nextYear}`
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error('Failed to fetch cached explore data')
+      }
+      return response.json()
+    },
+    staleTime: 1000 * 60 * 5,
+  })
 }

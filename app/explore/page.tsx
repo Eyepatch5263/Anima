@@ -18,13 +18,45 @@ export default function ExplorePage() {
   const { trending, seasonal, nextSeason, popular, topRated, isLoading, currentSeason } = useAnimeData()
   const [filters, setFilters] = useState<FilterState>(defaultFilters)
   const [activeSlide, setActiveSlide] = useState(0)
+  const [carouselAnimes, setCarouselAnimes] = useState(publicAnimes)
 
   useEffect(() => {
+    async function loadPublicAnimes() {
+      try {
+        if ('caches' in window) {
+          const cache = await caches.open('public-anime-cache')
+          const cachedResponse = await cache.match('/api/public-anime')
+          if (cachedResponse) {
+            const data = await cachedResponse.json()
+            setCarouselAnimes(data)
+            return
+          }
+        }
+
+        const res = await fetch('/api/public-anime')
+        const data = await res.json()
+        setCarouselAnimes(data)
+
+        // store the cache
+        if ('caches' in window) {
+          const cache = await caches.open('public-anime-cache')
+          const resClone = new Response(JSON.stringify(data))
+          await cache.put('/api/public-anime', resClone)
+        }
+      } catch (e) {
+        console.error('Error loading public anime from Cache Storage:', e)
+      }
+    }
+    loadPublicAnimes()
+  }, [])
+
+  useEffect(() => {
+    if (carouselAnimes.length === 0) return
     const timer = setInterval(() => {
-      setActiveSlide(prev => (prev + 1) % publicAnimes.length)
+      setActiveSlide(prev => (prev + 1) % carouselAnimes.length)
     }, 6000)
     return () => clearInterval(timer)
-  }, [])
+  }, [carouselAnimes.length])
 
   const hasActiveFilters = Object.values(filters).some(v => v !== '')
 
@@ -39,24 +71,24 @@ export default function ExplorePage() {
         {/* Page header & Hero Carousel */}
         <div className="pt-28 pb-6 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden h-[300px] sm:h-[380px] border border-white/5 bg-[#141414] mb-8 group">
-            {publicAnimes.map((anime, idx) => (
+            {carouselAnimes.map((anime, idx) => (
               <div
                 key={idx}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  idx === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                }`}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
               >
                 {/* Full-bleed Background Image */}
                 <Image
                   src={anime.image}
                   alt={anime.title}
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   fill
                   priority={idx === 0}
                   className="object-cover object-center scale-102 transition-transform duration-10000 ease-out group-hover:scale-105"
                 />
-                
-               <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
-               
+
+                <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
+
 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-center max-w-xl px-8 sm:px-12 z-20">
@@ -100,13 +132,12 @@ export default function ExplorePage() {
 
             {/* Slider Navigation Dots */}
             <div className="absolute bottom-6 right-8 flex gap-2 z-20">
-              {publicAnimes.map((_, idx) => (
+              {carouselAnimes.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveSlide(idx)}
-                  className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                    idx === activeSlide ? 'bg-accent-primary w-6' : 'bg-white/30 hover:bg-white/50'
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-all cursor-pointer ${idx === activeSlide ? 'bg-accent-primary w-6' : 'bg-white/30 hover:bg-white/50'
+                    }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}

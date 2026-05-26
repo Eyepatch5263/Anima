@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { StarIcon } from '../constants/icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
 import { formatEpisodes, formatType, getGenreColor } from '@/utilities/trending-grid-utility'
+import { useQueryClient } from '@tanstack/react-query'
+import { prefetchAnimeDetails } from '@/src/anime/GenereQuery'
 
 /* ── Mosaic Card Component ──────────────────── */
 
@@ -22,9 +24,14 @@ export function MosaicCard({ anime, rank }: { anime: UnwrappedMedia; rank: numbe
   const genres = (anime.genres || []).slice(0, 3) as string[]
   const score = anime.averageScore
   const status = anime.status?.toLowerCase().replace(/_/g, ' ') || ''
+  const queryClient = useQueryClient()
 
   return (
-    <Link href={`/anime/${anime.id}`} className="break-inside-avoid mb-6 block">
+    <Link
+      href={`/anime/${anime.id}`}
+      className="break-inside-avoid mb-6 block"
+      onMouseEnter={() => prefetchAnimeDetails(queryClient, anime.id)}
+    >
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}

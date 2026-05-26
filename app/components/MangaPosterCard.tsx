@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useQueryClient } from '@tanstack/react-query'
+import { prefetchMangaDetails } from '@/src/manga/Query'
 
 interface MangaPosterCardProps {
   manga: {
@@ -23,9 +25,14 @@ interface MangaPosterCardProps {
 export default function MangaPosterCard({ manga, index, showRank }: MangaPosterCardProps) {
   const coverUrl = manga.coverImage?.extraLarge || manga.coverImage?.large || ''
   const title = manga.title?.userPreferred || 'Unknown'
+  const queryClient = useQueryClient()
 
   return (
-    <Link href={`/manga/${manga.id}`} className="group block cursor-pointer">
+    <Link
+      href={`/manga/${manga.id}`}
+      className="group block cursor-pointer"
+      onMouseEnter={() => prefetchMangaDetails(queryClient, manga.id)}
+    >
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}

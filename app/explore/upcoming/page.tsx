@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import AnimeGridPage from '../../components/AnimeGridPage'
 
 function getNextSeason(): { season: string; year: number } {
@@ -23,15 +24,22 @@ function getNextSeason(): { season: string; year: number } {
 }
 
 export default function UpcomingPage() {
-  const { season, year } = getNextSeason()
-  const label = season.charAt(0) + season.slice(1).toLowerCase()
+  const [seasonInfo, setSeasonInfo] = useState<{ season: string; year: number } | null>(null)
+
+  useEffect(() => {
+    setSeasonInfo(getNextSeason())
+  }, [])
+
+  if (!seasonInfo) {
+    return <AnimeGridPage title="" sort="POPULARITY_DESC" />
+  }
 
   return (
     <AnimeGridPage
       title={``}
       sort="POPULARITY_DESC"
-      initialSeason={season}
-      initialSeasonYear={year}
+      initialSeason={seasonInfo.season}
+      initialSeasonYear={seasonInfo.year}
     />
   )
 }

@@ -3,6 +3,9 @@
 import React from 'react'
 import { ChevronRightIcon } from '../constants/icons'
 import type { UnwrappedMedia } from '@/src/hooks/useAnimeData'
+import { useQueryClient } from '@tanstack/react-query'
+import { prefetchAnimeLanding } from '@/src/hooks/useAnimeData'
+import { prefetchMangaLanding } from '@/src/hooks/useInfiniteManga'
 
 interface HeroSectionProps {
   trending: UnwrappedMedia[]
@@ -10,6 +13,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ trending }: HeroSectionProps) {
   const heroBanner = trending?.[0]?.bannerImage || trending?.[0]?.coverImage?.extraLarge
+  const queryClient = useQueryClient()
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -67,7 +71,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
 
         {/* Subheadline */}
         <p className="hero-fade-in-up hero-delay-350 text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-          AI-powered narrative intelligence for anime lovers.
+          AI-powered narrative intelligence for anime lovers. 
           <br className="hidden sm:block" />
           Find your next obsession through emotional arcs, not just genres.
         </p>
@@ -76,6 +80,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
         <div className="hero-fade-in-up hero-delay-500 flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <a
             href="/explore"
+            onMouseEnter={() => prefetchAnimeLanding(queryClient)}
             className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded bg-accent-primary hover:bg-accent-primary/80 shadow-lg shadow-red-900/25 transition-all duration-300 hover:scale-[1.02]"
           >
             Search Anime
@@ -83,6 +88,7 @@ export default function HeroSection({ trending }: HeroSectionProps) {
           </a>
           <a
             href="/manga"
+            onMouseEnter={() => prefetchMangaLanding(queryClient)}
             className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 transition-all duration-300"
           >
             Explore Manga

@@ -3,16 +3,24 @@ import { BentoCardProps } from "../types/featured.showcase"
 import Link from "next/link"
 import { StarIcon, FireIcon } from "./icons"
 import { motion } from "framer-motion"
+import { useQueryClient } from '@tanstack/react-query'
+import { prefetchAnimeDetails } from '@/src/anime/GenereQuery'
+
 export function BentoCard({ anime, index, isSpotlight = false }: BentoCardProps) {
   const coverUrl = anime.coverImage?.extraLarge || anime.coverImage?.large || ''
   const bannerUrl = anime.bannerImage || coverUrl
   const title = anime.title?.userPreferred || 'Unknown'
   const genres = (anime.genres || []).slice(0, 3)
   const score = anime.averageScore
+  const queryClient = useQueryClient()
 
   if (isSpotlight) {
     return (
-      <Link href={`/anime/${anime.id}`} className="col-span-2 md:col-span-2 md:row-span-2">
+      <Link
+        href={`/anime/${anime.id}`}
+        className="col-span-2 md:col-span-2 md:row-span-2"
+        onMouseEnter={() => prefetchAnimeDetails(queryClient, anime.id)}
+      >
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +79,10 @@ export function BentoCard({ anime, index, isSpotlight = false }: BentoCardProps)
 
   // Normal Card
   return (
-    <Link href={`/anime/${anime.id}`}>
+    <Link
+      href={`/anime/${anime.id}`}
+      onMouseEnter={() => prefetchAnimeDetails(queryClient, anime.id)}
+    >
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}

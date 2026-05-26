@@ -1,4 +1,3 @@
-'use client'
 import { GithubIcon, InstagramIcon } from '../constants/icons'
 
 const footerLinks = {
@@ -30,12 +29,12 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a href="https://github.com/Eyepatch5263" target="_blank" rel="noopener noreferrer"
-                className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-[#808080] hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-text-muted hover:text-white hover:bg-white/10 transition-all duration-300"
                 aria-label="GitHub">
                 <GithubIcon size={15} />
               </a>
               <a href="https://www.instagram.com/eyepatch_5263" target="_blank" rel="noopener noreferrer"
-                className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-[#808080] hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-text-muted hover:text-white hover:bg-white/10 transition-all duration-300"
                 aria-label="Twitter">
                 <InstagramIcon size={13} />
               </a>
@@ -45,11 +44,11 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-xs font-semibold text-[#b3b3b3] uppercase tracking-wider mb-4">{title}</h4>
+              <h4 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4">{title}</h4>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-sm text-[#555] hover:text-[#b3b3b3] transition-colors duration-200">
+                    <a href="#" className="text-sm text-[#555] hover:text-text-secondary transition-colors duration-200">
                       {link}
                     </a>
                   </li>
@@ -60,7 +59,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center">
-          <p className="text-sm text-[#555]">© {new Date().getFullYear()} Anima. Built with narrative intelligence.</p>
+          <p className="text-sm text-[#555]">© 2026 Anima. Built with narrative intelligence.</p>
         </div>
       </div>
     </footer>

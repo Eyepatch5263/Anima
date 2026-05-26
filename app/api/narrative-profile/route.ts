@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 
 const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
 
@@ -27,6 +28,7 @@ function sanitizeText(text: string): string {
 }
 
 export async function GET(request: Request) {
+  await headers()
   try {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')

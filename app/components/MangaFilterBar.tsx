@@ -123,7 +123,6 @@ interface MangaFilterBarProps {
 
 export default function MangaFilterBar({ filters, onChange }: MangaFilterBarProps) {
   const genresData = GetGenresQuery()
-  console.log('genresData', genresData)
   const genres: { value: string; label: string }[] = (genresData?.genres || [])
     .filter(Boolean)
     .map(g => ({ value: g as string, label: g as string }))

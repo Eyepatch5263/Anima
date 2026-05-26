@@ -146,3 +146,16 @@ export function useInfiniteManga({
     total: result.data?.pages?.[0]?.Page?.pageInfo?.total || 0,
   }
 }
+
+export const prefetchMangaLanding = (queryClient: any) => {
+  const sort = ['POPULARITY_DESC', 'SCORE_DESC'] as MediaSort[]
+  return queryClient.prefetchInfiniteQuery({
+    queryKey: ['manga-paginated', sort, undefined, undefined, undefined, undefined, undefined],
+    queryFn: () => execute(PaginatedMangaQuery, {
+      page: 1,
+      sort,
+    }),
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5,
+  })
+}

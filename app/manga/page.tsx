@@ -15,10 +15,12 @@ import { LoadingMore } from '../constants/Spinner'
 import { defaultFilters, FilterState } from '../types/filterbar.type'
 import { cleanDescription } from '@/utilities/animegrid-utility'
 import type { MediaFormat, MediaStatus, MediaSort } from '@/src/graphql/graphql'
+import { publicManga } from '../constants/explore-manga'
 
 export default function MangaExplorePage() {
     const [filters, setFilters] = useState<FilterState>(defaultFilters)
     const [activeSlide, setActiveSlide] = useState(0)
+    const [carouselManga, setCarouselManga] = useState(publicManga)
     const sentinelRef = useRef<HTMLDivElement>(null)
 
     // Map filters to variables
@@ -40,15 +42,45 @@ export default function MangaExplorePage() {
     const carouselItems = data.slice(0, 5)
 
     useEffect(() => {
-        if (carouselItems.length <= 1) return
-        const timer = setInterval(() => {
-            setActiveSlide(prev => (prev + 1) % carouselItems.length)
-        }, 6000)
-        return () => clearInterval(timer)
-    }, [carouselItems.length])
+        async function loadPublicManga() {
+            try {
+                if ('caches' in window) {
+                    const cache = await caches.open('public-anime-cache')
+                    const cachedResponse = await cache.match('/api/public-manga')
+                    if (cachedResponse) {
+                        const data = await cachedResponse.json()
+                        setCarouselManga(data)
+                        return
+                    }
+                }
+
+                const res = await fetch('/api/public-manga')
+                const data = await res.json()
+                setCarouselManga(data)
+
+                // store the cache
+                if ('caches' in window) {
+                    const cache = await caches.open('public-anime-cache')
+                    const resClone = new Response(JSON.stringify(data))
+                    await cache.put('/api/public-manga', resClone)
+                }
+            } catch (e) {
+                console.error('Error loading public manga from Cache Storage:', e)
+            }
+        }
+        loadPublicManga()
+    }, [])
 
     useEffect(() => {
-        if (activeSlide >= carouselItems.length && carouselItems.length > 0) {
+        if (carouselManga.length <= 1) return
+        const timer = setInterval(() => {
+            setActiveSlide(prev => (prev + 1) % carouselManga.length)
+        }, 6000)
+        return () => clearInterval(timer)
+    }, [carouselManga.length])
+
+    useEffect(() => {
+        if (activeSlide >= carouselManga.length && carouselManga.length > 0) {
             setActiveSlide(0)
         }
     }, [carouselItems.length, activeSlide])
@@ -86,15 +118,15 @@ export default function MangaExplorePage() {
                         isLoading ? (
                             <CarouselSkeleton />
                         ) : (
-                            carouselItems.length > 0 && (
+                            carouselManga.length > 0 && (
                                 <div className="relative rounded-3xl overflow-hidden h-[300px] sm:h-[380px] border border-white/5 bg-[#141414] mb-8 group">
-                                    {carouselItems.map((manga, idx) => {
+                                    {carouselManga.map((manga, idx) => {
                                         if (!manga) return null
-                                        const bgImage = manga.bannerImage || manga.coverImage?.extraLarge || manga.coverImage?.large || ''
-                                        const mangaTitle = manga.title?.userPreferred || 'Unknown'
+                                        const bgImage = manga.image
+                                        const mangaTitle = manga.title || 'Unknown'
                                         const cleanedDesc = cleanDescription(manga.description)
-                                        const rating = manga.averageScore ? (manga.averageScore / 10).toFixed(1) : null
-                                        const genres = (manga.genres || []).filter(Boolean) as string[]
+                                        const rating = manga.rating || null
+                                        const genres = (manga.genre || []).filter(Boolean) as string[]
 
                                         return (
                                             <div

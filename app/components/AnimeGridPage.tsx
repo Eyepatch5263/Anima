@@ -116,6 +116,7 @@ export default function AnimeGridPage({
                         <Image
                           src={bgImage}
                           alt={animeTitle}
+                          sizes="(max-width: 1280px) 100vw, 1280px"
                           fill
                           priority={idx === 0}
                           className="object-cover object-center scale-102 transition-transform duration-10000 ease-out group-hover:scale-105"
