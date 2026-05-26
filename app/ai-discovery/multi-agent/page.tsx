@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
 import { NetworkIcon, ChevronLeftIcon } from '../../constants/icons'
+import LockedFeatureOverlay from '../../components/LockedFeatureOverlay'
 
 interface AgentMessage {
   agent: string
@@ -113,6 +114,8 @@ export default function MultiAgentPage() {
             Back to AI Suite
           </Link>
         </div>
+
+        <LockedFeatureOverlay featureName="Multi-Agent Recommendations" />
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">

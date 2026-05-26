@@ -77,7 +77,7 @@ export default function SemanticSearchPage() {
       <BackgroundParticles />
       <Navbar />
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
+      <main className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16 grow w-full">
         {/* Back Link */}
         <div className="mb-8">
           <Link
@@ -140,7 +140,7 @@ export default function SemanticSearchPage() {
             <button
               type="submit"
               disabled={loading}
-              className="absolute right-2 px-5 py-2 text-xs font-semibold text-white rounded-xl bg-[#e50914] hover:bg-[#f6121d] transition-all disabled:opacity-50"
+              className="absolute right-2 px-5 py-2 text-xs font-semibold text-white rounded-xl bg-accent-primary hover:bg-accent-primary/80 transition-all disabled:opacity-50"
             >
               {loading ? 'Searching...' : 'Analyze'}
             </button>
@@ -165,8 +165,8 @@ export default function SemanticSearchPage() {
           {loading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(8)].map((_, idx) => (
-                <div key={idx} className="rounded-2xl border border-white/5 bg-white/[0.01] p-4 animate-pulse">
-                  <div className="aspect-[3/4] rounded-xl bg-white/5 mb-4" />
+                <div key={idx} className="rounded-2xl border border-white/5 bg-white/1 p-4 animate-pulse">
+                  <div className="aspect-3/4 rounded-xl bg-white/5 mb-4" />
                   <div className="h-4 bg-white/5 rounded w-3/4 mb-2" />
                   <div className="h-3 bg-white/5 rounded w-1/2" />
                 </div>
@@ -202,7 +202,7 @@ export default function SemanticSearchPage() {
                       onClick={() => setActiveTab(tab)}
                       className={`px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
                         activeTab === tab
-                          ? 'bg-[#e50914] text-white shadow-md shadow-red-500/20'
+                          ? 'bg-accent-primary text-white shadow-md shadow-red-500/20'
                           : 'text-gray-400 hover:text-white hover:bg-white/5'
                       }`}
                     >
@@ -232,11 +232,11 @@ export default function SemanticSearchPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: idx * 0.05 }}
-                        className="h-full rounded-2xl border border-white/5 bg-white/[0.02] p-4 flex flex-col justify-between hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 shadow-xl"
+                        className="h-full rounded-2xl border border-white/5 bg-white/2 p-4 flex flex-col justify-between hover:border-white/10 hover:bg-white/4 transition-all duration-300 shadow-xl"
                       >
                         <div>
                           {/* Image Container with Match Badge */}
-                          <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-4 bg-white/5">
+                          <div className="relative aspect-3/4 rounded-xl overflow-hidden mb-4 bg-white/5">
                             {anime.cover_image ? (
                               <img
                                 src={anime.cover_image}
@@ -262,11 +262,9 @@ export default function SemanticSearchPage() {
                             {anime.title_english || anime.title_romaji}
                           </p>
 
-                          {anime.genres.slice(0, 3).map((genre: string, idx: number) => (
-                            <span key={idx} className="text-xs mr-2 text-gray-400">
-                              {genre}
-                            </span>
-                          ))}
+                          <p className="text-[10px] text-gray-500 mt-1 line-clamp-1">
+                            {anime.genres?.slice(0, 3).join(' • ')}
+                          </p>
 
                           {/* Metadata */}
                           <div className="flex flex-wrap items-center gap-1.5 mb-3 text-[10px] text-gray-500">

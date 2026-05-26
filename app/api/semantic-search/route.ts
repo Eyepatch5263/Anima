@@ -5,26 +5,6 @@ const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
 const GTE_EMBED_URL = process.env.GTE_EMBED_URL || 'http://localhost:8080/embed'
 const COLLECTION_NAME = process.env.COLLECTION_NAME
 
-// Calculates keyword/token overlap similarity between two strings safely supporting arrays
-function getFieldMatchScore(queryVal: any, candidateVal: any): number {
-  if (!queryVal || !candidateVal) return 0
-
-  const qStr = String(queryVal).toLowerCase().replace(/[^a-z0-9\s]/g, ' ')
-  let cStr = ''
-  if (Array.isArray(candidateVal)) {
-    cStr = candidateVal.join(' ').toLowerCase().replace(/[^a-z0-9\s]/g, ' ')
-  } else {
-    cStr = String(candidateVal).toLowerCase().replace(/[^a-z0-9\s]/g, ' ')
-  }
-
-  const qWords = qStr.split(/\s+/).filter(w => w.length > 2)
-  const cWords = cStr.split(/\s+/).filter(w => w.length > 2)
-  if (qWords.length === 0 || cWords.length === 0) return 0
-  const cSet = new Set(cWords)
-  const matches = qWords.filter(w => cSet.has(w)).length
-  return matches / qWords.length
-}
-
 // Calculates document similarity based on overlapping genres and tags (for MMR diversity)
 function calculateDocumentSimilarity(docA: any, docB: any): number {
   const genresA = new Set(docA.genres || [])

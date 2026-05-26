@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
 import { ShieldIcon, ChevronLeftIcon } from '../../constants/icons'
+import LockedFeatureOverlay from '../../components/LockedFeatureOverlay'
 
 export default function SpoilerSafePage() {
   const [spoilerFilterActive, setSpoilerFilterActive] = useState(true)
@@ -40,6 +41,8 @@ export default function SpoilerSafePage() {
             Back to AI Suite
           </Link>
         </div>
+
+        <LockedFeatureOverlay featureName="Spoiler-Safe AI" />
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">

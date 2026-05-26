@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import BackgroundParticles from '../../components/BackgroundParticles'
 import { BrainIcon, ChevronLeftIcon, SearchIcon, SparklesIcon } from '../../constants/icons'
+import LockedFeatureOverlay from '../../components/LockedFeatureOverlay'
 
 interface NarrativeProfile {
   anime_id: number
@@ -101,7 +102,7 @@ export default function NarrativeIntelligencePage() {
     }
   }
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     executeSearch(searchQuery)
   }
@@ -139,6 +140,8 @@ export default function NarrativeIntelligencePage() {
             Back to AI Discovery
           </Link>
         </div>
+
+        <LockedFeatureOverlay featureName="Narrative Intelligence" />
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
