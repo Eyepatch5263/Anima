@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inria_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Analytics } from "@vercel/analytics/next"
 
 const inriaSans = Inria_Sans({
   variable: "--font-inria-sans",
   subsets: ["latin"],
   weight: "400",
   style: "normal",
-  
+
 });
 
 export const metadata: Metadata = {
@@ -59,11 +60,13 @@ export default function RootLayout({
       style={{ colorScheme: "dark", backgroundColor: "#141414" }}
     >
       <head>
-      <meta name="google-site-verification" content="SUz7wHgUD9NgYm8u4pn2YqX5YNDmlBagjhS0T3nx1Bk" />
+        <meta name="google-site-verification" content="SUz7wHgUD9NgYm8u4pn2YqX5YNDmlBagjhS0T3nx1Bk" />
       </head>
       <Providers>
-        
-        <body className="min-h-screen noise-overlay">{children}</body>
+        <body className="min-h-screen">
+          {children}
+          <Analytics />
+        </body>
       </Providers>
     </html>
   );
