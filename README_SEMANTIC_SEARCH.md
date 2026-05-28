@@ -8,49 +8,7 @@ The `/api/semantic-search` endpoint implements a highly advanced, multi-vector s
 
 The diagram below illustrates the detailed flow of a search request from query input to final results:
 
-```mermaid
-graph TD
-    A[User Search Query] --> B{isSimpleQuery}
-    
-    %% Simple Query Route
-    B -- Yes (Simple Query) --> C[Skip SLM Structuring]
-    C --> D[Use Single 'default' Vector]
-    D --> E[Parallel GTE-Embed Request]
-    
-    %% Complex Query Route
-    B -- No (Complex Query) --> F[Call Qwen2.5:3b via Ollama]
-    F --> G[Extract Semantic Dimensions & Weight Distribution]
-    G --> H[Normalize Field Weights sum to 1.0]
-    H --> I[Map Fields to Vector Namespaces]
-    I --> E
-    
-    %% Embedding & Qdrant Fetch
-    E --> J[Fetch Embeddings for Active Fields from GTE-Embed]
-    J --> K[Execute Multi-Vector Batch Retrieval in Qdrant]
-    K --> L[Score Fusion across Qdrant Matches]
-    
-    %% Exact Dot Product Cosine Similarity
-    L --> M[Fetch Exact Vectors for Candidate IDs from Qdrant]
-    M --> N[Compute Exact Cosine Similarity for Missing Fields]
-    N --> O[Calculate Weighted Similarity Scores]
-    
-    %% Candidate Filtering & Pre-ranking
-    O --> P[Filter Adult Content & Zero Scores]
-    P --> Q[Calculate Pre-Rerank Scores using Recency & Popularity Boosts]
-    Q --> R[Select Top 50 Candidates]
-    
-    %% Cross-Encoder Reranking
-    R --> S[Call Cross-Encoder Server in Chunk Batches of 32]
-    S --> T[Calibrate Cross-Encoder Scores via Power Function x^0.3]
-    T --> U[Blend Calibrated Cross-Encoder 30% & Qdrant Similarity 70%]
-    U --> V[Apply Multiplicative Recency & Popularity Boosts]
-    
-    %% Diversification (MMR)
-    V --> W[MMR Diversification lambda = 0.85]
-    W --> X[Calculate Candidate-to-Candidate Similarity based on Genre & Tag Overlaps]
-    X --> Y[Select Diverse Final Results]
-    Y --> Z[Return Sorted JSON Results to Client]
-```
+![Architecture Diagram](public/semantic-search.png)
 
 ---
 
