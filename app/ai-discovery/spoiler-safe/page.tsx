@@ -30,7 +30,7 @@ export default function SpoilerSafePage() {
       <BackgroundParticles />
       <Navbar />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
+      <main className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-16 grow w-full">
         {/* Back Link */}
         <div className="mb-8">
           <Link
@@ -59,7 +59,7 @@ export default function SpoilerSafePage() {
         </div>
 
         {/* Toggle Panel */}
-        <div className="glass-heavy rounded-3xl border border-white/5 bg-white/[0.02] p-8 md:p-12 mb-16 shadow-2xl relative overflow-hidden">
+        <div className="glass-heavy rounded-3xl border border-white/5 bg-white/2 p-8 md:p-12 mb-16 shadow-2xl relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-white/5 mb-8">
             <div>
               <span className="text-xs text-emerald-500 font-bold uppercase tracking-wider block mb-1">

@@ -50,6 +50,13 @@ anima/
 ├── app/
 │   ├── anime/               # Anime detail route segment & layout metadata
 │   ├── manga/               # Manga explore and detail route segments
+|   └── ai-discovery/        # AI discovery route segment & layout metadata
+|       ├── emotional-mapping/ # Emotional mapping route segment & layout metadata
+|       ├── semantic-search/   # Semantic search route segment & layout metadata
+|       └── narrative-intelligence/ # Narrative intelligence route segment & layout metadata
+│       └── scene-search/    # Scene search route segment & layout metadata
+│       └── Spolier-safe/    # Spolier-safe route segment & layout metadata
+│       └── multi-agent/     # Multi-agent route segment & layout metadata
 │   ├── api/                 # Caching proxies and narrative services
 │   ├── components/          # Reusable UI (Navbar, Footer, Charts, Grids)
 │   ├── constants/           # Styled card definitions and vector icons

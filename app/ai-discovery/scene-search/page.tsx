@@ -63,7 +63,7 @@ export default function SceneSearchPage() {
       <BackgroundParticles />
       <Navbar />
 
-      <main className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
+      <main className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-16 grow w-full">
         {/* Back Link */}
         <div className="mb-8">
           <Link
