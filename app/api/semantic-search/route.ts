@@ -1,9 +1,17 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
-const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
-const GTE_EMBED_URL = process.env.GTE_EMBED_URL || 'http://localhost:8080/embed'
+const OLLAMA_URL = 'http://localhost:11434'
+const QDRANT_URL =  'http://localhost:6333'
+const GTE_EMBED_URL =  'http://localhost:8080/embed'
 const COLLECTION_NAME = process.env.COLLECTION_NAME
+
+// Defines the structure for an active search.
+interface ActiveSearch {
+  fieldKey: string
+  vectorName: string
+  text: string
+  weight: number
+}
 
 // Calculates document similarity based on overlapping genres and tags (for MMR diversity)
 function calculateDocumentSimilarity(docA: any, docB: any): number {
@@ -14,7 +22,7 @@ function calculateDocumentSimilarity(docA: any, docB: any): number {
   const tagsA = new Set(docA.tags || [])
   const tagsB = docB.tags || []
   const commonTags = tagsB.filter((t: string) => tagsA.has(t)).length
-
+ 
   const unionGenres = Math.max(1, genresA.size + genresB.length - commonGenres)
   const unionTags = Math.max(1, tagsA.size + tagsB.length - commonTags)
 
@@ -44,21 +52,20 @@ function makeSemanticText(payload: any): string {
 }
 
 function isSimpleQuery(query: string): boolean {
+  // converts to lowercase, removes special characters, splits into words by removing spaces and non-alphanumeric characters and replacing it with spaces.
   const clean = query.toLowerCase().trim().replace(/[^a-z0-9\s]/g, ' ')
+  // splits the string ino array of words and filters out empty strings.
   const words = clean.split(/\s+/).filter(Boolean)
 
   if (words.length === 0) return true
 
   // List of common query connective/complex words
   const complexIndicators = [
-    'where', 'who', 'with', 'about', 'protagonist', 'character', 'carrying', 'carried',
-    'has', 'have', 'had', 'finds', 'secretly', 'stumbles', 'lives', 'works', 'fights',
-    'defeats', 'seeks', 'tries', 'trying', 'wants', 'wanting', 'looks', 'looking',
-    'tells', 'story', 'plot', 'legend', 'myth', 'god', 'shinigami', 'book', 'notebook',
-    'notebooks', 'death', 'complex', 'world', 'planet'
+    'where', 'who', 'with', 'about', 'protagonist', "main", "female", "male", 'character', 'carrying', 'carried', 'has', 'have', 'had', 'finds', 'secretly', 'stumbles', 'lives', 'works', 'fights', 'defeats', 'seeks', 'tries', 'trying', 'wants', 'wanting', 'looks', 'looking', 'tells', 'story', 'plot', 'legend', 'myth', 'god', 'shinigami', 'book', 'notebook', 'notebooks', 'death', 'complex', 'world', 'planet'
   ]
 
   const hasComplexIndicator = words.some(w => complexIndicators.includes(w))
+  // if the query contains any of the complex indicators, it is not a simple query.
   if (hasComplexIndicator) {
     return false
   }
@@ -188,8 +195,7 @@ Return ONLY valid JSON in this exact format.
 
     if (!isSimple) {
       let llmResponseJson: any = null
-      const modelsToTry = ['qwen2.5:3b']
-      for (const modelName of modelsToTry) {
+      const modelName = 'qwen2.5:3b'
         try {
           console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
           const controller = new AbortController()
@@ -215,14 +221,13 @@ Return ONLY valid JSON in this exact format.
             const responseText = resBody.response || ''
             llmResponseJson = JSON.parse(responseText.trim())
             console.log(`[Semantic Search] Successfully structured query with ${modelName}:`, JSON.stringify(llmResponseJson))
-            break
           } else {
             console.warn(`[Semantic Search] Model ${modelName} returned non-OK status: ${response.status}`)
           }
         } catch (err: any) {
           console.warn(`[Semantic Search] Failed/Timed out to structure query with model ${modelName}:`, err.message || err)
         }
-      }
+      
 
       // Normalization of LLM JSON response
       const normalizeLlmResponse = (parsed: any) => {
@@ -285,6 +290,7 @@ Return ONLY valid JSON in this exact format.
       console.log(`[Semantic Search] Normalized query fields:`, JSON.stringify(queryFields))
       console.log(`[Semantic Search] Raw weights:`, JSON.stringify(rawWeights))
 
+      // Normalizes the weights to sum to 1.0 cause SLM aren't good with maths and may return values that sum to more or less than 1.0. 
       let weightSum = 0
       weightKeys.forEach(k => {
         weightSum += (rawWeights[k] || 0)
@@ -295,16 +301,9 @@ Return ONLY valid JSON in this exact format.
       console.log(`[Semantic Search] Normalized weights:`, JSON.stringify(normalizedWeights))
     }
 
-    // Determine the active searches based on query text and weights
-    interface ActiveSearch {
-      fieldKey: string
-      vectorName: string
-      text: string
-      weight: number
-    }
-
     const activeSearches: ActiveSearch[] = []
 
+    // if the query is simple, only add the default vector to the active searches and dont use any other vectors
     if (isSimple) {
       activeSearches.push({
         fieldKey: 'default',
@@ -436,11 +435,13 @@ Return ONLY valid JSON in this exact format.
 
         if (pointsResponse.ok) {
           const { result: pointsResult } = await pointsResponse.json()
+          // pointsResult: [{id:0, vector: {vectorName: [vector_points]}}]
           const vectorsMap = new Map<number, Record<string, number[]>>()
           pointsResult.forEach((p: any) => {
             vectorsMap.set(p.id, p.vector || {})
           })
 
+          // taking dot product between the query vector and the document vector to get the cosine similarity
           const cosineSimilarity = (v1: number[], v2: number[]): number => {
             if (!v1 || !v2 || v1.length !== v2.length) return 0.0
             let dot = 0.0
@@ -493,6 +494,7 @@ Return ONLY valid JSON in this exact format.
       const payload = c.payload
       const animeScore = payload.score_val ?? payload.mean_score ?? payload.score ?? 0
       if (animeScore === 0) return null
+      // if the anime is of adult and filterAdult option have been enabled then skip the anime
       if (filterAdult && payload.is_adult) return null
 
       // Calculate lightweight popularity & recency scores for pre-ranking
@@ -533,15 +535,15 @@ Return ONLY valid JSON in this exact format.
     if (topCandidates.length > 0) {
       try {
         console.log(`[Semantic Search] Reranking ${topCandidates.length} candidates with Cross-Encoder...`)
-        console.log('[DEBUG RERANK] Top 5 candidates before reranking:')
-        topCandidates.slice(0, 5).forEach((c, idx) => {
+        console.log('[DEBUG RERANK] Top 16 candidates before reranking:')
+        topCandidates.slice(0, 16).forEach((c, idx) => {
           console.log(`  ${idx}. ${c.payload.title_romaji} (ID: ${c.id}) - vectorSimilarity: ${c.vectorSimilarity}`)
         })
 
         const texts = topCandidates.map(c => makeSemanticText(c.payload))
 
         // Chunk requests to avoid both "413 Payload Too Large" and batch size limit of 32
-        const batchSize = 5
+        const batchSize = 32
         const chunks: string[][] = []
         for (let i = 0; i < texts.length; i += batchSize) {
           chunks.push(texts.slice(i, i + batchSize))
@@ -623,8 +625,8 @@ Return ONLY valid JSON in this exact format.
     // Sort by relevanceScore descending
     candidates.sort((a: any, b: any) => b.relevanceScore - a.relevanceScore)
 
-    console.log(`[Semantic Search] Top 10 candidates before MMR:`)
-    candidates.slice(0, 10).forEach((c: any, idx: number) => {
+    console.log(`[Semantic Search] Top 16 candidates before MMR:`)
+    candidates.slice(0, 16).forEach((c: any, idx: number) => {
       console.log(`  ${idx}. ${c.title_romaji} (ID: ${c.id}) - Match Score: ${c.score.toFixed(2)}% - Relevance Score: ${(c.relevanceScore * 100).toFixed(2)}%`)
     })
 
@@ -661,13 +663,13 @@ Return ONLY valid JSON in this exact format.
         remaining.splice(bestIndex, 1)
       } else {
         break
-      }
+      }``
     }
 
     // Sort selected results by relevanceScore descending (which blends closeness, recency, and popularity)
     selected.sort((a: any, b: any) => b.relevanceScore - a.relevanceScore)
 
-    console.log(`[Semantic Search] Returned top 5 results after MMR:`, selected.slice(0, 5).map((c: any) => ({
+    console.log(`[Semantic Search] Returned top 16 results after MMR:`, selected.slice(0, 16).map((c: any) => ({
       title: c.title_romaji,
       percentageScore: c.score
     })))
