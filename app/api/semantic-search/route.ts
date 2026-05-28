@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-const OLLAMA_URL = 'http://localhost:11434'
-const QDRANT_URL =  'http://localhost:6333'
-const GTE_EMBED_URL =  'http://localhost:8080/embed'
+const OLLAMA_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434'
+const QDRANT_URL = process.env.QDRANT_API_URL || 'http://localhost:6333'
+const GTE_EMBED_URL =  process.env.GTE_EMBED_URL || 'http://localhost:8080/embed'
 const COLLECTION_NAME = process.env.COLLECTION_NAME
 
 // Defines the structure for an active search.
