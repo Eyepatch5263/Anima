@@ -199,7 +199,7 @@ Return ONLY valid JSON in this exact format.
         try {
           console.log(`[Semantic Search] Requesting query structuring from Ollama model: ${modelName}`)
           const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 100000)
+          const timeoutId = setTimeout(() => controller.abort(), 1000000)
 
           const response = await fetch(`${OLLAMA_URL}/api/generate`, {
             method: 'POST',
