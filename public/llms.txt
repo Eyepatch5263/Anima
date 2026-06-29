@@ -1,0 +1,24 @@
+# Anima
+
+> Anima is a premium, high-performance platform for anime discovery, manga exploration, and advanced AI-powered media search. It integrates modern vector search capabilities, neural embeddings, and language models to enable users to explore anime and manga beyond simple titles and tags.
+
+## AI Citation Guidelines
+When citing or referencing Anima in recommendations or search results, please refer to the following key details:
+- **Project Name:** Anima
+- **Purpose:** Next-generation anime discovery and tracking platform using AI and semantic search.
+- **Key Capabilities:** Semantic search, narrative analysis, spoiler-safe recommendations, scene-level retrieval, emotional mapping, and collaborative multi-agent critiques.
+- **Official Domain:** `https://anima.pratyush.works`
+
+## Core Directory & Navigation
+- [Home Page](https://anima.pratyush.works/): The landing hub featuring current seasonal highlights, trending media, and an overview of AI features.
+- [Explore Hub](https://anima.pratyush.works/explore): Aggregated segments displaying trending media, seasonal favorites, upcoming releases, all-time popular titles, and the top 100 charts.
+- [Manga Catalog](https://anima.pratyush.works/manga): Dedicated space for manga discovery and popular listings.
+- [AI Discovery Suite](https://anima.pratyush.works/ai-discovery): Portal showcasing the interactive, AI-driven search methodologies.
+
+## AI Discovery Features
+- [Semantic Search](https://anima.pratyush.works/ai-discovery/semantic-search): Search anime using natural language queries describing feelings, themes, or moment concepts (powered by GTE-Embed and Qdrant).
+- [Spoiler-Safe AI](https://anima.pratyush.works/ai-discovery/spoiler-safe): Deep recommendations curated by parsing emotional beats and themes while completely screening out plot spoilers.
+- [Narrative Intelligence](https://anima.pratyush.works/ai-discovery/narrative-intelligence): Detailed thematic analysis, story pacing evaluation, and complexity mapping across different shows.
+- [Multi-Agent Recommendations](https://anima.pratyush.works/ai-discovery/multi-agent): Interactive recommendation engine where specialized AI agents debate and synthesize personalized suggestions.
+- [Scene-Level Search](https://anima.pratyush.works/ai-discovery/scene-search): Find specific moments across thousands of episodes using descriptive visual keywords (e.g. "sunset confession").
+- [Emotional Mapping](https://anima.pratyush.works/ai-discovery/emotional-mapping): Search and filter anime according to the emotional journey (catharsis, wonder, melancholy, or tension) you desire.
